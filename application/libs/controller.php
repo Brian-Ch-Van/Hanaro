@@ -23,6 +23,13 @@ class Controller
 		}
 	}
 	
+	// model 명으로 model Class 호출
+	public function loadModel ($model_name) 
+	{
+		require 'application/models/' . strtolower($model_name) . '.php';
+		return new $model_name($this->db);
+	}
+	
 	// 암호화
 	public function encodeText($plainText) 
 	{
