@@ -5,11 +5,11 @@
 	define('CSS_URL', 'http://localhost/Hanaro/public');
 	
 	// DB Connection Info
-	define('DB_TYPE', 'mssql');
-	define('DB_HOST', '127.0.0.1');     //localhost
-	define('DB_NAME', 'BrianTestDB');
-	define('DB_USER', 'PhpTest');
-	//define('DB_PASS', '1111');
-	define('DB_PASS', 'WGBaVfzT9LPyhvCvpLx/cA==');
+	define('HANA_WHOLE_SALES_DB_TYPE', 'mssql');
+	define('HANA_WHOLE_SALES_DB_HOST', '127.0.0.1');     //localhost
+	define('HANA_WHOLE_SALES_DB_NAME', 'HanaWholeSale');
+	define('HANA_WHOLE_SALES_DB_USER', 'PhpTest');
+	//define('HANA_WHOLE_SALES_DB_PASS', '1111');
+	define('HANA_WHOLE_SALES_DB_PASS', 'WGBaVfzT9LPyhvCvpLx/cA==');
 
 ?>
