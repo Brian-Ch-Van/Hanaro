@@ -16,17 +16,22 @@ class EmployeeModel
 	// employee list
 	public function getEplyList () 
 	{
-		$sql = "select 
+		try {
+			$sql = "select
 					sf_no
 					, sf_name
 					, sf_sdate
 					, sf_contact
 					, sf_remark
 				from tb_staff";
-		
-		$query = $this->dbCon->prepare($sql);
-		$query->execute();
-		
+			
+			$query = $this->dbCon->prepare($sql);
+			$query->execute();
+			
+		} catch (PDOException $e) {
+			die("Database error : " . $e->getMessage());
+		}
+
 		return $query->fetchAll();
 	}
 	

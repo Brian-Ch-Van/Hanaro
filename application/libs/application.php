@@ -20,7 +20,7 @@ class Application
 		$params = explode('/', $url);	// '/' 기준으로 문자 잘라서
 		$counts = count($params);		// param의 크기
 		
-		$this->controller = "home";		// Root Url 다음의 기본 값을 home으로 설정. localhost/Hanaro = localhost/Hanaro/home
+		$this->controller = "login";		// Root Url 다음의 기본 값을 login으로 설정. localhost/Hanaro = localhost/Hanaro/login
 		
 		if (isset($params[0])) {
 			if(!empty($params[0])) $this->controller = $params[0];	// Root url 다음 주소값을 controller에 set

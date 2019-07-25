@@ -1,8 +1,10 @@
 <?php
 	error_reporting(E_ALL);
 	ini_set("display_errors", 1);
-	define('URL', 'http://localhost/Hanaro');   // Root url 설정 - http://127.0.0.1/Hanas/
-	define('CSS_URL', 'http://localhost/Hanaro/public');
+	define('URL', 'http://localhost/Hanaro');   // Root url 설정 - http://127.0.0.1/Hanaro
+	define('CSS_URL', 'http://localhost/Hanaro/public/css');
+	define('JS_URL', 'http://localhost/Hanaro/public/js');
+	define('ICON_URL', 'http://localhost/Hanaro/public/icon');
 	
 	// DB Connection Info
 	define('HANA_WHOLE_SALES_DB_TYPE', 'mssql');

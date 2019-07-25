@@ -1,2 +1,1 @@
-<?php
-	echo 'header.php <br/>';
+header.php<hr>
