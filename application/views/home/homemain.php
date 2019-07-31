@@ -1,21 +1,16 @@
 
-	<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript">
-
-		$(document).ready(function() {
+	<!-- Begin page content -->
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
+			<h1 class="mt-5">Hana Office</h1>
+			<p class="lead">
+				Home Main page
+				<code>home/homemain.php</code>
+			</p>
+			<a href="">link page</a>
+		</div>
+	</main>
 	
-			$("#log_out").on("click", function() {
-			    location.href = "<?php echo URL; ?>/login/logOut";
-			});
-			
-		});
 
-	</script>
-
-	<?php 
-		echo $_SESSION['user_name'] . '님이 로그인 했습니다.';
-	?>
-	<br/>	
-	<input type="button" value="sign out" class="btn btn-lg btn-primary btn-block" id="log_out">
 
 	 

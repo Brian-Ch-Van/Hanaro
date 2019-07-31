@@ -19,5 +19,12 @@ class Admin extends Controller
 		require 'application/views/_templates/footer.php';
 	}
 	
+	public function sales ()
+	{
+		require 'application/views/_templates/header.php';
+		require 'application/views/admin/sales.php';
+		require 'application/views/_templates/footer.php';
+	}
+	
 	
 }

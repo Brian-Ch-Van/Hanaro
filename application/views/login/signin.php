@@ -31,26 +31,22 @@
 	<body class="text-center">
 		<form class="form-signin" method="post">
 			<img class="mb-3" src="public/icon/text_logo.png" alt="" width="300">
-			
-			<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-			
+			<h1 class="h3 mb-4 font-weight-normal">Please sign in</h1>
 			<div class="mb-3" id="info"></div>
 			
-			<label for="inputId" class="sr-only">ID</label>
-			<input type="text" id="inputName" name="username" class="form-control" placeholder="Name" required autofocus>
-			
-			<label for="inputPassword" class="sr-only">Password</label>
-			<input type="password" id="inputPassword" name="userpassword" class="form-control" placeholder="Password" required>
+			<!-- floading label 적용 -->
+			<div class="form-label-group">
+				<input type="text" id="inputName" name="username" class="form-control" placeholder="Name" required autofocus>
+				<label for="inputId" class="text-left">Name</label>
+			</div>
+			<div class="form-label-group">
+				<input type="password" id="inputPassword" name="userpassword" class="form-control" placeholder="Password" required>
+				<label for="inputPassword" class="text-left">Password</label>
+			</div>
 			
 			<small id="passwordHelpInline" class="text-muted">Your password must be 6-20 characters long.</small>
-			<!-- 
-			<div class="checkbox mb-3">
-				<label>
-					<input type="checkbox" value="remember-me"> Remember me
-				</label>
-			</div>
-			 -->
-			 <div class="mb-4" ></div>
+
+			<div class="mb-4" ></div>
 			<button class="btn btn-lg btn-primary btn-block" type="submit" name="login">Sign in</button>
 			<p class="mt-5 mb-3 text-muted">&copy; Hana Solution Inc.</p>
 		</form>
@@ -111,10 +107,5 @@
 		
 	}
 ?>
-
-
-
-
-
 
 
