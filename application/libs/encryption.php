@@ -1,7 +1,7 @@
 <?php
 // 암,복호화 클래스
-// AES 암호화, 대칭키 사용, 키 관리 고려
-// RSA 개인키, 대중키 생성, 복호화 때 개인키 필요
+// AES 대칭키 사용, 키 관리 고려 - 사용자 로그인 암호
+// RSA 개인키/대중키 생성, 복호화 때 개인키 필요 - DB Connection 암호
 
 class Encryption {
 
@@ -9,7 +9,7 @@ class Encryption {
 	// open_ssl 사용, extension 추가
 	public function encryptAes($plainText)
 	{
-		$key = "HanaSolutions";	//암/복호화 할 key 값, 관리를 어떻게 할지 고려
+		$key = "HanaSolutions";	//암/복호화 할 key 값, 관리를 어떻게 할지 고려(table로 관리할지 고려)
 		
 		// 256 bit 키를 만들기 위해서 key를 해시해서 첫 32바이트를 사용
 		$key = substr(hash('sha256', $key, true), 0, 32);
