@@ -54,7 +54,7 @@
 		
 	</head>
 	
-	<body class="d-flex flex-column h-100">
+	<body class="d-flex flex-column h-100 bg-light">
 		<header>
 			<!-- Fixed navbar -->
 			<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
@@ -105,7 +105,7 @@
 							Hello <?php echo $_SESSION['user_name']; ?> !
 						</a>
 						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
-							<a class="dropdown-item" href="">Change password</a>
+							<a class="dropdown-item" href="<?php echo URL; ?>/profile">Change password</a>
 							<div class="dropdown-divider"></div>
         					<a class="dropdown-item" href="">Profile</a>
 						</div>

@@ -27,7 +27,6 @@ function is_login(){
 	}
 }
 
-//https://stackoverflow.com/a/46872528
 
 function encrypt($plaintext, $salt) {
 	$method = "AES-256-CBC";
