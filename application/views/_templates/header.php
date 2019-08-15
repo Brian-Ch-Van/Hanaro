@@ -107,7 +107,7 @@
 						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
 							<a class="dropdown-item" href="<?php echo URL; ?>/profile">Change password</a>
 							<div class="dropdown-divider"></div>
-        					<a class="dropdown-item" href="">Profile</a>
+        					<a class="dropdown-item" href="<?php echo URL; ?>/profile/mngProfile">Profile</a>
 						</div>
 					</li>
 				</ul>
