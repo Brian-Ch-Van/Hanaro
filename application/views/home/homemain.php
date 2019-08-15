@@ -8,6 +8,7 @@
 				<code>home/homemain.php</code>
 			</p>
 			<a href="">link page</a>
+			추가내용
 		</div>
 	</main>
 	
