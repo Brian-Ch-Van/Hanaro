@@ -1,4 +1,11 @@
 
+	<script>
+		$(document).ready(function(){
+
+			
+		});
+    </script>
+
 	<!-- Begin page content -->
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
@@ -11,7 +18,6 @@
 			추가내용
 		</div>
 	</main>
+
 	
 
-
-	 

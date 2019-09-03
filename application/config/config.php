@@ -9,10 +9,11 @@
 	// DB Connection Info
 	define('HANA_WHOLE_SALES_DB_TYPE', 'mssql');
 	define('HANA_WHOLE_SALES_DB_HOST', '127.0.0.1');     //localhost
-	define('HANA_WHOLE_SALES_DB_NAME', 'HanaWholeSale');
+	define('HANA_WHOLE_SALES_DB_NAME', 'BrianTestDB');
 	define('HANA_WHOLE_SALES_DB_USER', 'PhpTest');
 	//define('HANA_WHOLE_SALES_DB_PASS', '1111');
-	//define('HANA_WHOLE_SALES_DB_PW', 'WGBaVfzT9LPyhvCvpLx/cA==');
+	//define('HANA_WHOLE_SALES_DB_PW', 'WGBaVfzT9LPyhvCvpLx/cA==');	// 1111
+	// 1111
 	define('HANA_WHOLE_SALES_DB_PW', 'J/EgF9HCrBs9FvqUQ++CR/63OORJMiJcaocYBBRNVOSRW24/KCnldHqNvj++FWeVWpRWujcQ+AdMsykNgf0/PQcpmduKy2DzpByyRlc2tbIKLz/oqn+4ZV8L0F9WDzpJYaqJxRnVlAKb0A15IrD9fzhc84pmcwWioesqgyRccJmOPQbkFKIkmBSuTAfoMWvW5ZAip2eKSpH8kMl9s9ioxIoT8cHNH/Q+1H5TyOtyy+oTO3cokELHxQozvjLOhujMbQcM/EMh+wgZ6nfkvJCFywZrvri4htWSKt2rY1EcD094s/Ti4NWJ0Vjj35B/CVJj0rA2XIFT9dM35AAu1UUutqNC8Ep0JQOnXdUcBx/IqW1F/5BcKelWNiGHHWFD/eDONFkUS2LBc4qFxmWZ0uz2KJJfeHThhJbMxmFE9eZ1dEJTODm9aB41IU5s549Zqrs55NbtDWd6aHFu1aeK+WXfdsnAgbnliXDRTA1hUU9SRUrakTP5L/rXgWRa3KIag4aHusnW8Hui2C3oTskV6c91WqruP22aqixX4qdpXBXtO525VknNr3Ff72OxlB9worDhai9klsUcfrxdmjUjok/UTuD8TbyDTMDvHi56F+U3aPjLHzrn4pF/rKMibgF2VaQd8pd4kl2rX13EN0eyFfY4d1tzGDXm/aujEd+pQ7E4Rq4=');
 
 	// 줄바꿈 없으면 에러, 개행상수 PHP_EOL

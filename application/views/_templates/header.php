@@ -27,6 +27,9 @@
 		<!-- jQuery -->
 		<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 		
+		<!-- Font Awesome (for icons) SDN을 따로 받았음 -->
+		<script src="https://kit.fontawesome.com/b531862797.js"></script>
+		
 		<script src="<?php echo JS_URL; ?>/bootstrap.bundle.min.js"></script>
 		
 		<script type="text/javascript">
@@ -39,9 +42,9 @@
 
 				// 메뉴 선택
 				$('#menuBar a').on('click', function (e) {
-				    //e.preventDefault();		// 기존 이벤트 무시, javascript 이벤트 포함
-// 				    $('#menuBar li').removeClass('active');
-// 				    $(this).addClass("active");
+				   //e.preventDefault();		// 기존 이벤트 무시, javascript 이벤트 포함
+ 				   //$('#menuBar li').removeClass('active');
+ 				   //$(this).addClass("active");
 				   //location.href = "<?php echo URL;?>/product";
 				});
 
@@ -72,6 +75,10 @@
 						<li class="nav-item active" >
 							<a class="nav-link" href="<?php echo URL; ?>/home">Home</a>
 						</li>
+						<li class="nav-item active" >
+							<a class="nav-link" href="<?php echo URL; ?>/sales">Sales</a>
+						</li>
+						<!-- 
 						<li class="nav-item" >
 							<a class="nav-link" href="<?php echo URL; ?>/product">Product</a>
 						</li>
@@ -81,9 +88,14 @@
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo URL; ?>/customer">Customer</a>
 						</li>
+						 -->
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="" id="admin_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 							<div class="dropdown-menu" aria-labelledby="admin_dropdown">
+								<a class="dropdown-item" href="<?php echo URL; ?>/admin">Main</a>
+								<a class="dropdown-item" href="<?php echo URL; ?>/admin">사용자등록</a>
+								<a class="dropdown-item" href="<?php echo URL; ?>/admin">사용자관리</a>
+								<a class="dropdown-item" href="<?php echo URL; ?>/admin">권한관리</a>
 								<a class="dropdown-item" href="<?php echo URL; ?>/admin">Main</a>
 								<a class="dropdown-item" href="<?php echo URL; ?>/admin/eplyList">Employee</a>
 								<a class="dropdown-item" href="<?php echo URL; ?>/admin/sales">Sales</a>
@@ -112,9 +124,9 @@
 					</li>
 				</ul>
 				
-				<button type="button" class="btn btn-outline-warning" id="sign_out">Sign out</button>
+				<button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#signoutConfirm">Sign out</button>
 			</nav>
 		</header>
 		
-
+		<?php require 'signoutmodal.php'; ?>
 

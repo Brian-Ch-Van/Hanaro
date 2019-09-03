@@ -63,7 +63,7 @@
 		
 		try {
 			// Controller에 있는 db connection
-			$query = $this->db->prepare('select sf_no, sf_name, sf_passwd from tb_staff where lower(sf_name)=lower(:username)');
+			$query = $this->db->prepare('select id, fst_name, pw from tb_epmnm where lower(fst_name)=lower(:username)');
 			$query->bindParam(':username', $username);
 			$query->execute();
 			
@@ -73,7 +73,7 @@
 		
 		$cnt = $query->rowcount();
 		$row = $query->fetch();
-		$password = $row['sf_passwd'];
+		$password = $row['pw'];
 		
 		$infoMsg = "";
 		if ($cnt == 0) {
@@ -95,7 +95,9 @@
 		if ($login_ok) {
 			// session에 user_name 저장			
 			session_regenerate_id();		// Update the current session id with a newly generated one
-			$_SESSION['user_name'] = $row['sf_name'];
+			// session 값 set
+			$_SESSION['user_name'] = $row['fst_name'];
+			$_SESSION['user_pw'] = $userpassword;
 			session_write_close();			// Write session data and end session
 			
 			// homemain.php 화면 이동

@@ -9,6 +9,7 @@ class Admin extends Controller
 		require 'application/views/_templates/footer.php';
 	}
 	
+	// Employee List
 	public function eplyList () 
 	{
 		$model = $this->loadModel("EmployeeModel");
@@ -19,6 +20,7 @@ class Admin extends Controller
 		require 'application/views/_templates/footer.php';
 	}
 	
+	// Sales -> 메뉴 이동 필요???
 	public function sales ()
 	{
 		require 'application/views/_templates/header.php';

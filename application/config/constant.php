@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * 
+ * @author		: BrianC
+ * @create		: 2019. 8. 19.
+ * @desc		: Constant Class, 호출하는 방법은 두가지 
+ *
+ */
+
 class ConstClass 
 {
 	const RSA_PRIVATE_KEY = '-----BEGIN PRIVATE KEY-----
@@ -10,4 +18,5 @@ MIIJQwIBADANBgkqhkiG9w0BAQEFAASCCS0wggkpAgEAAoICAQC03Ji492XIL+Ot JgV2p0tbDdaIFbn
 	{
 		return self::RSA_PRIVATE_KEY;
 	}
+	
 }
