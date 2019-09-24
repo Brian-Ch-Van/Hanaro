@@ -1,5 +1,13 @@
 <?php
-
+ /**
+  * 
+   * @desc		: 프로필 관련 함수 Controller
+   * @creator	: BrianC
+   * @date		: 2019. 9. 12.
+   * @Version	: v1.0
+   * @history	: 최초 생성
+   *
+  */
 class Profile extends Controller
 {
 	public function index ()
@@ -7,7 +15,13 @@ class Profile extends Controller
 		$this->mngPsw();
 	}
 	
-	// manage password
+	/**
+	 * 
+	  * @Method Name	: mngPsw
+	  * @desc			: 비밀번호 변경 화면 이동
+	  * @creator		: BrianC
+	  * @date			: 2019. 9. 12.
+	 */
 	public function mngPsw ()
 	{
 		require 'application/views/_templates/header.php';
@@ -15,7 +29,7 @@ class Profile extends Controller
 		require 'application/views/_templates/footer.php';
 	}
 	
-	// manage password
+	// manage profile
 	public function mngProfile ()
 	{
 		require 'application/views/_templates/header.php';
@@ -23,7 +37,14 @@ class Profile extends Controller
 		require 'application/views/_templates/footer.php';
 	}
 	
-	// change password
+	/**
+	 * 
+	  * @Method Name	: chgPassword
+	  * @desc			: 비밀번호 정합성 체크, 변경 
+	  * @creator		: BrianC
+	  * @date			: 2019. 9. 12.
+	  * @throws exception
+	 */
 	public function chgPassword ()
 	{
 		/*
@@ -50,8 +71,10 @@ class Profile extends Controller
 					
 				} else if (empty($_POST['newPwData'])) {
 					throw new exception('새로운 비밀번호를 입력해주세요.');
+					
 				} else if (empty($_POST['conPwData'])) {
 					throw new exception('비밀번호를 확인해주세요.');
+					
 				} else {
 					if ($_POST["newPwData"] == $_SESSION['user_pw']) {
 						throw new exception('기존 비밀번호와 변경하려는 비밀번호가 동일합니다.');
@@ -71,28 +94,23 @@ class Profile extends Controller
 					
 					$result['success'] = true;
 					$result['data'] = "비밀번호가 변경되었습니다.";
-					
 				}
-				
 			}
-			
 		} catch (Exception $e) {
 			$result['success']	= false;
 			$result['errMsg'] = $e->getMessage();
-			
 		} finally {
-			
 			echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
-			
 		}
-		
-		//echo '<h2>변경되었습니다.</h2>';
-		
-		// 저장 후 home 화면으로 이동
-		//header('location: '. URL. '/home');
-		
 	}
 	
+	/**
+	 * 
+	  * @Method Name	: goConfirm
+	  * @desc			: pop-up sign out confirm modal
+	  * @creator		: BrianC
+	  * @date			: 2019. 9. 12.
+	 */
 	public function goConfirm () {
 		require 'application/views/_templates/signoutmodal.php';
 	}

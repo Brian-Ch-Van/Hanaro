@@ -1,4 +1,11 @@
 <?php
+/**
+ *
+ * @author		: BrianC
+ * @create		: 2019. 7. 31.
+ * @desc		: 매장 정보 모델
+ *
+ */
 
 class BranchModel 
 {

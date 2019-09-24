@@ -20,6 +20,7 @@
 		
 		<link href="<?php echo CSS_URL; ?>/bootstrap.min.css" rel="stylesheet" >
 		<link href="<?php echo CSS_URL; ?>/navbar_footer.css" rel="stylesheet" >
+		<script src="<?php echo JS_URL; ?>/common.js"></script>
 		
 		<!-- favicon -->
         <link rel="shortcut icon" href="<?php echo ICON_URL; ?>/h_favicon.png" />
@@ -32,12 +33,17 @@
 		
 		<script src="<?php echo JS_URL; ?>/bootstrap.bundle.min.js"></script>
 		
+		<!-- Chart -->
+		<script src="https://d3js.org/d3.v5.min.js"></script>
+		<script src="<?php echo CSS_URL;?>/billboard/billboard.js"></script>
+		<link rel="stylesheet" href="<?php echo CSS_URL;?>/billboard/billboard.css">
+		
 		<script type="text/javascript">
 			$(document).ready(function() {
 				
 				// log out
 				$("#sign_out").on("click", function() {
-				    location.href = "<?php echo URL; ?>/login/logOut";
+				    location.href = "<?php echo URL; ?>/login/signOut";
 				});
 
 				// 메뉴 선택
@@ -92,13 +98,7 @@
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="" id="admin_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 							<div class="dropdown-menu" aria-labelledby="admin_dropdown">
-								<a class="dropdown-item" href="<?php echo URL; ?>/admin">Main</a>
-								<a class="dropdown-item" href="<?php echo URL; ?>/admin">사용자등록</a>
-								<a class="dropdown-item" href="<?php echo URL; ?>/admin">사용자관리</a>
-								<a class="dropdown-item" href="<?php echo URL; ?>/admin">권한관리</a>
-								<a class="dropdown-item" href="<?php echo URL; ?>/admin">Main</a>
-								<a class="dropdown-item" href="<?php echo URL; ?>/admin/eplyList">Employee</a>
-								<a class="dropdown-item" href="<?php echo URL; ?>/admin/sales">Sales</a>
+								<a class="dropdown-item" href="<?php echo URL; ?>/admin">사용자목록</a>
 							</div>
 						</li>
 					</ul>

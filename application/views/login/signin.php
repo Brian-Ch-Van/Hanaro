@@ -23,7 +23,7 @@
 		
 		<script type="text/javascript">
 			function checkInfo(msg) {
-				$("#info").text(msg).css('color', 'red');
+				$("#info").html(msg).css('color', 'red');
 			}
 		</script>
 
@@ -36,19 +36,20 @@
 			
 			<!-- floading label 적용 -->
 			<div class="form-label-group">
-				<input type="text" id="inputName" name="username" class="form-control" placeholder="Name" required autofocus>
-				<label for="inputId" class="text-left">Name</label>
+				<input type="text" id="inputUserId" name="inputUserId" class="form-control" placeholder="Id" required autofocus>
+				<label for="inputUserId" class="text-left">Id</label>
 			</div>
 			<div class="form-label-group">
-				<input type="password" id="inputPassword" name="userpassword" class="form-control" placeholder="Password" required>
+				<input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
 				<label for="inputPassword" class="text-left">Password</label>
 			</div>
 			
-			<small id="passwordHelpInline" class="text-muted">Your password must be 6-20 characters long.</small>
+			<small id="passwordHelpInline" class="text-muted">Your password must be 6-13 characters long.</small>
 
 			<div class="mb-4" ></div>
 			<button class="btn btn-lg btn-primary btn-block" type="submit" name="login">Sign in</button>
-			<p class="mt-5 mb-3 text-muted">&copy; Hana Solution Inc.</p>
+			<p class="mt-3"><a href="<?php echo URL; ?>/login/openSignUp" class="text-success font-weight-bold">Sign up Now ></a></p>
+			<p class="mt-5 mb-3 text-muted">&copy; 2019. Hana Solutions. All rights reserved.</p>
 		</form>
 	</body>
 </html>
@@ -58,13 +59,13 @@
 
 	if (($_SERVER['REQUEST_METHOD'] == 'POST') and isset($_POST['login']))
 	{
-		$username = $_POST['username'];
-		$userpassword = $_POST['userpassword'];
+		$userId = $_POST['inputUserId'];
+		$userpassword = $_POST['inputPassword'];
 		
 		try {
 			// Controller에 있는 db connection
-			$query = $this->db->prepare('select id, fst_name, pw from tb_epmnm where lower(fst_name)=lower(:username)');
-			$query->bindParam(':username', $username);
+			$query = $this->db->prepare('select user_id, kname, user_pw, act_yn from TB_USMNF where user_id = :userId');
+			$query->bindParam(':userId', $userId);
 			$query->execute();
 			
 		} catch (PDOException $e) {
@@ -73,22 +74,29 @@
 		
 		$cnt = $query->rowcount();
 		$row = $query->fetch();
-		$password = $row['pw'];
 		
 		$infoMsg = "";
-		if ($cnt == 0) {
-			$infoMsg = '등록된 사용자가 아닙니다.';
+		
+		if($cnt != 0) {
+			$actYn = $row['act_yn']; 
+			if($actYn == 'N') {
+				$infoMsg = "사용자 아이디의 계정이 승인되지 않았습니다.<br> 관리자에게 문의해주세요.";
+				
+			} else {
+				$password = $row['user_pw'];
+				// 비밀번호 복호화 로직 적용. table에 암호화 된 비빌번호가 저장되어 있고, 로그인 할 때 복호화해서 비교
+				$encryptObj = new Encryption();
+				$plainedPw = $encryptObj->decryptAes($password);
+				
+				if($userpassword == $plainedPw) {
+					$login_ok = true;
+				} else {
+					$infoMsg = '비밀번호를 확인해 주세요.';
+				}
+			}
 			
 		} else {
-			// 비밀번호 복호화 로직 적용. table에 암호화 된 비빌번호가 저장되어 있고, 로그인 할 때 복호화해서 비교
-			$encryptObj = new Encryption();
-			$plainedPw = $encryptObj->decryptAes($password);
-			
-			if($userpassword == $plainedPw) {
-				$login_ok = true;
-			} else {
-				$infoMsg = '비밀번호를 확인해 주세요.';
-			}
+			$infoMsg = '등록된 사용자가 아닙니다.';
 		}
 		
 		// 로그인 성공 시
@@ -96,7 +104,7 @@
 			// session에 user_name 저장			
 			session_regenerate_id();		// Update the current session id with a newly generated one
 			// session 값 set
-			$_SESSION['user_name'] = $row['fst_name'];
+			$_SESSION['user_name'] = $row['kname'];
 			$_SESSION['user_pw'] = $userpassword;
 			session_write_close();			// Write session data and end session
 			

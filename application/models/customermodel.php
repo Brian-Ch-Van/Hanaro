@@ -1,4 +1,11 @@
 <?php
+/**
+ *
+ * @author		: BrianC
+ * @create		: 2019. 7. 15.
+ * @desc		: 고객 정보 모델
+ *
+ */
 
 class CustomerModel 
 {
