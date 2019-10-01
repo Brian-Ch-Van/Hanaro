@@ -2,7 +2,6 @@
 
 class Controller 
 {
-	
 	public $db = null;
 	
 	public function __construct() 
@@ -20,12 +19,14 @@ class Controller
 			// PDO로 DB connection. ODBC Driver 17 for SQL Server
 			// 마지막 파라미터에 options을 주면 view 화면에서 데이터를 출력하는 방법 정할 수 있음. ex>$row['name'], $row[0], $row->name etc
 			$this->db = new PDO("sqlsrv:Server=". HANA_WHOLE_SALES_DB_HOST. ";Database=". HANA_WHOLE_SALES_DB_NAME, HANA_WHOLE_SALES_DB_USER, $decryptedText);
+			// PDO 에러 표시 설정
+			$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 			session_start();		// session 초기화
 			
-		} catch (Exception $e) {
-			echo $e;
-			exit('DB Connection Fail!!!');
+		} catch (PDOException $e) {
+			echo 'DB Connection failed: ' . $e->getMessage();
+			exit;
 		}
 	}
 	

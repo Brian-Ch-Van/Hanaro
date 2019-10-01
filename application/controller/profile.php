@@ -29,9 +29,19 @@ class Profile extends Controller
 		require 'application/views/_templates/footer.php';
 	}
 	
-	// manage profile
-	public function mngProfile ()
+	/**
+	 * 
+	  * @Method Name	: getProfInfo
+	  * @desc			: 프로필 정보 관리 화면
+	  * @creator		: BrianC
+	  * @date			: 2019. 9. 24.
+	 */
+	public function getProfInfo ($userId)
 	{
+		
+		$profile_model = $this->loadModel('ProfileModel');
+		$profInfo = $profile_model->selProfInfo($userId);
+		
 		require 'application/views/_templates/header.php';
 		require 'application/views/profile/manageprofile.php';
 		require 'application/views/_templates/footer.php';
@@ -47,22 +57,6 @@ class Profile extends Controller
 	 */
 	public function chgPassword ()
 	{
-		/*
-		if(isset($_POST["btn_chgPw"])) {
-			// 비밀번호 암호화
-			$encryptObj = new Encryption();
-			$encryptedPw = $encryptObj->encryptAes($_POST["conPassword"]);
-			
-			$profile_model = $this->loadModel('ProfileModel');
-			$profile_model->updatePassword($encryptedPw);
-			
-			$_SESSION['user_pw'] = $_POST["conPassword"];	// 수정 후 세션에 저장
-		}
-		
-		// 저장 후 home 화면으로 이동
-		header('location: '. URL. '/home');
-		*/
-		
 		try {
 			if(isset($_POST['newPwData'])) {
 				

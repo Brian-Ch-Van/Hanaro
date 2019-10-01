@@ -44,13 +44,14 @@ class Login extends Controller
 	 * 
 	  * @Method Name	: signUp
 	  * @desc			: 사용자 아이디 채번 후 등록 화면 오픈
+	  * 				: 오픈 시 채번 안함 - 2019. 9. 27.
 	  * @creator		: BrianC
 	  * @date			: 2019. 9. 13.
 	 */
 	public function openSignUp () 
 	{
-		$login_model = $this->loadModel('LoginModel');
-		$user = $login_model->getUserId();
+// 		$login_model = $this->loadModel('LoginModel');
+// 		$user = $login_model->getUserId();
 		
 		require 'application/views/login/signup.php';
 	}
@@ -131,8 +132,13 @@ class Login extends Controller
 					$encryptedPw = $encryptObj->encryptAes($formData['inputPw']);
 					$formData['inputPw'] = $encryptedPw;
 					
-					// model call -> insert data
+					// model call
 					$login_model = $this->loadModel('LoginModel');
+					
+					$user = $login_model->getUserId();		// user_id 채번
+					$formData['inputUserId'] = $user['user_id'];
+					
+					// 저장
 					$login_model->insertUserInfo($formData);
 					
 					$result['success'] = true;

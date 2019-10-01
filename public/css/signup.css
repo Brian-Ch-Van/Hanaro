@@ -56,12 +56,12 @@ body {
 	font-size: 13px;
 }
 .signup-form .btn {        
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
 	background: #49c1a2;
 	border: none;
 	min-width: 140px;
-   }
+}
 .signup-form .btn:hover, .signup-form .btn:focus {
 	background: #3cb094;
 	outline: none !important;

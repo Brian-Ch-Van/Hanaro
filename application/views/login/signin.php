@@ -36,8 +36,8 @@
 			
 			<!-- floading label 적용 -->
 			<div class="form-label-group">
-				<input type="text" id="inputUserId" name="inputUserId" class="form-control" placeholder="Id" required autofocus>
-				<label for="inputUserId" class="text-left">Id</label>
+				<input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email" required autofocus>
+				<label for="inputEmail" class="text-left">Email</label>
 			</div>
 			<div class="form-label-group">
 				<input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
@@ -48,7 +48,7 @@
 
 			<div class="mb-4" ></div>
 			<button class="btn btn-lg btn-primary btn-block" type="submit" name="login">Sign in</button>
-			<p class="mt-3"><a href="<?php echo URL; ?>/login/openSignUp" class="text-success font-weight-bold">Sign up Now ></a></p>
+			<p class="mt-3"><a href="login/openSignUp" class="text-success font-weight-bold">Sign up Now ></a></p>
 			<p class="mt-5 mb-3 text-muted">&copy; 2019. Hana Solutions. All rights reserved.</p>
 		</form>
 	</body>
@@ -59,13 +59,13 @@
 
 	if (($_SERVER['REQUEST_METHOD'] == 'POST') and isset($_POST['login']))
 	{
-		$userId = $_POST['inputUserId'];
+		$email = $_POST['inputEmail'];
 		$userpassword = $_POST['inputPassword'];
 		
 		try {
 			// Controller에 있는 db connection
-			$query = $this->db->prepare('select user_id, kname, user_pw, act_yn from TB_USMNF where user_id = :userId');
-			$query->bindParam(':userId', $userId);
+			$query = $this->db->prepare('select user_id, kname, user_pw, act_yn from TB_USMNF where email = :email');
+			$query->bindParam(':email', $email);
 			$query->execute();
 			
 		} catch (PDOException $e) {
@@ -105,6 +105,7 @@
 			session_regenerate_id();		// Update the current session id with a newly generated one
 			// session 값 set
 			$_SESSION['user_name'] = $row['kname'];
+			$_SESSION['user_id'] = $row['user_id'];
 			$_SESSION['user_pw'] = $userpassword;
 			session_write_close();			// Write session data and end session
 			

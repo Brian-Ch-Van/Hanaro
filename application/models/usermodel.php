@@ -17,13 +17,13 @@ Class UserModel {
 	
 	/**
 	 * 
-	  * @Method Name	: getUserList
+	  * @Method Name	: selUserList
 	  * @desc			: 사용자 목록 조회
 	  * @creator		: BrianC
 	  * @date			: 2019. 9. 23.
 	  * @return 
 	 */
-	function getUserList () 
+	function selUserList () 
 	{
 		$sql = "SELECT 
 					user_id
@@ -37,6 +37,8 @@ Class UserModel {
 					,phone_no
 					,cell_no
 					,email
+					,company
+					,position
 					,add_street
 					,add_city
 					,add_province

@@ -20,6 +20,7 @@
 		
 		<link href="<?php echo CSS_URL; ?>/bootstrap.min.css" rel="stylesheet" >
 		<link href="<?php echo CSS_URL; ?>/navbar_footer.css" rel="stylesheet" >
+		<link href="<?php echo CSS_URL; ?>/common.css" rel="stylesheet" >
 		<script src="<?php echo JS_URL; ?>/common.js"></script>
 		
 		<!-- favicon -->
@@ -119,7 +120,7 @@
 						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
 							<a class="dropdown-item" href="<?php echo URL; ?>/profile">Change password</a>
 							<div class="dropdown-divider"></div>
-        					<a class="dropdown-item" href="<?php echo URL; ?>/profile/mngProfile">Profile</a>
+        					<a class="dropdown-item" href="<?php echo URL; ?>/profile/getProfInfo/<?php echo $_SESSION['user_id']; ?>">Profile</a>
 						</div>
 					</li>
 				</ul>

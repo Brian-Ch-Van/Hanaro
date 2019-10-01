@@ -31,7 +31,7 @@
      * @returns
      */    
     function validPassword(pw) {
-        var passRule = /^[A-Za-z0-9]{6,13}$/;   //숫자, 문자/ 6~13자리
+        var passRule = /^[A-Za-z0-9]{6,13}$/;   //숫자, 문자/ 6~13자리, 대소문자 구분
         
         if(!passRule.test(pw)) {
             return false;
@@ -90,6 +90,5 @@
         return outStr;
     }
     
-      
     
     

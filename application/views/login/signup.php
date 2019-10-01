@@ -11,7 +11,7 @@
         
 		<!-- jQuery -->
 		<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-		
+
 		<!-- jQuery loading 후 올라가야 modal에서 error 안 남 -->
 		<script src="<?php echo JS_URL; ?>/bootstrap.bundle.min.js"></script>
 		
@@ -27,7 +27,8 @@
 						$('#divEmpNo').fadeIn();		// show()
 					} else {
 					    $('#divEmpNo').fadeOut('fast');	// hide()
-					    $('#formSignUp')[0].reset();
+					    $('#formSignUp')[0].reset();	// form reset
+					    $('#inputEmpNo').prop('readonly', false);
 					}
 				});
 
@@ -39,6 +40,8 @@
 					};
 				});
 
+				var isValidEmp = false;		// 유효 직원 여부
+				
 				// 직원 확인
 				$('#btnEmpCnf').on('click', function (e) {
 				    e.preventDefault();		// 다른 이벤트 정지, 자동 form submit 방지
@@ -70,6 +73,9 @@
 								        console.log("Attribute : " + key + ", value : " + result.empInfo[key] );
 							        }
 
+									isValidEmp = true;
+									$('#inputEmpNo').prop('readonly', true);	// 직원번호 수정 방지
+							        
 							        $('#inputEmpNo').val(result.empInfo['empNo']);
 									$('#inputKname').val(result.empInfo['kName']);
 									$('#inputFname').val(result.empInfo['fName']);
@@ -87,9 +93,6 @@
 							        }
 							        $('#inputBirth').val(result.empInfo['birth']);
 
-							        // select box 선택 값 가져오기
-// 							        $("#selectBox option:selected").val();
-							        
 							    } else {
 // 								    alert(result.errMsg);
 									$('#modalCenterTitle').text('ERROR');
@@ -104,11 +107,13 @@
 
 									return;
 								}
-							},
+							}
+							/* 에러 공통 처리 
 							error : function (jqXHR, textStatus, errorThrown) {	// 옵션은 3가지이지만 jqXHR에서 에러 내용 확인 가능
 							    alert("Error Occur : \n code = "+ jqXHR.status + "\n status = " + jqXHR.statusText + "\n message = \n" + jqXHR.responseText);
 							    
 							}
+							*/
 						}); // end ajax					    
 					}
 					
@@ -117,6 +122,24 @@
 				var pw = "";
 				var cnfPw = "";
 				var isPwOk = false;
+
+				// email Check
+				$('#inputEmail').blur(function (){
+			    	if(!isValidEmail($(this).val())) {
+			    	    $('#emailInline').addClass('text-danger').text('이메일 주소가 올바르지 않습니다!');
+			    	} else {
+				        $('#emailInline').text('');
+			    	}
+				});
+
+				// email confirm check
+				$('#inputCnfEmail').blur(function (){
+			    	if(!isValidEmail($(this).val())) {
+			    	    $('#emailCnfInline').addClass('text-danger').text('이메일 주소가 올바르지 않습니다!');
+			    	} else {
+				        $('#emailCnfInline').text('');
+			    	}
+				});				
 				
 				// 비밀번호 check
 				$('#inputPw').on('keyup', function() {
@@ -166,7 +189,10 @@
 					$(this).val(replaceUpper(postal));
 				});
 							
-				// sign up 저장
+				/* --------------------------
+				 * sign up 저장
+				 * --------------------------
+				*/ 
 				$('#btnSignUp').on('click', function (e) {
 				    e.preventDefault();		// 다른 이벤트 정지, 자동 form submit 방지
 				    e.stopPropagation();	// 이벤트 상위로 전파 금지
@@ -176,6 +202,17 @@
 				    * 필수 항목, format check start
 				    * ------------------------------------------
 				    */
+					// 직원번호
+					var empYn = $('#inputEmpYn').prop('checked');	// 직원 선택 여부
+					if(empYn && !isValidEmp) {
+						$('#modalCenterTitle').text('ERROR');
+						$('#modalHeader').addClass('bg-danger');
+						$('#modalMsg').text('직원번호를 확인해주세요.');
+						
+						$('#cnfModal').modal('show');
+				    	return;
+					}
+				    
 					// korean name, password, password confirm
 					var arrVal = [
 			    		{name:'knameChkRequired', value:$('#inputKname').val()},
@@ -192,19 +229,20 @@
 						}
 					}
 
-			    	// email format check - common js
-			    	var valEmail = $('#inputEmail').val();
-			    	if(!isValidEmail(valEmail)) {
-			    	    $('#emailCnfInline').addClass('text-danger').text('이메일 주소가 올바르지 않습니다!');
+			    	// email vefrity
+					if($('#inputEmail').val() != $('#inputCnfEmail').val()) {
+						$('#modalCenterTitle').text('ERROR');
+						$('#modalHeader').addClass('bg-danger');
+						$('#modalMsg').text('이메일 주소가 동일하지 않습니다.');
+						
+						$('#cnfModal').modal('show');
 				    	return;
-			    	} else {
-			    	    $('#emailCnfInline').text('');
-			    	}
+					} 
 
 			    	// password check
 			    	if(!isPwOk) {
 						$('#modalCenterTitle').text('ERROR');
-						$('#modalHeader').removeClass('bg-danger');
+						$('#modalHeader').addClass('bg-danger');
 						$('#modalMsg').text('비밀번호는 6-13자리의 문자와 숫자로 구성해야 합니다.');
 						
 						$('#cnfModal').modal('show');
@@ -218,7 +256,7 @@
 
 			    	var formData = $('#formSignUp').serialize();	//form 전체 태그 string serialize, input 태그 attribute에 name 속성
 			    	// form 입력 data 확인
-			    	console.log(formData);
+			    	console.log("Form input data => " + formData);
 
 // 			    	var jsonStr = JSON.stringify(formData);		// JSON object -> string
 // 			    	var jsonObj = JSON.parse(jsonStr);			// string -> JSON object로 parsing
@@ -234,13 +272,13 @@
 				    	    if(result.success == true) {
 								$('#modalCenterTitle').text('CONFIRM');
 								$('#modalHeader').removeClass('bg-danger');
-								$('#modalMsg').html(result.data);	// html 태그 적용하기 위해 text 대신
+								$('#modalMsg').html(result.data);	// html 태그 적용하기 위해 text 대신 html
 								
 								$('#cnfModal').modal('show');
 								
-								// 저장 후 sign up 화면 refresh
+								// 저장 후 sign in 화면으로 이동
 								$("#confirmModal").on("click", function() {
-								    location.href = "<?php echo URL; ?>/login/openSignUp";
+								    location.href = "<?php echo URL; ?>/";
 								});
 
 				    	    } else {
@@ -251,16 +289,54 @@
 								$('#cnfModal').modal('show');
 								return;
 				    	    }
-				    	}, 
+				    	},
+// 				    	dataFilter	: function (result, dataType) {
+//  					    alert(typeof(result));
+// 					    	result = JSON.parse(result);
+//  					    alert(typeof(result));
+
+// 				    	    console.log("result = " + result);
+// 				    	    console.log("dataType : " + dataType);
+// 				    	}
+				    	/* 에러 공통 처리 
 				    	error	: function (jqXHR, textStatus, errorThrown) {	// option 3가지이지만 jqXHR에서 에러 내용 확인 가능
 				    	    alert("Error Occur : \n code = "+ jqXHR.status + "\n status = " + textStatus + "\n message = \n" + errorThrown);
-// 						    alert("Error Occur : \n code = "+ jqXHR.status + "\n status = " + jqXHR.statusText + "\n message = \n" + jqXHR.responseText);
-						    
+				    	    return;
 						} 
+				    	*/
 				    }); // end ajax
 				}); // end sign up 저장
 
-			});
+				// ajax error 공통 처리
+				$.ajaxSetup({
+			    	error: function(jqXHR, exception, errorThrown) {
+			        	if (jqXHR.status === 0) {
+			                alert('[Error Code : 0] Not connect.\n Verify Network.');
+			            } else if (jqXHR.status == 400) {
+			                alert('[Error Code : 400] Server understood the request, but request content was invalid.');
+			            } else if (jqXHR.status == 401) {
+			                alert('[Error Code : 401] Unauthorized access.');
+			            } else if (jqXHR.status == 403) {
+			                alert('[Error Code : 403] Forbidden resource can not be accessed.');
+			            } else if (jqXHR.status == 404) {
+			                alert('[Error Code : 404] Requested page not found.');
+			            } else if (jqXHR.status == 500) {
+			                alert('[Error Code : 500] Internal server error.');
+			            } else if (jqXHR.status == 503) {
+			                alert('[Error Code : 503] Service unavailable.');
+			            } else if (exception === 'parsererror') {
+			                alert('[Exception : Parser Error]  ' + errorThrown + ' Code = ' + jqXHR.status);
+			            } else if (exception === 'timeout') {
+			                alert('[Exception : Timeout] Time out error.');
+			            } else if (exception === 'abort') {
+			                alert('[Exception : Abort] Ajax request aborted.');
+			            } else {
+			                alert('Uncaught Error.n' + jqXHR.responseText);
+			            }
+			        }
+			    }); 
+				
+			});	// end document load
 
 		</script>
 
@@ -272,20 +348,22 @@
 				<h5 class="text-muted">Please fill with your info.</h5>
 				<hr>
 				
+				
 				<div class="custom-control custom-switch mb-4">
 					<input type="checkbox" class="custom-control-input" id="inputEmpYn" name="inputEmpYn">
 					<label class="custom-control-label" for="inputEmpYn">&nbsp;직원인 경우 On</label>
 				</div>
 				
 				<div class="form-group row" style="display: none;" id="divEmpNo">
-					<label for="inputEmpNo" class="col-sm-2 col-form-label">Employee No.</label>
+					<label for="inputEmpNo" class="col-sm-2 col-form-label">Employee No. *</label>
 					<div class="col-sm-4">
 						<input type="text" class="form-control" id="inputEmpNo" name="inputEmpNo" placeholder="직원번호">
 					</div>
 					<div class="btn btn-primary" id="btnEmpCnf">Confirm</div>
 					<small class="ml-3" id="info"></small>
-				</div>				
+				</div>
 				
+				<!-- 화면 오픈 시 채번 안함
 				<div class="form-group row">
 					<label for="inputUserId" class="col-sm-2 col-form-label">User Id *</label>
 					<div class="col-sm-10">
@@ -293,6 +371,7 @@
 						<small class="text-muted">* 등록 후 사용할 사용자 아이디입니다</small>
 					</div>
 				</div>
+				 -->
 				
 				<div class="form-group row">
 					<label for="inputKname" class="col-sm-2 col-form-label">Korean Name *</label>
@@ -302,13 +381,18 @@
 					</div>
 				</div>	
 				
-				<div class="form-group row">
-					<label for="inputEmail" class="col-sm-2 col-form-label">E-mail *</label>
-					<div class="col-sm-10">
-						<input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="이메일" required data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="inputEmail" >E-mail *</label>
+						<input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="이메일" required>
+						<small id="emailInline"></small>
+					</div>
+					<div class="form-group col-md-6">
+						<label for="inputCnfEmail">Confirm Email *</label>
+						<input type="email" class="form-control" id="inputCnfEmail" name="inputCnfEmail" placeholder="이메일 확인" required>
 						<small id="emailCnfInline"></small>
 					</div>
-				</div>			
+				</div>
 				
 				<!-- 
 				<div class="form-row">
@@ -351,6 +435,17 @@
 				
 				<div class="form-row">
 					<div class="form-group col-md-6">
+						<label for="inputCompany">Company</label>
+						<input type="text" class="form-control" id="inputCompany" name="inputCompany" placeholder="회사">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="inputPosition">Position</label>
+						<input type="text" class="form-control" id="inputPosition" name="inputPosition" placeholder="직급">
+					</div>
+				</div>				
+				
+				<div class="form-row">
+					<div class="form-group col-md-6">
 						<label for="inputPhoneNo">Phone No.</label>
 						<input type="text" class="form-control" id="inputPhoneNo" name="inputPhoneNo" placeholder="전화번호">
 					</div>
@@ -370,7 +465,7 @@
 						</select>
 					</div>
 					<div class="form-group col-md-6" id="divBirth">
-						<label for="inputBirth">생년월일</label>
+						<label for="inputBirth">Birth</label>
 						<input type="text" class="form-control" id="inputBirth" name="inputBirth" maxlength="8" placeholder="YYYYMMDD">
 					</div>
 				</div>				
@@ -411,7 +506,7 @@
 				</div>
 				
 				<div class="form-group">
-					<button type="submit" class="btn btn-primary btn-lg" id="btnSignUp" >Sign Up</button>
+					<button type="submit" class="btn btn-primary btn-lg" id="btnSignUp" style="min-width:100%;">Sign Up</button>
 				</div>
 				<p class="small text-center">Copyright 2019. Hana Solutions. All rights reserved.</p>
 				

@@ -26,7 +26,7 @@ class Admin extends Controller
 	public function userList ()
 	{
 		$user_model = $this->loadModel("UserModel");
-		$userList = $user_model->getUserList();
+		$userList = $user_model->selUserList();
 		
 		require 'application/views/_templates/header.php';
 		require 'application/views/admin/userlist.php';

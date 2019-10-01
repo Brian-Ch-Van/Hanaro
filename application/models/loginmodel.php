@@ -19,7 +19,8 @@ class LoginModel {
     /**
      * 
       * @Method Name	: getUserId
-      * @desc			: 사용자 아이디 채번, yymmdd+nnnn
+      * @desc			: 사용자 아이디 채번, yyMMdd+nnnn
+      * 					yy+nnnn으로 변경 - 20109. 9. 27.
       * @creator		: BrianC
       * @date			: 2019. 9. 13.
       * @return 
@@ -27,7 +28,8 @@ class LoginModel {
     public function getUserId ()
     {
     	$sql = "	select
-						CONVERT(varchar,getdate(),12) + RIGHT('0000' + CONVERT(nvarchar(4), ISNULL(case when RIGHT(MAX(user_id),4)='9999' then '1' else RIGHT(MAX(user_id),4) end ,0) + 1), 4) user_id
+						-- CONVERT(varchar,getdate(),12) + RIGHT('0000' + CONVERT(nvarchar(4), ISNULL(case when RIGHT(MAX(user_id),4)='9999' then '1' else RIGHT(MAX(user_id),4) end ,0) + 1), 4) user_id
+						RIGHT(DATEPART(YEAR,GETDATE()),2) + RIGHT('0000' + CONVERT(nvarchar(4), ISNULL(case when RIGHT(MAX(user_id),4)='9999' then '1' else RIGHT(MAX(user_id),4) end ,0) + 1), 4) user_id	
 					from TB_USMNF";
     	
     	$query = $this->dbCon->prepare($sql);
@@ -79,13 +81,15 @@ class LoginModel {
 						           ,KNAME 
 						           ,EN_FNAME 
 						           ,EN_LNAME 
-						           ,EP_NO 
+						           ,EP_NO
+ 						           ,EMAIL
+ 						           ,COMPANY
+ 						           ,POSITION
 						           ,GENDER 
 						           ,BTH_YMD 
 						           ,USER_PW 
 						           ,PHONE_NO 
 						           ,CELL_NO 
-						           ,EMAIL 
 						           ,ADD_STREET 
 						           ,ADD_CITY 
 						           ,ADD_PROVINCE 
@@ -103,12 +107,14 @@ class LoginModel {
 						           ,:fName
 						           ,:lName
 						           ,:epNo
+						           ,:email
+						           ,:company
+						           ,:position
 						           ,:gender
 						           ,:birth
 						           ,:userPw
 						           ,:phoneNo
 						           ,:cellNo
-						           ,:email
 						           ,:addStreet
 						           ,:addCity
 						           ,:addProvince
@@ -122,7 +128,10 @@ class LoginModel {
 						           , getdate())";
     	
     	$query = $this->dbCon->prepare($sql);
-    	$query->execute(array(':userId'=>$data['inputUserId'], ':kName'=>$data['inputKname'], ':fName'=>$data['inputFname'], ':lName'=>$data['inputLname'], ':epNo'=>$data['inputEmpNo'], ':gender'=>$data['inputGender'], ':birth'=>$data['inputBirth'], ':userPw'=>$data['inputPw'], ':phoneNo'=>$data['inputPhoneNo'], ':cellNo'=>$data['inputCellNo'], ':email'=>$data['inputEmail'], ':addStreet'=>$data['inputAddStreet'], ':addCity'=>$data['inputAddCity'], ':addProvince'=>$data['inputProvince'], ':postal'=>$data['inputPostal'], ':rstUser'=>$data['inputUserId'], ':lstUpdUser'=>$data['inputUserId']));
+    	$query->execute(array(':userId'=>$data['inputUserId'], ':kName'=>$data['inputKname'], ':fName'=>$data['inputFname'], ':lName'=>$data['inputLname'], ':epNo'=>$data['inputEmpNo'], 
+    							':email'=>$data['inputEmail'], ':company'=>$data['inputCompany'], ':position'=>$data['inputPosition'], ':gender'=>$data['inputGender'], ':birth'=>$data['inputBirth'], 
+    							':userPw'=>$data['inputPw'], ':phoneNo'=>$data['inputPhoneNo'], ':cellNo'=>$data['inputCellNo'], ':addStreet'=>$data['inputAddStreet'], ':addCity'=>$data['inputAddCity'], 
+    							':addProvince'=>$data['inputProvince'], ':postal'=>$data['inputPostal'], ':rstUser'=>$data['inputUserId'], ':lstUpdUser'=>$data['inputUserId']));
     }
     
 }
