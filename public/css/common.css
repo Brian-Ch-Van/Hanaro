@@ -9,3 +9,18 @@
   border: 1px solid #bfcdda; /* Add a grey border */
   margin-bottom: 12px; /* Add some space below the input */
 }
+#tableUserList th {
+	cursor: pointer;
+}
+
+#tableUserList {
+	table-layout: fixed;
+	width: 100%;
+	white-space: nowrap;
+}
+
+#tableUserList td{
+	display: table-cell;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

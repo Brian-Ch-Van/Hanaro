@@ -348,7 +348,6 @@
 				<h5 class="text-muted">Please fill with your info.</h5>
 				<hr>
 				
-				
 				<div class="custom-control custom-switch mb-4">
 					<input type="checkbox" class="custom-control-input" id="inputEmpYn" name="inputEmpYn">
 					<label class="custom-control-label" for="inputEmpYn">&nbsp;직원인 경우 On</label>
