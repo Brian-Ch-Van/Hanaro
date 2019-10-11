@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 
   * @desc		: admin 관련 controller
@@ -21,7 +22,7 @@ class Admin extends Controller
 	  * @Method Name	: userList
 	  * @desc			: 사용자 목록 조회
 	  * @creator		: BrianC
-	  * @date			: 2019. 9. 23.
+	  * @date			: 2019. 9. 23. 최초 생성
 	 */
 	public function userList ()
 	{
@@ -31,17 +32,20 @@ class Admin extends Controller
 		// 검색 조건에 맞는 전체 데이터 조회
 		$userList = $user_model->selUserList($schData, 0, '');
 		
-		// 페이징 처리 start ========================
-// 		$page = (isset($_GET['page']))?$_GET['page']:1;	// 현재 페이지, 없는 경우 1
-
+		// 페이징 처리 start =============================
 		$totalCnt = count($userList);	// 데이터 전체 건 수
 		
-		$page = 1;
+		$page = 1;	// 현재 페이지
 		if(isset($_GET['page']) && !empty($_GET['page'])) {
 			$page = $_GET['page'];
 		}
 		
-		$list = 3;	// 페이지 당 리스트 수
+		$list = 15;	// default 페이지 당 리스트 수
+		if(isset($schData) && !empty($schData)) {
+			if(!empty($schData)) {
+				$list = $schData['inputListCnt'];
+			}
+		}
 		$block = 5;	// 블록 당 페이지 수
 		
 		$pageNum = ceil($totalCnt/$list);	// 총 페이지 수
@@ -60,27 +64,71 @@ class Admin extends Controller
 
 		$startRow = ($page-1) * $list;		// 페이징에서 조회 할 시작 row
 		
-		// 페이징 처리 end ========================
-	
+		// 페이징 처리 end =============================
+
 		// 페이징 적용한 리스트
 		$userList = $user_model->selUserList($schData, $startRow, $list);
-		 
+
 		require 'application/views/_templates/header.php';
 		require 'application/views/admin/userlist.php';
 		require 'application/views/_templates/footer.php';
 	}
 	
-	public function userListSrch ()
+	/**
+	 * 
+	  * @Method Name	: getUserInfo
+	  * @desc			: 사용자 상세 정보 조회
+	  * @creator		: BrianC
+	  * @date			: 2019. 10. 9.
+	  * @param  $userId
+	 */
+	public function getUserInfo ($userId)
 	{
-		$name = $_POST['nameData'];
+		$profile_model = $this->loadModel('ProfileModel');
+		$profileInfo = $profile_model->selProfInfo($userId);
 		
-		$user_model = $this->loadModel("UserModel");
-		$userList = $user_model->selUserListSrch($name);
-		
-		$result['userList'] = $userList;
-		
-		echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
-		
+		require 'application/views/_templates/header.php';
+		require 'application/views/admin/userdetail.php';
+		require 'application/views/_templates/footer.php';
+	}
+	
+	/**
+	 * 
+	  * @Method Name	: modifyUserInfo
+	  * @desc			: 사용자 정보 수정
+	  * @creator		: BrianC
+	  * @date			: 2019. 10. 10.
+	 */
+	public function modifyUserInfo ()
+	{
+		try {
+			$formProfileData = $_POST;	// POST로 넘겨온 form 전체
+			
+			if (!empty($formProfileData)) {
+				// profile model call
+				$profile_model = $this->loadModel('ProfileModel');
+				
+				// 로그인 사용자
+				$loginUserId = $_SESSION['user_id'];	
+				$formProfileData['lstUpdUser'] = $loginUserId;
+
+				// update
+				$profile_model->updateProfInfo($formProfileData);
+				
+				$result = array();
+				$result['success'] = true;
+				$result['data'] = "사용자 정보가 수정되었습니다.";
+				
+			} else {
+				throw new exception ('사용자 정보 수정 중 오류가 발생했습니다.');
+			}
+		} catch (Exception $e) {
+			$result['success'] = false;
+			$result['errMsg'] = $e->getMessage();
+			
+		} finally {
+			echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+		}
 	}
 	
 	/**

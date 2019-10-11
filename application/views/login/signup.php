@@ -11,12 +11,19 @@
         
 		<!-- jQuery -->
 		<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+		<!-- for calender -->
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>		
 
 		<!-- jQuery loading 후 올라가야 modal에서 error 안 남 -->
 		<script src="<?php echo JS_URL; ?>/bootstrap.bundle.min.js"></script>
 		
 		<!-- favicon -->
         <link rel="shortcut icon" href="<?php echo ICON_URL;?>/h_favicon.png" />		
+		
+		<style>
+			.ui-datepicker-calendar tr { color: #000000; }	
+		</style>
 		
 		<script type="text/javascript">
 			$(document).ready(function () {
@@ -154,7 +161,7 @@
 						isPwOk = true;
 						
 				    } else {
-				        $('#passwordHelpInline').addClass('text-muted').text('6-13 characters long including letters and numbers.');
+				        $('#passwordHelpInline').addClass('text-muted').text('6-13 characters long including case sensitive letters and numbers.');
 				        $('#divPw').removeClass('was-validated');
 					}
 
@@ -188,7 +195,31 @@
 					var postal = $(this).val();
 					$(this).val(replaceUpper(postal));
 				});
-							
+
+			    // 달력 default set
+	            $.datepicker.setDefaults({
+	                dateFormat: 'yymmdd' 		// input format - yyyyMMdd
+	                ,showOtherMonths: true 
+	                ,showMonthAfterYear:true	
+	                ,changeYear: true
+	                ,changeMonth: true
+	                //,showOn: "both" 			// 달력 아이콘 표시, button/both  
+	                //,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" // 달력 버튼 이미지 경로
+	                //,buttonImageOnly: true
+	                //,buttonText: "날짜선택"
+	                ,yearSuffix: "년"
+	                ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] 
+	                ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] 
+	                ,dayNamesMin: ['일','월','화','수','목','금','토'] 
+	                ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] 
+	                //,minDate: "-20Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+	                //,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
+	            	//,yearRange: "-50:+1"		// 년도 range
+	            });	
+	            
+	            // 생년월일 달력 적용
+	            $("#inputBirth").datepicker({yearRange: "-90:+1"});
+	            						
 				/* --------------------------
 				 * sign up 저장
 				 * --------------------------
@@ -268,6 +299,7 @@
 				    	type		: 'post',
 				    	data		: formData, 
 				    	dataType	: 'json',
+				    	async		: false,	// 동기식 처리
 				    	success		: function (result) {
 				    	    if(result.success == true) {
 								$('#modalCenterTitle').text('CONFIRM');
@@ -281,6 +313,19 @@
 								    location.href = "<?php echo URL; ?>/";
 								});
 
+								// confirm 메일 발송
+								$.ajax({
+									url			: '<?php echo URL;?>/login/sendCnfEmail/',
+									type		: 'post',
+									data		: formData,
+									dataType 	: 'text',
+									//async		: false,
+									success		: function (ret) {
+										// log 파일에 입력되도록 변경 필요
+										console.log(ret);
+									}
+								});
+								
 				    	    } else {
 								$('#modalCenterTitle').text('ERROR');
 								$('#modalHeader').addClass('bg-danger');
@@ -289,27 +334,13 @@
 								$('#cnfModal').modal('show');
 								return;
 				    	    }
-				    	},
-// 				    	dataFilter	: function (result, dataType) {
-//  					    alert(typeof(result));
-// 					    	result = JSON.parse(result);
-//  					    alert(typeof(result));
-
-// 				    	    console.log("result = " + result);
-// 				    	    console.log("dataType : " + dataType);
-// 				    	}
-				    	/* 에러 공통 처리 
-				    	error	: function (jqXHR, textStatus, errorThrown) {	// option 3가지이지만 jqXHR에서 에러 내용 확인 가능
-				    	    alert("Error Occur : \n code = "+ jqXHR.status + "\n status = " + textStatus + "\n message = \n" + errorThrown);
-				    	    return;
-						} 
-				    	*/
+				    	}
 				    }); // end ajax
 				}); // end sign up 저장
 
 				// ajax error 공통 처리
 				$.ajaxSetup({
-			    	error: function(jqXHR, exception, errorThrown) {
+			    	error: function(jqXHR, exception, errorThrown) {	// option 3가지이지만 jqXHR에서 에러 내용 확인 가능
 			        	if (jqXHR.status === 0) {
 			                alert('[Error Code : 0] Not connect.\n Verify Network.');
 			            } else if (jqXHR.status == 400) {
@@ -325,7 +356,7 @@
 			            } else if (jqXHR.status == 503) {
 			                alert('[Error Code : 503] Service unavailable.');
 			            } else if (exception === 'parsererror') {
-			                alert('[Exception : Parser Error]  ' + errorThrown + ' Code = ' + jqXHR.status);
+			                alert('[Exception : Parser Error]  ' + errorThrown + ' || Code = ' + jqXHR.status);
 			            } else if (exception === 'timeout') {
 			                alert('[Exception : Timeout] Time out error.');
 			            } else if (exception === 'abort') {
@@ -411,7 +442,7 @@
 						<label for="inputPw">Password *</label>
 						<input type="password" class="form-control" id="inputPw" name="inputPw" placeholder="비밀번호" required>
 						<p id="pwChkRequired" class="text-danger mb-0" style="display:none">이 입력란은 필수입니다!</p>
-						<small id="passwordHelpInline" class="text-muted">6-13 characters long including letters and numbers.</small>
+						<small id="passwordHelpInline" class="text-muted">6-13 characters long including case sensitive letters and numbers.</small>
 					</div>
 					<div class="form-group col-md-6" id="divCnfPw">
 						<label for="inputCnfPw">Confirm Password *</label>
@@ -465,7 +496,7 @@
 					</div>
 					<div class="form-group col-md-6" id="divBirth">
 						<label for="inputBirth">Birth</label>
-						<input type="text" class="form-control" id="inputBirth" name="inputBirth" maxlength="8" placeholder="YYYYMMDD">
+						<input type="text" class="form-control" id="inputBirth" name="inputBirth" maxlength="8" placeholder="YYYYMMDD" autocomplete="off">
 					</div>
 				</div>				
 				

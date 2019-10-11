@@ -94,12 +94,12 @@
      * -------------------------------------------------
      * table list sorting
      * -------------------------------------------------
-     * @param sorting column index
+     * @param sorting column index, table ID
      * @returns
      */
-    function sortTable(n) {
+    function sortTable(n, tableId) {
         var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-        table = document.getElementById("tableUserList");
+        table = document.getElementById(tableId);
         switching = true;
         dir = "asc"; 
         

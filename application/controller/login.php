@@ -1,4 +1,7 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 /**
  * 
   * @desc		: 로그인 관련 함수 controller
@@ -104,7 +107,9 @@ class Login extends Controller
 	  * @creator		: BrianC
 	  * @date			: 2019. 9. 17.
 	 */
-	public function signUpUserInfo () {
+	public function signUpUserInfo () 
+	{
+		require 'application/libs/phpMailer/Exception.php';
 		
 		try {
 			// JSON.stringfy로 string으로 넘긴 경우
@@ -135,6 +140,12 @@ class Login extends Controller
 					// model call
 					$login_model = $this->loadModel('LoginModel');
 					
+					// 이메일 중복 체크
+					$emailCnt = $login_model->selUserByEmail($formData['inputEmail']);
+					if($emailCnt != 0) {
+						throw new exception ('이미 사용중인 Email 주소입니다.');
+					}
+					
 					$user = $login_model->getUserId();		// user_id 채번
 					$formData['inputUserId'] = $user['user_id'];
 					
@@ -142,7 +153,8 @@ class Login extends Controller
 					$login_model->insertUserInfo($formData);
 					
 					$result['success'] = true;
-					$result['data'] = "사용자 ID " . $formData['inputUserId'] . " 정보가 등록되었습니다.<br>관리자 승인 후 해당 ID로 사용 가능합니다.";
+					$result['data'] = "사용자 정보가 등록되었습니다. <br>입력하신 이메일로 확인 메일이 전송되며, 관리자 승인 후 <br>사용 가능합니다.";
+					
 				}
 				
 			} else {
@@ -157,12 +169,139 @@ class Login extends Controller
 		}
 		
 	}
+	
+	/**
+	 * 
+	  * @Method Name	: sendCnfEmail
+	  * @desc			: 등록 확인 메일 전송
+	  * @creator		: BrianC
+	  * @date			: 2019. 10. 7.
+	 */
+	public function sendCnfEmail () 
+	{
+		require 'application/libs/phpMailer/PHPMailer.php';
+		require 'application/libs/phpMailer/SMTP.php';
+		require 'application/libs/phpMailer/Exception.php';
+		
+		// 메일 객체 생성
+		$mail = new PHPMailer();
+		
+		try {
+			$mail->SMTPDebug = 2;								// debug
+			$mail->isSMTP();									// smtp 사용
+			$mail->Host = "smtp.gmail.com";						// email 전송 서버 - gmail smtp 사용
+			$mail->SMTPAuth = true;								// smtp 인증
+			$mail->Username = "noreply.hanasolution@gmail.com";	// 메일 계정
+			$mail->Password = "gksktm2255";						// 메일 비밀번호
+			$mail->SMTPSecure = "ssl";							// ssl 사용
+			$mail->Port = 465;									// 메일 전송 시 사용할 포트
+			$mail->CharSet = "utf-8";
+			
+			// from: address, name
+			$mail->setFrom("noreply.hanasolution@gmail.com", "Hana Solutions");
+			
+			// data 받아 와서
+			$formData = $_POST;	// POST로 넘겨온 form 전체
+			//$emailTo = $_POST['emailData'];
+			
+			// to: address, name(option), 다건 가능
+			$mail->addAddress($formData['inputEmail']);
+			//$mail->addAddress("hanas.brian19@gmail.com");
+			
+			// cc
+			//$mail->addCC($address);
+			
+			// attach: path
+			//$mail->addAttachment("./picture.png");
+			
+			// body
+			$mail->isHTML(true);					// html 사용
+			$mail->Subject = "SIGN UP NOTICE";		// 제목
+			
+			// 본문 내용
+			$mail->Body	= '	<!DOCTYPE html >
+							<html xmlns="http://www.w3.org/1999/xhtml">
+							<head>
+							<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+							<title>Sign Up Confirmation</title>
+							<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+							</head>
+							<body style="margin: 0; padding: 0;">
+							    <table border="0" cellpadding="0" cellspacing="0" width="100%"> 
+							        <tr>
+							            <td style="padding: 10px 0 30px 0;">
+							                <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border: 1px solid #cccccc; border-collapse: collapse;">
+							                    <tr>
+							                        <td align="center" style="background-color:#00bcff; padding: 30px 0 20px 0; color: #1e5e77; font-size: 24px; font-weight: bold; font-family: Arial, sans-serif;">
+							                            Welcome to <span style="color: #ee4b50;">HANARO</span>
+														<br/><br/>
+														<span style="font-size: 36px">- Hana Solutions -</span>
+													</td>
+							                    </tr>
+							                    <tr>
+							                        <td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;">
+							                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+							                                <tr>
+							                                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 24px;">
+							                                        <b>Thank you for signing up!</b>
+							                                    </td>
+							                                </tr>
+							                                <tr>
+							                                    <td style="padding: 20px 0 20px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
+																	Your registration request has been successfully sent.<br/>
+																	Followings are your account information.<br/><br/>
+																	<table style="background-color: #e8e6e6; width: 75%; border: solid;">
+																		<tr>
+																			<td style="width:20%">E-mail</td><td style="width:5%"> : </td><td>'. $formData['inputEmail'] . '</td>
+																		</tr>
+																		<tr>
+																			<td>Name<td> : </td></td><td>' . $formData['inputKname'] . '</td>
+																		</tr>
+																		<tr>
+																			<td>Name_en<td> : </td></td><td>' . $formData['inputFname'] . '&nbsp;'. $formData['inputLname'] . '</td>
+																		</tr>
+																		<tr>
+																			<td>Company<td> : </td></td><td>'. $formData['inputCompany'] . '</td>
+																		</tr>
+																	</table>
 
-	
-	
-	
-	
-	
-	
-	
+																	<br/><b>You can sign in HANARO with the e-mail after administrator approves.</b><br/>
+																	<br/>Thank you
+							                                    </td>
+							                                </tr>
+							                            </table>
+							                        </td>
+							                    </tr>
+							                    <tr>
+							                        <td style="background-color:#607d8b; padding: 10px 30px 10px 30px;">
+							                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+							                                <tr>
+							                                    <td style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;" width="75%">
+							                                        <p>Copyright 2019. Hana Solutions. All rights reserved.</p>
+							                                        <p>Tel	: 778-285-2255 </p>
+																	Email	: support@hanasolution.com
+							                                    </td>
+							                                </tr>
+							                            </table>
+							                        </td>
+							                    </tr>
+							                </table>
+							            </td>
+							        </tr>
+							    </table>
+							</body>
+							</html>
+							';
+			
+			// gmail은 CA 인증 필요 - 인증체크 해지
+			$mail->SMTPOptions = array("ssl"=>array("verify_peer"=>false, "verify_peer_name"=>false, "allow_self_signed"=>true));
+			
+			// send email
+			$mail->send();
+			echo "Email send success! ";
+		} catch (Exception $e) {
+			echo "Email has not been sent. Error : " . $mail->ErrorInfo;
+		}
+	}
+
 }

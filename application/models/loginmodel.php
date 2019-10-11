@@ -40,6 +40,26 @@ class LoginModel {
     
     /**
      * 
+      * @Method Name	: selUserByEmail
+      * @desc			: email 중복 확인을 위한 조회
+      * @creator		: BrianC
+      * @date			: 2019. 10. 4.
+      * @return string
+     */
+    public function selUserByEmail ($email)
+    {
+    	$sql = "select count(*) from TB_USMNF
+				where upper(email) = upper('{$email}')";
+    	
+    	$query = $this->dbCon->prepare($sql);
+    	$query->execute();
+    	$cnt = $query->fetchColumn();	// update, delete 시 rowCount(), select rowCount는 0/-1
+    	
+    	return $cnt;
+    }
+    
+    /**
+     * 
       * @Method Name	: selEmpInfo
       * @desc			: 직원 정보 조회
       * @creator		: BrianC

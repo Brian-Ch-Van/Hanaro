@@ -32,6 +32,7 @@
 		<!-- Font Awesome (for icons) SDN을 따로 받았음 -->
 		<script src="https://kit.fontawesome.com/b531862797.js"></script>
 		
+		<!-- jQuery loading 후 올라가야 modal에서 error 안 남 -->
 		<script src="<?php echo JS_URL; ?>/bootstrap.bundle.min.js"></script>
 		
 		<!-- Chart -->
@@ -41,8 +42,8 @@
 		
 		<script type="text/javascript">
 			$(document).ready(function() {
-				
-				// log out
+			    
+				// sign out
 				$("#sign_out").on("click", function() {
 				    location.href = "<?php echo URL; ?>/login/signOut";
 				});

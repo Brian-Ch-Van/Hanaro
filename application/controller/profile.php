@@ -40,7 +40,7 @@ class Profile extends Controller
 	{
 		
 		$profile_model = $this->loadModel('ProfileModel');
-		$profInfo = $profile_model->selProfInfo($userId);
+		$profileInfo = $profile_model->selProfInfo($userId);
 		
 		require 'application/views/_templates/header.php';
 		require 'application/views/profile/manageprofile.php';

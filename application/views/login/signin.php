@@ -44,7 +44,7 @@
 				<label for="inputPassword" class="text-left">Password</label>
 			</div>
 			
-			<small id="passwordHelpInline" class="text-muted">Your password must be 6-13 characters long.</small>
+			<small id="passwordHelpInline" class="text-muted">Your password must be 6-13 case sensitive characters long.</small>
 
 			<div class="mb-4" ></div>
 			<button class="btn btn-lg btn-primary btn-block" type="submit" name="login">Sign in</button>
@@ -55,7 +55,7 @@
 </html>
 
 <?php 
-	$login_ok = false;
+	$loginValid = false;
 
 	if (($_SERVER['REQUEST_METHOD'] == 'POST') and isset($_POST['login']))
 	{
@@ -64,7 +64,7 @@
 		
 		try {
 			// Controller에 있는 db connection
-			$query = $this->db->prepare('select user_id, kname, user_pw, act_yn from TB_USMNF where email = :email');
+			$query = $this->db->prepare('select user_id, kname, user_pw, act_yn from TB_USMNF where upper(email) = upper(:email)');
 			$query->bindParam(':email', $email);
 			$query->execute();
 			
@@ -89,7 +89,7 @@
 				$plainedPw = $encryptObj->decryptAes($password);
 				
 				if($userpassword == $plainedPw) {
-					$login_ok = true;
+					$loginValid = true;
 				} else {
 					$infoMsg = '비밀번호를 확인해 주세요.';
 				}
@@ -100,7 +100,7 @@
 		}
 		
 		// 로그인 성공 시
-		if ($login_ok) {
+		if ($loginValid) {
 			// session에 user_name 저장			
 			session_regenerate_id();		// Update the current session id with a newly generated one
 			// session 값 set

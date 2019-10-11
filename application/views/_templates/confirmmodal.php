@@ -1,7 +1,7 @@
 
 <!-- 
  * Common Confirm Modal
- * used : 사용자 등록, 비밀번호 변경   <add>
+ * used : 사용자 등록, 비밀번호 변경   <add>..
 
  -->
 	
@@ -11,9 +11,11 @@
 				
 				<div class="modal-header bg-success text-white" id="modalHeader">
 					<h5 class="modal-title" id="modalCenterTitle"><!-- Confirm/Error --></h5>
+					<!-- 
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<!-- <span aria-hidden="true">&times;</span> -->
+						<span aria-hidden="true">&times;</span>
 					</button>
+					-->
 				</div>
 				
 				<div class="modal-body bg-light text-body" id="modalMsg">
