@@ -85,12 +85,12 @@ class ProfileModel
 	
 	/**
 	 * 
-	  * @Method Name	: updateProfInfo
+	  * @Method Name	: updateUserInfo
 	  * @desc			: 사용자 정보 업데이트
 	  * @creator		: BrianC
 	  * @date			: 2019. 10. 10.
 	 */
-	public function updateProfInfo ($data)
+	public function updateUserInfo ($data)
 	{
 		$sql = "update TB_USMNF
 				set ACT_YN			= :actYn
@@ -112,6 +112,41 @@ class ProfileModel
 		$query->execute(array(':actYn'=>$data['inputActYn'], ':position'=>$data['inputPosition'], ':resignYmd'=>$data['inputResignYmd'], ':phoneNo'=>$data['inputPhoneNo'], ':cellNo'=>$data['inputCellNo'], 
 							':gender'=>$data['inputGender'], ':bthYmd'=>$data['inputBirth'], ':addStreet'=>$data['inputAddStreet'], ':addCity'=>$data['inputAddCity'], ':addProvince'=>$data['inputProvince'], 
 							':postal'=>$data['inputPostal'], ':lstUpdUser'=>$data['lstUpdUser'], ':userId'=>$data['inputUserId']));
+	}
+	
+	/**
+	 * 
+	  * @Method Name	: updateProfInfo
+	  * @desc			: 개인 정보 업데이트
+	  * @creator		: BrianC
+	  * @date			: 2019. 10. 15.
+	  * @param 			: $data
+	 */
+	public function updateProfInfo ($data)
+	{
+		$sql = "update TB_USMNF
+				set KNAME			= :kName
+					, EN_FNAME  	= :fName
+					, EN_LNAME  	= :lName
+					, COMPANY	  	= :company
+					, POSITION  	= :position
+					, PHONE_NO 		= :phoneNo
+					, CELL_NO 		= :cellNo
+					, GENDER 		= :gender
+					, BTH_YMD 		= :bthYmd
+					, ADD_STREET 	= :addStreet
+					, ADD_CITY 		= :addCity
+					, ADD_PROVINCE 	= :addProvince
+					, POSTAL 		= :postal
+					, LST_UPD_USER	= :lstUpdUser
+					, LST_UPD_DATE	= getdate()
+				where USER_ID 		= :userId ";
+		
+		$query = $this->dbCon->prepare($sql);
+		$query->execute(array(':kName'=>$data['inputKname'], ':fName'=>$data['inputFname'], ':lName'=>$data['inputLname'], ':company'=>$data['inputCompany'], ':position'=>$data['inputPosition']
+							, ':phoneNo'=>$data['inputPhoneNo'], ':cellNo'=>$data['inputCellNo'], ':gender'=>$data['inputGender'], ':bthYmd'=>$data['inputBirth'], ':addStreet'=>$data['inputAddStreet']
+							, ':addCity'=>$data['inputAddCity'], ':addProvince'=>$data['inputProvince'], ':postal'=>$data['inputPostal'], ':lstUpdUser'=>$data['lstUpdUser'], ':userId'=>$data['inputUserId']
+		));
 	}
 	
 

@@ -105,6 +105,12 @@ class Admin extends Controller
 			$formProfileData = $_POST;	// POST로 넘겨온 form 전체
 			
 			if (!empty($formProfileData)) {
+				
+				$resignDate = $formProfileData['inputResignYmd'];
+				if(!empty($resignDate)) {
+					$formProfileData['inputActYn'] = 'N';
+				}
+				
 				// profile model call
 				$profile_model = $this->loadModel('ProfileModel');
 				
@@ -113,15 +119,16 @@ class Admin extends Controller
 				$formProfileData['lstUpdUser'] = $loginUserId;
 
 				// update
-				$profile_model->updateProfInfo($formProfileData);
+				$profile_model->updateUserInfo($formProfileData);
 				
 				$result = array();
 				$result['success'] = true;
-				$result['data'] = "사용자 정보가 수정되었습니다.";
+				$result['data'] = "User information has been modified.";
 				
 			} else {
 				throw new exception ('사용자 정보 수정 중 오류가 발생했습니다.');
 			}
+			
 		} catch (Exception $e) {
 			$result['success'] = false;
 			$result['errMsg'] = $e->getMessage();

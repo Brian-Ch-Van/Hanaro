@@ -101,7 +101,6 @@
 		
 		// 로그인 성공 시
 		if ($loginValid) {
-			// session에 user_name 저장			
 			session_regenerate_id();		// Update the current session id with a newly generated one
 			// session 값 set
 			$_SESSION['user_name'] = $row['kname'];

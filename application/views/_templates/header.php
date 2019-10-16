@@ -1,4 +1,5 @@
 <?php
+	
 	// session에 user_name 있으면 로그인 한 상태
 	if (isset($_SESSION['user_name']) && !empty($_SESSION['user_name'])) {
 		//echo $_SESSION['user_name'] . '님이 로그인 했습니다.';
@@ -6,6 +7,7 @@
 	} else {
 		header('location: ' . URL );
 	}
+
 ?>
 
 <!doctype html>
@@ -21,6 +23,7 @@
 		<link href="<?php echo CSS_URL; ?>/bootstrap.min.css" rel="stylesheet" >
 		<link href="<?php echo CSS_URL; ?>/navbar_footer.css" rel="stylesheet" >
 		<link href="<?php echo CSS_URL; ?>/common.css" rel="stylesheet" >
+		<link href="<?php echo CSS_URL; ?>/profile.css" rel="stylesheet" >
 		<script src="<?php echo JS_URL; ?>/common.js"></script>
 		
 		<!-- favicon -->
@@ -58,11 +61,6 @@
 
 			});
 		</script>
-		
-		<style type="text/css">
-		
-		</style>
-		
 	</head>
 	
 	<body class="d-flex flex-column h-100 bg-light">
@@ -119,9 +117,9 @@
 							Hello <?php echo $_SESSION['user_name']; ?> !
 						</a>
 						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
-							<a class="dropdown-item" href="<?php echo URL; ?>/profile">Change password</a>
+							<a class="dropdown-item" href="<?php echo URL; ?>/profile/getProfInfo/<?php echo $_SESSION['user_id']; ?>">Profile</a>
 							<div class="dropdown-divider"></div>
-        					<a class="dropdown-item" href="<?php echo URL; ?>/profile/getProfInfo/<?php echo $_SESSION['user_id']; ?>">Profile</a>
+							<a class="dropdown-item" href="<?php echo URL; ?>/profile">Change password</a>        					
 						</div>
 					</li>
 				</ul>

@@ -58,7 +58,7 @@
             });	
             
             // 날짜 input을 datepicker로 선언
-            $("#inputResignYmd").datepicker({yearRange: "-30:+1"});
+            $("#inputResignYmd").datepicker({yearRange: "-10:+1"});
             $("#inputBirth").datepicker({yearRange: "-90:+1"});
 		    
 		    // 목록가기 버튼
@@ -78,14 +78,14 @@
 				var postal = $(this).val();
 				$(this).val(replaceUpper(postal));
 			});
-		    
+
 		    // 저장
 		    //var actYn = $('input[name="inputActYn"]:checked').val();
 		    $('#btnSignUp').on('click', function (e) {
 			    e.preventDefault();
 			    e.stopPropagation();
 
-		    	var formData = $('#formProfile').serialize();
+		    	var formData = $('#formProfile').serialize(true);
 		    	// form 입력 data 확인
 		    	console.log("Form input data : " + formData);
 
@@ -151,7 +151,7 @@
 					<div class="form-group col-md-6" id="divKname">
 						<label for="inputKname">Korean Name</label>
 						<input type="text" class="form-control" id="inputKname" name="inputKname" placeholder="한글 이름" disabled>
-						<input type="text" class="form-control" id="inputUserId" name="inputUserId" hidden>
+						<input type="hidden" class="form-control" id="inputUserId" name="inputUserId" >
 					</div>
 					<div class="form-group col-md-6" id="divEmail">
 						<label for="inputEmail">Email</label>
@@ -187,8 +187,8 @@
 						<input type="text" class="form-control" id="inputPosition" name="inputPosition" placeholder="직급">
 					</div>
 					<div class="form-group col-md-6">
-						<label for="inputResignYmd">Resign</label>
-						<input type="text" class="form-control datepicker" id="inputResignYmd" name="inputResignYmd" placeholder="YYYYMMDD" autocomplete="off">
+						<label for="inputResignYmd">Resign</label>&nbsp;&nbsp;<small class="text-danger" id="resignInline">User account is deactivated if Resign date is saved</small>
+						<input type="text" class="form-control" id="inputResignYmd" name="inputResignYmd" placeholder="YYYYMMDD" autocomplete="off">
 					</div>
 				</div>				
 				

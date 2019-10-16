@@ -1,5 +1,14 @@
 <?php 
 
+/**
+ * 
+  * @desc		: Controller class
+  * @creator	: BrianC
+  * @date		: 2019. 9. 1.
+  * @Version	: v1.0
+  * @history	: 최초 생성
+  *
+ */
 class Controller 
 {
 	public $db = null;
@@ -9,6 +18,13 @@ class Controller
 		$this->dbConnect();
 	}
 	
+	/**
+	 * 
+	  * @Method Name	: dbConnect
+	  * @desc			: DB Conncection
+	  * @creator		: BrianC
+	  * @date			: 2019. 9. 1.
+	 */
 	private function dbConnect() 
 	{
 		try {
@@ -22,7 +38,8 @@ class Controller
 			// PDO 에러 표시 설정
 			$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-			session_start();		// session 초기화
+			// session 초기화
+			session_start();
 			
 		} catch (PDOException $e) {
 			echo 'DB Connection failed: ' . $e->getMessage();
@@ -30,7 +47,15 @@ class Controller
 		}
 	}
 	
-	// model 명으로 model Class 호출
+	/**
+	 * 
+	  * @Method Name	: loadModel
+	  * @desc			: model name에 맞는 model class call
+	  * @creator		: BrianC
+	  * @date			: 2019. 9. 1.
+	  * @param  		: $model_name
+	  * @return 		: model class
+	 */
 	public function loadModel ($model_name) 
 	{
 		require 'application/models/' . strtolower($model_name) . '.php';

@@ -143,7 +143,7 @@ class Login extends Controller
 					// 이메일 중복 체크
 					$emailCnt = $login_model->selUserByEmail($formData['inputEmail']);
 					if($emailCnt != 0) {
-						throw new exception ('이미 사용중인 Email 주소입니다.');
+						throw new exception ('The email is already used.');
 					}
 					
 					$user = $login_model->getUserId();		// user_id 채번
@@ -153,8 +153,7 @@ class Login extends Controller
 					$login_model->insertUserInfo($formData);
 					
 					$result['success'] = true;
-					$result['data'] = "사용자 정보가 등록되었습니다. <br>입력하신 이메일로 확인 메일이 전송되며, 관리자 승인 후 <br>사용 가능합니다.";
-					
+					$result['data'] = "Your user information has been registered. <br>A confirmation email will be sent to the email address you entered, you can sign in with the email after administrator approves.";
 				}
 				
 			} else {

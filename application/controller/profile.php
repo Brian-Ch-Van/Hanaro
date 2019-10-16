@@ -38,13 +38,54 @@ class Profile extends Controller
 	 */
 	public function getProfInfo ($userId)
 	{
-		
 		$profile_model = $this->loadModel('ProfileModel');
 		$profileInfo = $profile_model->selProfInfo($userId);
 		
 		require 'application/views/_templates/header.php';
 		require 'application/views/profile/manageprofile.php';
 		require 'application/views/_templates/footer.php';
+	}
+	
+	/**
+	 * 
+	  * @Method Name	: modifyProfInfo
+	  * @desc			: 개인 정보 수정
+	  * @creator		: BrianC
+	  * @date			: 2019. 10. 15.
+	  * @throws exception
+	 */
+	public function modifyProfInfo () 
+	{
+		try {
+			$formProfileData = $_POST;	// POST로 넘겨온 form 전체
+			
+			if (!empty($formProfileData)) {
+				
+				// profile model call
+				$profile_model = $this->loadModel('ProfileModel');
+				
+				// 로그인 사용자
+				$loginUserId = $_SESSION['user_id'];
+				$formProfileData['lstUpdUser'] = $loginUserId;
+				
+				// update
+				$profile_model->updateProfInfo($formProfileData);
+				
+				$result = array();
+				$result['success'] = true;
+				$result['data'] = "User information has been modified.";
+				
+			} else {
+				throw new exception ('개인 정보 수정 중 오류가 발생했습니다.');
+			}
+			
+		} catch (Exception $e) {
+			$result['success'] = false;
+			$result['errMsg'] = $e->getMessage();
+			
+		} finally {
+			echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+		}
 	}
 	
 	/**
