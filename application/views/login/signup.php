@@ -183,10 +183,8 @@
 					}
 				});
 
-				// 전화번호 format - 공통 format check 함수: phoneNoFormat
+				// 전화번호 format
 				$('#inputPhoneNo').on('keyup', phoneNoFormat);
-
-				// 휴대전화 format - 공통 format check 함수
 				$('#inputCellNo').on('keyup', phoneNoFormat);	
 
 				// postal uppercase, trim

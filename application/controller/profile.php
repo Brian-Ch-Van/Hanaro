@@ -60,20 +60,25 @@ class Profile extends Controller
 			$formProfileData = $_POST;	// POST로 넘겨온 form 전체
 			
 			if (!empty($formProfileData)) {
-				
-				// profile model call
-				$profile_model = $this->loadModel('ProfileModel');
-				
-				// 로그인 사용자
-				$loginUserId = $_SESSION['user_id'];
-				$formProfileData['lstUpdUser'] = $loginUserId;
-				
-				// update
-				$profile_model->updateProfInfo($formProfileData);
-				
-				$result = array();
-				$result['success'] = true;
-				$result['data'] = "User information has been modified.";
+				if(empty($formProfileData['inputKname'])) {
+					throw new exception ('Korean Name is empty.');
+				} else if (empty($formProfileData['inputEmail'])) {
+					throw new exception ('Email is empty.');
+				} else {
+					// profile model call
+					$profile_model = $this->loadModel('ProfileModel');
+					
+					// 로그인 사용자
+					$loginUserId = $_SESSION['user_id'];
+					$formProfileData['lstUpdUser'] = $loginUserId;
+					
+					// update
+					$profile_model->updateProfInfo($formProfileData);
+					
+					$result = array();
+					$result['success'] = true;
+					$result['data'] = "User information has been successfully modified.";
+				}
 				
 			} else {
 				throw new exception ('개인 정보 수정 중 오류가 발생했습니다.');

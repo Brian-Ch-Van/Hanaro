@@ -43,6 +43,14 @@
 		 	})
 		 	
 		 	$('form').attr('autocomplete','off');
+
+			$('#inputKname').blur(function (){
+		    	if(isEmpty($('#inputKname').val())) {
+			    	$('#knameChkRequired').show();
+		    	} else {
+		    	    $('#knameChkRequired').hide();
+		    	}
+			});
 		 	
 		    // 달력 default set
             $.datepicker.setDefaults({
@@ -69,11 +77,6 @@
             $("#inputResignYmd").datepicker({yearRange: "-10:+1"});
             $("#inputBirth").datepicker({yearRange: "-90:+1"});
 		    
-		    // 취소 버튼
-			$("#btnCancel").on('click', function() {
-				history.go(-1);
-			});
-
 			// 전화번호 format
 			$('#inputPhoneNo').on('keyup', phoneNoFormat);
 			$('#inputCellNo').on('keyup', phoneNoFormat);	
@@ -95,6 +98,16 @@
 		    	// form 입력 data 확인
 		    	console.log("Form input data : " + formData);
 
+		    	if(isEmpty($('#inputKname').val())) {
+			    	$('#knameChkRequired').show();
+			    	
+			    	var offset = $('#inputKname').offset();
+			    	$('html').animate({scrollTop : offset.top-100}, 400);
+			    	$('#inputKname').focus();
+// 			    	$('html').scrollTop(0);
+			    	return;
+		    	}
+
 		    	$.ajax({
 			    	url			: '<?php echo URL;?>/profile/modifyProfInfo/', 
 			    	type		: 'post',
@@ -112,6 +125,7 @@
 							// 저장 후 refresh
 							$("#confirmModal").on("click", function() {
 							    location.reload();
+							    $('html').scrollTop(0);
 							});
 							
 			    	    } else {
@@ -132,8 +146,14 @@
 						$('#cnfModal').modal('show');
 					}					
 			    }); // end ajax
-		    	
 			}); // end 저장
+
+		    // 취소 버튼
+			$("#btnCancel").on('click', function() {
+				history.go(-1);
+			});
+
+// 			$('[data-toggle="tooltip"]').tooltip();
 			
 		});
 	</script>
@@ -144,27 +164,37 @@
 			
 			<form method="post" id="formProfile" class="pt-4 pl-3 pr-3" >
 				<div class="row">
-					<div class="col-sm-6">
-						<div class="inputBox ">
-							<div class="inputText">Korean Name</div>
-							<input type="text" id="inputKname" name="inputKname" class="input">
-							<input type="hidden" class="input" id="inputUserId" name="inputUserId">
-						</div>
-					</div>
-
-					<div class="col-sm-6">
-						<div class="inputBox">
-							<div class="inputText">Email</div>
+					<div class="col-sm-12">
+						<div class="inputBox" data-toggle="tooltip" title="수정할 수 없는 항목입니다">
+							<div class="inputText">Email *</div>
 							<input type="text" id="inputEmail" name="inputEmail" class="input disabled" >
 						</div>
 					</div>
+				</div>
+							
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="inputBox">
+							<div class="inputText">Korean Name *</div>
+							<input type="text" id="inputKname" name="inputKname" class="input">
+							<small id="knameChkRequired" class="text-danger" style="display:none">이 입력란은 필수입니다!</small>
+							<input type="hidden" class="input" id="inputUserId" name="inputUserId">
+						</div>
+					</div>
+					
+					<div class="col-sm-6">
+						<div class="inputBox" data-toggle="tooltip" title="수정할 수 없는 항목입니다">
+							<div class="inputText">Employee No.</div>
+							<input type="text" id="inputEmpNo" name="inputEmpNo" class="input disabled">
+						</div>
+					</div>					
 				</div>
 								
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="inputBox ">
 							<div class="inputText">First Name</div>
-							<input type="text" id="inputFname" name="inputFname" class="input">
+							<input type="text" id="inputFname" name="inputFname" class="input" >
 						</div>
 					</div>
 
@@ -185,25 +215,9 @@
 					</div>
 
 					<div class="col-sm-6">
-						<div class="inputBox">
-							<div class="inputText">Employee No.</div>
-							<input type="text" id="inputEmpNo" name="inputEmpNo" class="input disabled">
-						</div>
-					</div>
-				</div>
-				
-				<div class="row">
-					<div class="col-sm-6">
 						<div class="inputBox ">
 							<div class="inputText">Position</div>
 							<input type="text" id="inputPosition" name="inputPosition" class="input">
-						</div>
-					</div>
-
-					<div class="col-sm-6">
-						<div class="inputBox">
-							<div class="inputText">Resign</div>
-							<input type="text" id="inputResignYmd" name="inputResignYmd" class="input disabled">
 						</div>
 					</div>
 				</div>
