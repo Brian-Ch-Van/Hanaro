@@ -52,7 +52,6 @@
 		    	}
 			});
 		 	
-		    // 달력 default set
             $.datepicker.setDefaults({
                 dateFormat: 'yymmdd' 		// input format - yyyyMMdd
                 ,showOtherMonths: true 		
@@ -60,7 +59,7 @@
                 ,changeYear: true 			
                 ,changeMonth: true 			               
                 //,showOn: "both" 			// 달력 아이콘 표시, button:아이콘 표시하고,눌러야만 달력 표시, both:아이콘 표시하고, 누르거나 input을 클릭하면 달력 표시  
-                //,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" // 달력 버튼 이미지 경로
+                //,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" 
                 //,buttonImageOnly: true
                 //,buttonText: "날짜선택"
                 ,yearSuffix: "년" 		
@@ -73,7 +72,6 @@
             	//,yearRange: "-50:+1"		// 년도 range
             });	
             
-            // 날짜 input을 datepicker로 선언
             $("#inputResignYmd").datepicker({yearRange: "-10:+1"});
             $("#inputBirth").datepicker({yearRange: "-90:+1"});
 		    
@@ -99,12 +97,12 @@
 		    	console.log("Form input data : " + formData);
 
 		    	if(isEmpty($('#inputKname').val())) {
-			    	$('#knameChkRequired').show();
-			    	
 			    	var offset = $('#inputKname').offset();
-			    	$('html').animate({scrollTop : offset.top-100}, 400);
+			    	$('html').animate({scrollTop : offset.top-100}, 300);
 			    	$('#inputKname').focus();
 // 			    	$('html').scrollTop(0);
+
+			    	$('#knameChkRequired').show();
 			    	return;
 		    	}
 
@@ -148,24 +146,23 @@
 			    }); // end ajax
 			}); // end 저장
 
-		    // 취소 버튼
 			$("#btnCancel").on('click', function() {
 				history.go(-1);
 			});
 
 // 			$('[data-toggle="tooltip"]').tooltip();
-			
+
 		});
 	</script>
 
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<h2 class="mt-4" style="font-weight: bold;">개인 정보</h2>
+			<h2 class="mt-4" style="font-weight: bold;">Profile</h2>
 			
 			<form method="post" id="formProfile" class="pt-4 pl-3 pr-3" >
 				<div class="row">
 					<div class="col-sm-12">
-						<div class="inputBox" data-toggle="tooltip" title="수정할 수 없는 항목입니다">
+						<div class="inputBox" title="수정할 수 없는 항목입니다">
 							<div class="inputText">Email *</div>
 							<input type="text" id="inputEmail" name="inputEmail" class="input disabled" >
 						</div>

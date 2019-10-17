@@ -63,7 +63,7 @@
 		$userpassword = $_POST['inputPassword'];
 		
 		try {
-			// Controller에 있는 db connection
+			// controller에 있는 db connection
 			$query = $this->db->prepare('select user_id, kname, user_pw, act_yn from TB_USMNF where upper(email) = upper(:email)');
 			$query->bindParam(':email', $email);
 			$query->execute();

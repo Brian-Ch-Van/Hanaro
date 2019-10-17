@@ -21,10 +21,6 @@
 		<!-- favicon -->
         <link rel="shortcut icon" href="<?php echo ICON_URL;?>/h_favicon.png" />		
 		
-		<style>
-			.ui-datepicker-calendar tr { color: #000000; }	
-		</style>
-		
 		<script type="text/javascript">
 			$(document).ready(function () {
 
@@ -51,11 +47,10 @@
 				
 				// 직원 확인
 				$('#btnEmpCnf').on('click', function (e) {
-				    e.preventDefault();		// 다른 이벤트 정지, 자동 form submit 방지
+				    e.preventDefault();	
 
 					var empNo = $.trim($('#inputEmpNo').val());
 
-					// null/빈값 체크 - common js에 공통함수 적용 
 					if(isEmpty(empNo)) {
 					    $("#info").text('직원번호를 입력하세요.').css('color', 'red');
 					} else {
@@ -194,15 +189,14 @@
 					$(this).val(replaceUpper(postal));
 				});
 
-			    // 달력 default set
 	            $.datepicker.setDefaults({
 	                dateFormat: 'yymmdd' 		// input format - yyyyMMdd
 	                ,showOtherMonths: true 
 	                ,showMonthAfterYear:true	
 	                ,changeYear: true
 	                ,changeMonth: true
-	                //,showOn: "both" 			// 달력 아이콘 표시, button/both  
-	                //,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" // 달력 버튼 이미지 경로
+	                //,showOn: "both" 			  
+	                //,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif"
 	                //,buttonImageOnly: true
 	                //,buttonText: "날짜선택"
 	                ,yearSuffix: "년"
@@ -215,7 +209,6 @@
 	            	//,yearRange: "-50:+1"		// 년도 range
 	            });	
 	            
-	            // 생년월일 달력 적용
 	            $("#inputBirth").datepicker({yearRange: "-90:+1"});
 	            						
 				/* --------------------------
@@ -223,8 +216,8 @@
 				 * --------------------------
 				*/ 
 				$('#btnSignUp').on('click', function (e) {
-				    e.preventDefault();		// 다른 이벤트 정지, 자동 form submit 방지
-				    e.stopPropagation();	// 이벤트 상위로 전파 금지
+				    e.preventDefault();	
+				    e.stopPropagation();
 				    
 				    /* 
 				    * ------------------------------------------
@@ -297,7 +290,7 @@
 				    	type		: 'post',
 				    	data		: formData, 
 				    	dataType	: 'json',
-				    	async		: false,	// 동기식 처리
+				    	async		: false,
 				    	success		: function (result) {
 				    	    if(result.success == true) {
 								$('#modalCenterTitle').text('CONFIRM');
@@ -338,7 +331,7 @@
 
 				// ajax error 공통 처리
 				$.ajaxSetup({
-			    	error: function(jqXHR, exception, errorThrown) {	// option 3가지이지만 jqXHR에서 에러 내용 확인 가능
+			    	error: function(jqXHR, exception, errorThrown) {
 			        	if (jqXHR.status === 0) {
 			                alert('[Error Code : 0] Not connect.\n Verify Network.');
 			            } else if (jqXHR.status == 400) {
@@ -421,21 +414,8 @@
 						<small id="emailCnfInline"></small>
 					</div>
 				</div>
-				
-				<!-- 
-				<div class="form-row">
-					<div class="form-group col-md-6">
-						<label for="inputKname">Korean Name *</label>
-						<input type="text" class="form-control" id="inputKname" placeholder="한글 이름" required>
-					</div>
-					<div class="form-group col-md-6">
-						<label for="inputEmail">E-mail</label>
-						<input type="text" class="form-control" id="inputEmail" placeholder="이메일">
-					</div>
-				</div>
-				 -->	
 				 
-				 <div class="form-row">
+				<div class="form-row">
 					<div class="form-group col-md-6" id="divPw">
 						<label for="inputPw">Password *</label>
 						<input type="password" class="form-control" id="inputPw" name="inputPw" placeholder="비밀번호" required>

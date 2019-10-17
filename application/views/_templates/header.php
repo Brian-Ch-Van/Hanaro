@@ -1,5 +1,4 @@
 <?php
-	
 	// session에 user_name 있으면 로그인 한 상태
 	if (isset($_SESSION['user_name']) && !empty($_SESSION['user_name'])) {
 		//echo $_SESSION['user_name'] . '님이 로그인 했습니다.';
@@ -44,29 +43,28 @@
 		<link rel="stylesheet" href="<?php echo CSS_URL;?>/billboard/billboard.css">
 		
 		<script type="text/javascript">
+
 			$(document).ready(function() {
-			    
+				
+// 		        $("#navbarCollapse").click( function() {
+// 		            $(this).toggleClass('active');
+// 		        });
+
 				// sign out
 				$("#sign_out").on("click", function() {
 				    location.href = "<?php echo URL; ?>/login/signOut";
 				});
 
-				// 메뉴 선택
-				$('#menuBar a').on('click', function (e) {
-				   //e.preventDefault();		// 기존 이벤트 무시, javascript 이벤트 포함
- 				   //$('#menuBar li').removeClass('active');
- 				   //$(this).addClass("active");
-				   //location.href = "<?php echo URL;?>/product";
-				});
-
+				
 			});
 		</script>
+
 	</head>
 	
 	<body class="d-flex flex-column h-100 bg-light">
 		<header>
 			<!-- Fixed navbar -->
-			<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+			<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark" >
 				<!-- <img src="<?php echo ICON_URL; ?>/h_logo.png" width="30" height="30" class="d-inline-block align-top" alt="Hana Solutions"> -->
 				<a class="navbar-brand" href="<?php echo URL; ?>/home">Hana Solutions</a>
 				
@@ -78,10 +76,10 @@
 				<!-- Nav menu -->
 				<div class="collapse navbar-collapse" id="navbarCollapse">
 					<ul class="navbar-nav bd-navbar-nav" id="menuBar">
-						<li class="nav-item active" >
+						<li class="nav-item " name="activeTest">
 							<a class="nav-link" href="<?php echo URL; ?>/home">Home</a>
 						</li>
-						<li class="nav-item active" >
+						<li class="nav-item " name="activeTest">
 							<a class="nav-link" href="<?php echo URL; ?>/sales">Sales</a>
 						</li>
 						<!-- 
@@ -95,7 +93,7 @@
 							<a class="nav-link" href="<?php echo URL; ?>/customer">Customer</a>
 						</li>
 						 -->
-						<li class="nav-item dropdown">
+						<li class="nav-item dropdown" name="activeTest">
 							<a class="nav-link dropdown-toggle" href="" id="admin_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 							<div class="dropdown-menu" aria-labelledby="admin_dropdown">
 								<a class="dropdown-item" href="<?php echo URL; ?>/admin">사용자목록</a>
@@ -110,9 +108,10 @@
 					</form>
 					-->
 				</div>
+				<!-- Nav menu end -->
 				
 				<ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-					<li class="nav-item dropdown active">
+					<li class="nav-item dropdown">
 						<a class="nav-item nav-link dropdown-toggle mr-md-2 text-warning" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Hello <?php echo $_SESSION['user_name']; ?> !
 						</a>
@@ -130,3 +129,20 @@
 		
 		<?php require 'signoutmodal.php'; ?>
 
+	<script type="text/javascript">
+
+		// Menu active
+		var loc_path = location.pathname;
+		$('li.active').removeClass('active');
+	
+		if(loc_path.includes('/home')){
+			$('li :eq(0)').addClass('active');
+		} else if(loc_path.includes('/sales')) {
+			$('li :eq(1)').addClass('active');
+		} else if(loc_path.includes('/admin')) {
+			$('li :eq(2)').addClass('active');
+		}	// .. menu add 
+
+
+		
+	</script>

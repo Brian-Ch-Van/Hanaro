@@ -38,9 +38,6 @@ class Controller
 			// PDO 에러 표시 설정
 			$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-			// session 초기화
-			session_start();
-			
 		} catch (PDOException $e) {
 			echo 'DB Connection failed: ' . $e->getMessage();
 			exit;

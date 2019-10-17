@@ -43,8 +43,8 @@
                 ,showMonthAfterYear:true 	
                 ,changeYear: true 			
                 ,changeMonth: true 			               
-                //,showOn: "both" 			// 달력 아이콘 표시, button:아이콘 표시하고,눌러야만 달력 표시, both:아이콘 표시하고, 누르거나 input을 클릭하면 달력 표시  
-                //,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" // 달력 버튼 이미지 경로
+                //,showOn: "both" 			  
+                //,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif"
                 //,buttonImageOnly: true 	
                 //,buttonText: "날짜선택" 		             
                 ,yearSuffix: "년" 		
@@ -57,19 +57,15 @@
             	//,yearRange: "-50:+1"		// 년도 range
             });	
             
-            // 날짜 input을 datepicker로 선언
             $("#inputResignYmd").datepicker({yearRange: "-10:+1"});
             $("#inputBirth").datepicker({yearRange: "-90:+1"});
 		    
-		    // 목록가기 버튼
+		    // 목록 버튼
 			$("#btnCancel").on('click', function() {
 				location.href="<?php echo URL;?>/admin";
 			});
 
-			// 전화번호 format - 공통 format check 함수: phoneNoFormat
 			$('#inputPhoneNo').on('keyup', phoneNoFormat);
-
-			// 휴대전화 format - 공통 format check 함수
 			$('#inputCellNo').on('keyup', phoneNoFormat);	
 
 			// postal uppercase, trim

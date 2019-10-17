@@ -18,7 +18,7 @@ class Application
 	public function __construct() 
 	{
 		
-		$cancontroll = false;
+		$cancontrol = false;
 		$url = "";
 		
 		if (isset($_GET['url'])) {                          // url catch 됐으면
@@ -46,7 +46,7 @@ class Application
 			}
 			
 			if (method_exists($this->controller, $this->action)) {
-				$cancontroll = true;
+				$cancontrol = true;
 				
 				switch ($counts) {
 					case 0:
@@ -68,7 +68,7 @@ class Application
 		}
 		
 		// controller 객체와 action method가 없을 경우, 잘못된 url
-		if ($cancontroll == false) {
+		if ($cancontrol == false) {
 			require './application/views/error/404.php';
 		}
 		

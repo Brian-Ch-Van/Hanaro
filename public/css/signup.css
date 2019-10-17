@@ -80,3 +80,4 @@ body {
 .signup-form form a:hover {
 	text-decoration: underline;
 }
+.ui-datepicker-calendar tr { color: #000000; }
