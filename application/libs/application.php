@@ -69,7 +69,7 @@ class Application
 		
 		// controller 객체와 action method가 없을 경우, 잘못된 url
 		if ($cancontrol == false) {
-			require './application/views/error/404.php';
+			require './application/views/error/wrongpage.php';
 		}
 		
 	}

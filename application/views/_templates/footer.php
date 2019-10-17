@@ -12,7 +12,7 @@
 					<div class="col-6 col-md">
 						<h5>Vancouver</h5>
 						<ul class="list-unstyled text-small">
-							<li><a class="text-muted" ><i class="fas fa-map-marker-alt"></i> #419-1952 Kingsway Ave, Port Coquitlam, BC, V3C 1S5 Canada</a></li>
+							<li><a class="text-muted" ><i class="fas fa-map-marker-alt"></i> #419-1952 Kingsway Ave, Port Coquitlam, BC, V3C 6C2 Canada</a></li>
 							<li><a class="text-muted" ><i class="fas fa-phone-alt"></i> 778-285-2255</a></li>
 							<li><a class="text-muted" ><i class="fas fa-envelope"></i> support@hanasolution.com</a></li>
 						</ul>

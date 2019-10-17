@@ -38,12 +38,17 @@ class Profile extends Controller
 	 */
 	public function getProfInfo ($userId)
 	{
-		$profile_model = $this->loadModel('ProfileModel');
-		$profileInfo = $profile_model->selProfInfo($userId);
-		
-		require 'application/views/_templates/header.php';
-		require 'application/views/profile/profilemanage.php';
-		require 'application/views/_templates/footer.php';
+		if($userId != $_SESSION['user_id']) {
+			require 'application/views/error/warning.php';
+			
+		} else {
+			$profile_model = $this->loadModel('ProfileModel');
+			$profileInfo = $profile_model->selProfInfo($userId);
+			
+			require 'application/views/_templates/header.php';
+			require 'application/views/profile/profilemanage.php';
+			require 'application/views/_templates/footer.php';
+		}
 	}
 	
 	/**

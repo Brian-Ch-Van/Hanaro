@@ -23,7 +23,7 @@
 				</div>
 				
 				<div class="modal-footer bg-light">
-					<button type="button" class="btn btn-primary" data-dismiss="modal" id="confirmModal">확인</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" id="confirmModal">OK</button>
 				</div>
 				
 			</div>
