@@ -13,6 +13,7 @@ class LoginModel {
     
     function __construct($db) {
         
+    	// 파라미터로 받아온 DB Connection 객체를 model class 자신의 property로 set
         $this->dbCon = $db;
     }
     
