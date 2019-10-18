@@ -1,7 +1,7 @@
 
 <!-- 
  * Common Confirm Modal
- * used : 사용자 등록, 비밀번호 변경, 사용자 정보, 개인 정보   <add>..
+ * used : 사용자 등록, 비밀번호 변경, 사용자 정보 수정, Profile 수정  <add>..
 
  -->
 	

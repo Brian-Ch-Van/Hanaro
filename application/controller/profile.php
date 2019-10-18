@@ -38,16 +38,22 @@ class Profile extends Controller
 	 */
 	public function getProfInfo ($userId)
 	{
-		if($userId != $_SESSION['user_id']) {
-			require 'application/views/error/warning.php';
+		// 세션 키 값에 user_id 있고, userId가 있을 경우
+		if(array_key_exists('user_id', $_SESSION) && !empty($_SESSION['user_id']) && isset($userId)) {
+			if($userId != $_SESSION['user_id']) {
+				require 'application/views/error/warning.php';
+				
+			} else {
+				$profile_model = $this->loadModel('ProfileModel');
+				$profileInfo = $profile_model->selProfInfo($userId);
+				
+				require 'application/views/_templates/header.php';
+				require 'application/views/profile/profilemanage.php';
+				require 'application/views/_templates/footer.php';
+			}
 			
 		} else {
-			$profile_model = $this->loadModel('ProfileModel');
-			$profileInfo = $profile_model->selProfInfo($userId);
-			
-			require 'application/views/_templates/header.php';
-			require 'application/views/profile/profilemanage.php';
-			require 'application/views/_templates/footer.php';
+			require 'application/views/error/wrongpage.php';
 		}
 	}
 	

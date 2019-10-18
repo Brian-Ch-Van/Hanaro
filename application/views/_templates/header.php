@@ -6,7 +6,7 @@
 	} else {
 		header('location: ' . URL );
 	}
-
+	
 ?>
 
 <!doctype html>
@@ -51,7 +51,7 @@
 // 		        });
 
 				// sign out
-				$("#sign_out").on("click", function() {
+				$('#sign_out').on('click', function() {
 				    location.href = "<?php echo URL; ?>/login/signOut";
 				});
 
@@ -118,12 +118,15 @@
 						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
 							<a class="dropdown-item" href="<?php echo URL; ?>/profile/getProfInfo/<?php echo $_SESSION['user_id']; ?>">Profile</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="<?php echo URL; ?>/profile">Change password</a>        					
+							<a class="dropdown-item" href="<?php echo URL; ?>/profile">Change password</a>
 						</div>
 					</li>
 				</ul>
 				
 				<button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#signoutConfirm">Sign out</button>
+				<!-- 한/영 처리 추후 개발 
+				<a href="<?php echo URL;?>/home?lang=ko"><img class="ml-2" src="<?php echo IMG_URL;?>/kr_sm.png" alt="Kor_flag" title="한국어"/></a><a href="<?php echo URL;?>/home?lang=en"><img class="ml-1" src="<?php echo IMG_URL;?>/ca_sm.png" alt="Can_flag" title="English"/></a>
+				 -->
 			</nav>
 		</header>
 		

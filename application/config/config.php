@@ -5,6 +5,7 @@
 	define('CSS_URL', 'http://localhost/Hanaro/public/css');
 	define('JS_URL', 'http://localhost/Hanaro/public/js');
 	define('ICON_URL', 'http://localhost/Hanaro/public/icon');
+	define('IMG_URL', 'http://localhost/Hanaro/public/img');
 	
 	// DB Connection Info
 	define('HANA_WHOLE_SALES_DB_TYPE', 'mssql');

@@ -1,5 +1,14 @@
 <?php 
 
+/**
+ * 
+  * @desc		: Home 관련 controller
+  * @creator	: BrianC
+  * @date		: 2019. 9. 1.
+  * @Version	: 
+  * @history	: 
+  *
+ */
 class Home extends Controller
 {
 	
@@ -8,6 +17,13 @@ class Home extends Controller
 		$this->homeMain();
 	}
 	
+	/**
+	 * 
+	  * @Method Name	: homeMain
+	  * @desc			: home 화면 이동
+	  * @creator		: BrianC
+	  * @date			: 2019. 9. 1.
+	 */
 	public function homeMain() 
 	{
 		$home_model = $this->loadModel('HomeModel');
