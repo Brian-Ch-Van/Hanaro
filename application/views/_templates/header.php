@@ -76,10 +76,10 @@
 				<!-- Nav menu -->
 				<div class="collapse navbar-collapse" id="navbarCollapse">
 					<ul class="navbar-nav bd-navbar-nav" id="menuBar">
-						<li class="nav-item " name="activeTest">
+						<li class="nav-item" id="li_home">
 							<a class="nav-link" href="<?php echo URL; ?>/home">Home</a>
 						</li>
-						<li class="nav-item " name="activeTest">
+						<li class="nav-item" id="li_sales">
 							<a class="nav-link" href="<?php echo URL; ?>/sales">Sales</a>
 						</li>
 						<!-- 
@@ -93,12 +93,18 @@
 							<a class="nav-link" href="<?php echo URL; ?>/customer">Customer</a>
 						</li>
 						 -->
-						<li class="nav-item dropdown" name="activeTest">
+						<li class="nav-item dropdown" id="li_admin">
 							<a class="nav-link dropdown-toggle" href="" id="admin_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 							<div class="dropdown-menu" aria-labelledby="admin_dropdown">
-								<a class="dropdown-item" href="<?php echo URL; ?>/admin">사용자목록</a>
+								<a class="dropdown-item" href="<?php echo URL; ?>/admin">User List</a>
 							</div>
 						</li>
+						<li class="nav-item dropdown" id="li_system">
+							<a class="nav-link dropdown-toggle" href="" id="system_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">System</a>
+							<div class="dropdown-menu" aria-labelledby="system_dropdown">
+								<a class="dropdown-item" href="<?php echo URL; ?>/system/getRsrcList">Resource Manage</a>
+							</div>
+						</li>						
 					</ul>
 									
 					<!-- search box 
@@ -137,13 +143,16 @@
 		// Menu active
 		var loc_path = location.pathname;
 		$('li.active').removeClass('active');
+// 		alert('loc_pat = ' + loc_path);
 	
 		if(loc_path.includes('/home')){
-			$('li :eq(0)').addClass('active');
+			$('#li_home').addClass('active');
 		} else if(loc_path.includes('/sales')) {
-			$('li :eq(1)').addClass('active');
+			$('#li_sales').addClass('active');
 		} else if(loc_path.includes('/admin')) {
-			$('li :eq(2)').addClass('active');
+			$('#li_admin').addClass('active');
+		} else if(loc_path.includes('/system')) {
+			$('#li_system').addClass('active');
 		}	// .. menu add 
 
 

@@ -45,6 +45,7 @@ class Application
 				if (!empty($params[1])) $this->action = $params[1];
 			}
 			
+			// controller 객체와  action method 존재 시 올바른 url 
 			if (method_exists($this->controller, $this->action)) {
 				$cancontrol = true;
 				

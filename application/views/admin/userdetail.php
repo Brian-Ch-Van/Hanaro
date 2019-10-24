@@ -75,6 +75,12 @@
 				$(this).val(replaceUpper(postal));
 			});
 
+			$('input').keydown( function() {
+				if (event.keyCode === 13) {
+					event.preventDefault();
+				};
+			});			
+
 		    // 저장
 		    //var actYn = $('input[name="inputActYn"]:checked').val();
 		    $('#btnSignUp').on('click', function (e) {
@@ -112,7 +118,15 @@
 							$('#cnfModal').modal('show');
 							return;
 			    	    }
-			    	}
+			    	},
+			    	error : function (jqXHR, textStatus, errorThrown) {	
+					    //alert("Error Occur : \n code = "+ jqXHR.status + "\n status = " + jqXHR.statusText + "\n message = \n" + jqXHR.responseText);
+						$('.modal-title').text('ERROR');
+						$('#modalHeader').addClass('bg-danger');
+						$('#modalMsg').html(jqXHR.responseText);
+						
+						$('#cnfModal').modal('show');
+					}			    	
 			    }); // end ajax
 		    	
 			}); // end 저장

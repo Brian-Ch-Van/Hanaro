@@ -2,8 +2,8 @@
 	<!-- Begin page content -->
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<h1 class="mt-4">HOME</h1>
-
+		
+			<h2 class="mt-4" style="font-weight: bold;">Home</h2>
 			<div class="card-deck mb-3 text-center">
 				<div class="card mb-4 shadow-sm">
 					<div class="card-header">

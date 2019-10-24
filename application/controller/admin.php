@@ -138,23 +138,6 @@ class Admin extends Controller
 		}
 	}
 	
-	/**
-	 * 
-	  * @Method Name	: eplyList
-	  * @desc			: 직원 목록 조회
-	  * @creator		: BrianC
-	  * @date			: 2019. 9. 23.
-	 */
-	public function eplyList () 
-	{
-		$model = $this->loadModel("EmployeeModel");
-		$eply_list = $model->getEplyList();
-		
-		require 'application/views/_templates/header.php';
-		require 'application/views/admin/employeelist.php';
-		require 'application/views/_templates/footer.php';
-	}
-	
 	// Sales -> 메뉴 이동 필요???
 	public function sales ()
 	{

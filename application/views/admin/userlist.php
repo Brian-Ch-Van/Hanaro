@@ -40,7 +40,7 @@
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
 
-			<h2 class="mt-4" style="font-weight: bold;">사용자 목록</h2>
+			<h2 class="mt-4" style="font-weight: bold;">User List</h2>
 			<form class="mb-1 pt-2 pr-2 pl-2" method="post" id="formSearch" name="formSearch" style="background-color:#e5e8ec;" action="<?php echo URL;?>/admin/userList/">
 				<input class="col-md-12" type="text" id="inputSch" onkeyup="searchList()" placeholder="빠른 검색 - 이름을 입력하세요" title="이름을 입력하세요">
 				

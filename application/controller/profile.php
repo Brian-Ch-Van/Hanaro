@@ -32,7 +32,7 @@ class Profile extends Controller
 	/**
 	 * 
 	  * @Method Name	: getProfInfo
-	  * @desc			: 프로필 정보 관리 화면
+	  * @desc			: 프로필 정보 관리 화면 오픈
 	  * @creator		: BrianC
 	  * @date			: 2019. 9. 24.
 	 */
@@ -60,7 +60,7 @@ class Profile extends Controller
 	/**
 	 * 
 	  * @Method Name	: modifyProfInfo
-	  * @desc			: 개인 정보 수정
+	  * @desc			: 프로필 정보 수정
 	  * @creator		: BrianC
 	  * @date			: 2019. 10. 15.
 	  * @throws exception

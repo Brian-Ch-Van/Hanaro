@@ -13,8 +13,8 @@ class ProfileModel
 	function __construct ($db) 
 	{
 		$this->dbCon = $db;
-		$this->userName = $_SESSION['user_name'];
-// 		$this->loginUserId = $_SESSION['user_id'];
+		$this->userId = $_SESSION['user_id'];
+		$this->loginUserId = $_SESSION['user_id'];
 	}
 	
 	/**
@@ -27,12 +27,14 @@ class ProfileModel
 	 */
 	public function updatePassword ($newPw) 
 	{
-		$sql = "update tb_epmnm
-					set pw = :newPw
-				where lower(fst_name) = lower(:fstName)";
+		$sql = "update TB_USMNF
+					set USER_PW = :newPw
+						, LST_UPD_USER = :loginUserId
+						, LST_UPD_DATE = getdate()
+				where user_id = :userId";
 		
 		$query = $this->dbCon->prepare($sql);
-		$query->execute(array(':newPw'=>$newPw, ':fstName'=>$this->userName));
+		$query->execute(array(':newPw'=>$newPw, ':loginUserId'=>$this->loginUserId, ':userId'=>$this->userId));
 		
 	}
 	
