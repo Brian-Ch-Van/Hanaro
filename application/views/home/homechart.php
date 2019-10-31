@@ -91,6 +91,7 @@
 						<h1 class="card-title pricing-card-title"><small class="text-muted">Unused</small></h1>
 						<ul class="list-unstyled mt-3 mb-4">
 							<li>Comming soon</li>
+						</ul>
 					</div>
 				</div>
 				<div class="card mb-4 shadow-sm">

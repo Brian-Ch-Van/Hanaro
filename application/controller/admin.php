@@ -20,7 +20,7 @@ class Admin extends Controller
 	/**
 	 * 
 	  * @Method Name	: userList
-	  * @desc			: 사용자 목록 조회
+	  * @desc			: 사용자 목록 조회 - 페이징 적용
 	  * @creator		: BrianC
 	  * @date			: 2019. 9. 23. 최초 생성
 	 */
@@ -32,7 +32,7 @@ class Admin extends Controller
 		// 검색 조건에 맞는 전체 데이터 조회
 		$userList = $user_model->selUserList($schData, 0, '');
 		
-		// 페이징 처리 start =============================
+		// paging start =============================
 		$totalCnt = count($userList);	// 데이터 전체 건 수
 		
 		$page = 1;	// 현재 페이지
@@ -61,14 +61,14 @@ class Admin extends Controller
 		if($pageNum <= $endPage) {
 			$endPage = $pageNum;
 		}
-
+		
 		$startRow = ($page-1) * $list;		// 페이징에서 조회 할 시작 row
 		
-		// 페이징 처리 end =============================
-
+		// paging end =============================
+		
 		// 페이징 적용한 리스트
 		$userList = $user_model->selUserList($schData, $startRow, $list);
-
+		
 		require 'application/views/_templates/header.php';
 		require 'application/views/admin/userlist.php';
 		require 'application/views/_templates/footer.php';

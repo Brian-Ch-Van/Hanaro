@@ -155,6 +155,36 @@ class LoginModel {
     							':addProvince'=>$data['inputProvince'], ':postal'=>$data['inputPostal'], ':rstUser'=>$data['inputUserId'], ':lstUpdUser'=>$data['inputUserId']));
     }
     
+    /**
+     * 
+      * @Method Name	: selUserInfo
+      * @desc			: sign in user 정보 조회
+      * @creator		: BrianC
+      * @date			: 2019. 10. 28.
+      * @param 			: $email
+      * @return 		: user info
+     */
+    public function selUserInfo ($email) 
+    {
+    	try {
+    		$sql = "select 
+						user_id, kname, user_pw, act_yn 
+					from TB_USMNF 
+					where upper(email) = upper(:email)";
+    		
+    		$query = $this->dbCon->prepare($sql);
+    		$query->bindParam(':email', $email);
+    		
+    		$query->execute();
+    		
+    	}  catch (PDOException $e) {
+    		die("Database error : " . $e->getMessage());
+    	}
+
+    	return $query->fetch();
+    	
+    }
+    
 }
 
 ?>

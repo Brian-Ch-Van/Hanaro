@@ -1,13 +1,13 @@
 @charset "EUC-KR";
 #inputSch {
-  background-image: url('../../public/icon/icons-search-24.png'); /* Add a search icon to input */
-  background-position: 10px 12px; /* Position the search icon */
-  background-repeat: no-repeat; /* Do not repeat the icon image */
-  width: 100%; /* Full-width */
-  font-size: 15px; /* Increase font-size */
-  padding: 12px 20px 12px 40px; /* Add some padding */
-  border: 1px solid #bfcdda; /* Add a grey border */
-  margin-bottom: 12px; /* Add some space below the input */
+  background-image: url('../../public/icon/icons-search-24.png'); 
+  background-position: 10px 12px; 
+  background-repeat: no-repeat; 
+  width: 100%; 
+  font-size: 15px; 
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #bfcdda; 
+  margin-bottom: 12px; 
 }
 #tableUserList th {
 	cursor: pointer;
@@ -43,5 +43,8 @@
 	cursor: pointer;
 }
 .hasDatepicker{
+	cursor: pointer;
+}
+#tableRsrcList th {
 	cursor: pointer;
 }

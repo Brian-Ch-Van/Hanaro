@@ -1,4 +1,7 @@
-
+<?php 
+	$splitFileName = explode('\\', __FILE__); 
+	require 'application/views/_templates/authvalid.php';
+?>
 	<script type="text/javascript">
 		$(document).ready(function () {
 		    
@@ -62,7 +65,7 @@
 							<?php 
 							$listArr = array(15, 30, 50, 100);
 							foreach ($listArr as $val) {
-								if($val == $schData['inputListCnt']) {
+								if(!empty($schData['inputListCnt']) && $val == $schData['inputListCnt']) {
 							?>
 							<option selected value="<?= $val?>" >List - <?= $val?></option>
 							<?php } else {?>

@@ -18,36 +18,36 @@ class Application
 	public function __construct() 
 	{
 		
-		$cancontrol = false;
+		$ctrlVerify = false;
 		$url = "";
 		
-		if (isset($_GET['url'])) {                          // url catch 됐으면
-			$url = rtrim($_GET['url'], '/');                // url 오른쪽 '/' 자르고
-			$url = filter_var($url, FILTER_SANITIZE_URL);   // url아닌 문자들 제거
+		if (isset($_GET['url'])) {                   
+			$url = rtrim($_GET['url'], '/');                
+			$url = filter_var($url, FILTER_SANITIZE_URL);
 		}
 		
-		$params = explode('/', $url);	// '/' 기준으로 문자 잘라서
-		$counts = count($params);		// param의 크기
+		$params = explode('/', $url);	
+		$counts = count($params);
 		
 		$this->controller = "login";		// Root Url 다음의 기본 값을 login으로 설정. localhost/Hanaro = localhost/Hanaro/login
 		
 		if (isset($params[0])) {
-			if(!empty($params[0])) $this->controller = $params[0];	// Root url 다음 주소값을 controller에 set
+			if(!empty($params[0])) $this->controller = $params[0];
 		}
 
 		if (file_exists('./application/controller/' . $this->controller . '.php')) {
 			require './application/controller/' . $this->controller . '.php';    // controller 파일 호출
 			
 			$this->controller = new $this->controller();	// 위에서 실행한 파일명의 class 객체 생성. controller는 이제 class 객체
-			$this->action = "index";						// 기본 실행 method 명에 index set하기 위해
+			$this->action = "index";						// 기본 실행 method 명에 index set
 			
-			if (isset($params[1])) {		// null 체크
+			if (isset($params[1])) {
 				if (!empty($params[1])) $this->action = $params[1];
 			}
 			
-			// controller 객체와  action method 존재 시 올바른 url 
+			// controller 객체와  action method => 올바른 url 
 			if (method_exists($this->controller, $this->action)) {
-				$cancontrol = true;
+				$ctrlVerify = true;
 				
 				switch ($counts) {
 					case 0:
@@ -68,8 +68,8 @@ class Application
 			}
 		}
 		
-		// controller 객체와 action method가 없을 경우, 잘못된 url
-		if ($cancontrol == false) {
+		// controller 객체와 action method가 없을 경우 => 잘못된 url
+		if ($ctrlVerify == false) {
 			require './application/views/error/wrongpage.php';
 		}
 		

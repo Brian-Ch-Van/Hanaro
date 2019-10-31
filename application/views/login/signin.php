@@ -12,11 +12,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Hana Solutions - Sign In</title>
         
-        <link href="public/css/bootstrap.min.css" rel="stylesheet" >
-        <link href="public/css/signin.css" rel="stylesheet" >
+        <link href="<?php echo CSS_URL; ?>/bootstrap.min.css" rel="stylesheet" >
+        <link href="<?php echo CSS_URL; ?>/signin.css" rel="stylesheet" >
         
         <!-- favicon -->
-        <link rel="shortcut icon" href="public/icon/h_favicon.png" />
+        <link rel="shortcut icon" href="<?php echo ICON_URL; ?>/h_favicon.png" />
 
 		<!-- jQuery -->
 		<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -29,8 +29,8 @@
 
 	</head>
 	<body class="text-center">
-		<form class="form-signin" method="post">
-			<img class="mb-3" src="public/icon/text_logo.png" alt="" width="300">
+		<form class="form-signin" method="post" action="<?php echo URL; ?>/login/signIn/">
+			<img class="mb-3" src="<?php echo ICON_URL;?>/text_logo.png" alt="" width="300">
 			<h1 class="h3 mb-4 font-weight-normal">Please sign in</h1>
 			<div class="mb-3" id="info"></div>
 			
@@ -55,67 +55,88 @@
 </html>
 
 <?php 
-	$loginValid = false;
+// 	$loginValid = false;
 
-	if (($_SERVER['REQUEST_METHOD'] == 'POST') and isset($_POST['login']))
-	{
-		$email = $_POST['inputEmail'];
-		$userpassword = $_POST['inputPassword'];
+// 	if (($_SERVER['REQUEST_METHOD'] == 'POST') and isset($_POST['login']))
+// 	{
+// 		$email = $_POST['inputEmail'];
+// 		$userpassword = $_POST['inputPassword'];
 		
-		try {
-			// controller에 있는 db connection
-			$query = $this->db->prepare('select user_id, kname, user_pw, act_yn from TB_USMNF where upper(email) = upper(:email)');
-			$query->bindParam(':email', $email);
-			$query->execute();
+// 		try {
+// 			// controller에 있는 db connection
+// 			$query = $this->db->prepare('select user_id, kname, user_pw, act_yn from TB_USMNF where upper(email) = upper(:email)');
+// 			$query->bindParam(':email', $email);
+// 			$query->execute();
 			
-		} catch (PDOException $e) {
-			die("Database error : " . $e->getMessage());
-		}
+// 		} catch (PDOException $e) {
+// 			die("Database error : " . $e->getMessage());
+// 		}
 		
-		$cnt = $query->rowcount();
-		$row = $query->fetch();
+// 		$cnt = $query->rowcount();
+// 		$row = $query->fetch();
 		
-		$infoMsg = "";
+// 		$infoMsg = "";
 		
-		if($cnt != 0) {
-			$actYn = $row['act_yn']; 
-			if($actYn == 'N') {
-				$infoMsg = "사용자 아이디의 계정이 승인되지 않았습니다.<br> 관리자에게 문의해주세요.";
+// 		if($cnt != 0) {
+// 			$actYn = $row['act_yn'];  
+// 			if($actYn == 'N') {
+// 				$infoMsg = "사용자 아이디의 계정이 승인되지 않았습니다.<br> 관리자에게 문의해주세요.";
 				
-			} else {
-				$password = $row['user_pw'];
-				// 비밀번호 복호화 로직 적용. table에 암호화 된 비빌번호가 저장되어 있고, 로그인 할 때 복호화해서 비교
-				$encryptObj = new Encryption();
-				$plainedPw = $encryptObj->decryptAes($password);
+// 			} else {
+// 				$password = $row['user_pw'];
 				
-				if($userpassword == $plainedPw) {
-					$loginValid = true;
-				} else {
-					$infoMsg = '비밀번호를 확인해 주세요.';
-				}
-			}
+// 				$encryptObj = new Encryption();
+// 				$plainedPw = $encryptObj->decryptAes($password);
+				
+// 				if($userpassword == $plainedPw) {
+// 					$loginValid = true;
+// 				} else {
+// 					$infoMsg = '비밀번호를 확인해 주세요.';
+// 				}
+// 			}
 			
-		} else {
-			$infoMsg = '등록된 사용자가 아닙니다.';
-		}
+// 		} else {
+// 			$infoMsg = '등록된 사용자가 아닙니다.';
+// 		}
 		
-		// 로그인 성공 시
-		if ($loginValid) {
-			session_regenerate_id();		// Update the current session id with a newly generated one
-			// session 값 set
-			$_SESSION['user_name'] = $row['kname'];
-			$_SESSION['user_id'] = $row['user_id'];
-			$_SESSION['user_pw'] = $userpassword;
-			session_write_close();			// Write session data and end session
+// 		// 로그인 성공 시
+// 		if ($loginValid) {
+// 			session_regenerate_id();		// Update the current session id with a newly generated one
+// 			// session 값 set
+// 			$_SESSION['user_name'] = $row['kname'];
+// 			$_SESSION['user_id'] = $row['user_id'];
+// 			$_SESSION['user_pw'] = $userpassword;
 			
-			// homemain.php 화면 이동
-			header('location: '. URL. '/home');
+// 			// 권한 테스트 ==========
+// // 			$const = new ConstClass();
 			
-		} else {
-			echo "<script>checkInfo('$infoMsg');</script>";
-		}
-		
-	}
-?>
+// // 			if($row['user_id'] == '190001') {			// 수지
+// // 				$_SESSION['role_id'] = 'admin';
+				
+// // 			} else if ($row['user_id'] == '190129') {	// 윤아
+// // 				$_SESSION['role_id'] = 'van_cq_staff';
+				
+// // 			}
+			
+// // 			// 화면 권한 부여
+// // 			$_SESSION['rsrc_list'] = $const->getRsrcListByRoleId($_SESSION['role_id']);
+			
+// // 			require 'application/controller/commoncontrol.php';
+// // 			$comm = new CommonControl();
+// // 			$roleRsrcList = $comm->getRoleRsrcList($row['user_id']);
+// // 			echo $roleRsrcList;
+			
+// 			// 권한 테스트 ==========
+			
+// 			session_write_close();			// write session data and end session
+			
+// 			header('location: '. URL. '/home');
+			
+// 		} else {
+// 			echo "<script>checkInfo('$infoMsg');</script>";
+// 		}
+// 	}
+
+ ?>
 
 

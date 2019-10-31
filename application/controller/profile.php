@@ -150,6 +150,7 @@ class Profile extends Controller
 		} catch (Exception $e) {
 			$result['success']	= false;
 			$result['errMsg'] = $e->getMessage();
+			
 		} finally {
 			echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
 		}

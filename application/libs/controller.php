@@ -53,10 +53,10 @@ class Controller
 	  * @param  		: $model_name
 	  * @return 		: model class
 	 */
-	public function loadModel ($model_name) 
+	public function loadModel ($modelName) 
 	{
-		require 'application/models/' . strtolower($model_name) . '.php';
-		return new $model_name($this->db);
+		require 'application/models/' . strtolower($modelName) . '.php';
+		return new $modelName($this->db);
 	}
 	
 }

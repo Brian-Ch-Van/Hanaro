@@ -15,7 +15,7 @@ class Login extends Controller
 {
 	public function index () 
 	{
-		$this->signIn();
+		$this->openSignIn();
 	}
 	
 	/**
@@ -25,9 +25,114 @@ class Login extends Controller
 	  * @creator		: BrianC
 	  * @date			: 2019. 9. 9.
 	 */
-	public function signIn ()
+	public function openSignIn ()
 	{
 		require 'application/views/login/signin.php';
+	}
+	
+	/**
+	 * 
+	  * @Method Name	: signIn
+	  * @desc			: 사용자 validaion 확인 후 sign in
+	  * @creator		: BrianC
+	  * @date			: 2019. 10. 28.
+	 */
+	public function signIn () 
+	{
+		try {
+			$loginValid = false;
+			
+			if (($_SERVER['REQUEST_METHOD'] == 'POST') and isset($_POST['login']))
+			{
+				$email = $_POST['inputEmail'];
+				$userpassword = $_POST['inputPassword'];
+				
+				$login_model = $this->loadModel('LoginModel');
+				$userInfo = $login_model->selUserInfo($email);
+				
+				$infoMsg = "";
+				
+				if(!empty($userInfo) && count($userInfo) != 0) {
+					$actYn = $userInfo['act_yn'];
+					if($actYn == 'N') {
+						$infoMsg = "사용자 아이디의 계정이 승인되지 않았습니다.<br> 관리자에게 문의해주세요.";
+						
+					} else {
+						$password = $userInfo['user_pw'];
+						
+						$encryptObj = new Encryption();
+						$plainedPw = $encryptObj->decryptAes($password);
+						
+						if($userpassword == $plainedPw) {
+							$loginValid = true;
+						} else {
+							$infoMsg = '비밀번호를 확인해 주세요.';
+						}
+					}
+					
+				} else {
+					$infoMsg = '등록된 사용자가 아닙니다.';
+				}
+				
+				// 로그인 성공 시
+				if ($loginValid) {
+					session_regenerate_id();		// Update the current session id with a newly generated one
+					// session 값 set
+					$_SESSION['user_name'] = $userInfo['kname'];
+					$_SESSION['user_id'] = $userInfo['user_id'];
+					$_SESSION['user_pw'] = $userpassword;
+					
+					// 권한 테스트 ==========
+					/*
+					$const = new ConstClass();
+					if($row['user_id'] == '190001') {			// 수지
+						$_SESSION['role_id'] = 'admin';
+					} else if ($row['user_id'] == '190129') {	// 윤아
+						$_SESSION['role_id'] = 'van_cq_staff';
+					}
+					// 화면 권한 부여
+					$_SESSION['rsrc_list'] = $const->getRsrcListByRoleId($_SESSION['role_id']);
+					// 권한 테스트 ==========
+					*/
+					
+					// Role
+					$comm_model = $this->loadModel('CommonModel');
+					$roleRsrcList = $comm_model->selRoleRsrcList($userInfo['user_id']);
+					
+					$roleList = array();
+					$menuList = array();
+					$screenList = array();
+					
+					foreach ($roleRsrcList as $row ) {
+						array_push($roleList, $row['role_id']);
+						$roleUniqList = array_unique($roleList);
+						
+						if ($row['rsrc_type'] == 'M') {
+							array_push($menuList, ['menu_id' => $row['rsrc_id'], 'menu_name' => $row['rsrc_name']]);
+							
+						} else if ($row['rsrc_type'] == 'S') {
+							array_push($screenList, ['screen_id' => $row['rsrc_id'], 'screen_name' => $row['rsrc_name']]);
+						}
+					}
+
+					$_SESSION['role_list'] = $roleUniqList;
+					$_SESSION['menu_list'] = $menuList;
+					$_SESSION['screen_list'] = $screenList;
+					session_write_close();			// write session data and end session
+					
+					header('location: '. URL. '/home');
+					
+				} else {
+					require_once 'application/views/login/signin.php';
+					echo "<script>checkInfo('$infoMsg');</script>";
+				}
+				
+			}
+			
+		} catch (Exception $e) {
+			throw new exception ('Sign in 중 사용자 validation 오류가 발생했습니다. Error Message : ' + $e->getMessage());
+		}
+		
 	}
 	
 	/**

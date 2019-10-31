@@ -54,7 +54,10 @@ class System extends Controller
 					$rsrcInfo['inputRsrcId'] = $newRsrcId['new_rsrc_id'];
 				}
 				
-				$rsrcInfo['delYn'] = 'N';
+				if(empty($rsrcInfo['inputUseYn'])) {
+					$rsrcInfo['inputUseYn'] = 'Y';
+				}
+				
 				$rsrc_model->mergeRsrcInfo($rsrcInfo);
 				
 				$result = array();
@@ -107,7 +110,6 @@ class System extends Controller
 			echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
 		}
 	}
-	
 	
 	
 }

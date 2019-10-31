@@ -36,7 +36,7 @@ Class ResourceModel {
 					, sort_order
 					, parent_rsrc_id
 					, rsrc_path
-					, del_yn
+					, use_yn
 					, rst_user
 					, rst_date
 					, lst_upd_user
@@ -68,11 +68,12 @@ Class ResourceModel {
 							, ori.sort_order 		= :sortOrder
 							, ori.parent_rsrc_id 	= :parentRsrcId
 							, ori.rsrc_path 		= :rsrcPath
+							, ori.use_yn			= :useYn
 							, ori.lst_upd_user 		= :lstUpdUser
 							, ori.lst_upd_date 		= getdate()
 				when not matched then
-					insert (rsrc_id, rsrc_name, rsrc_type, rsrc_desc, sort_order, parent_rsrc_id, rsrc_path, del_yn, rst_user, rst_date, lst_upd_user, lst_upd_date)
-					values (:rsrcId2, :rsrcName2, :rsrcType2, :rsrcDesc2, :sortOrder2, :parentRsrcId2, :rsrcPath2, :delYn, :rstUser, getdate(), :lstUpdUser2, getdate());";
+					insert (rsrc_id, rsrc_name, rsrc_type, rsrc_desc, sort_order, parent_rsrc_id, rsrc_path, use_yn, rst_user, rst_date, lst_upd_user, lst_upd_date)
+					values (:rsrcId2, :rsrcName2, :rsrcType2, :rsrcDesc2, :sortOrder2, :parentRsrcId2, :rsrcPath2, :useYn2, :rstUser, getdate(), :lstUpdUser2, getdate());";
 		
 		// update
 		$query = $this->dbCon->prepare($sql);
@@ -83,6 +84,7 @@ Class ResourceModel {
 		$query->bindValue(':sortOrder', $rsrcInfo['inputSortOrder']);
 		$query->bindValue(':parentRsrcId', $rsrcInfo['inputParentRsrcId']);
 		$query->bindValue(':rsrcPath', $rsrcInfo['inputRsrcPath']);
+		$query->bindValue(':useYn', $rsrcInfo['inputUseYn']);
 		$query->bindValue(':lstUpdUser', $this->loginUserId);
 		// insert
 		$query->bindValue(':rsrcId2', $rsrcInfo['inputRsrcId']);
@@ -92,7 +94,7 @@ Class ResourceModel {
 		$query->bindValue(':sortOrder2', $rsrcInfo['inputSortOrder']);
 		$query->bindValue(':parentRsrcId2', $rsrcInfo['inputParentRsrcId']);
 		$query->bindValue(':rsrcPath2', $rsrcInfo['inputRsrcPath']);
-		$query->bindValue(':delYn', $rsrcInfo['delYn']);
+		$query->bindValue(':useYn2', $rsrcInfo['inputUseYn']);
 		$query->bindValue(':rstUser', $this->loginUserId);
 		$query->bindValue(':lstUpdUser2', $this->loginUserId);
 		
@@ -109,15 +111,11 @@ Class ResourceModel {
 	 */
 	public function deleteRsrcInfo ($rsrcId)
 	{
-		$sql = "update TB_RSMNF
-					set DEL_YN = 'Y'
-						, LST_UPD_USER = :lstUpdUser
-						, LST_UPD_DATE = getdate()
+		$sql = "delete TB_RSMNF
 				where rsrc_id = :rsrcId; ";
 		
 		$query = $this->dbCon->prepare($sql);
 		
-		$query->bindValue(':lstUpdUser', $this->loginUserId);
 		$query->bindValue(':rsrcId', $rsrcId);
 		$query->execute();
 	}

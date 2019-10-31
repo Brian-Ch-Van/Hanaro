@@ -1,3 +1,8 @@
+<?php 
+	$splitFileName = explode('\\', __FILE__); 
+	require 'application/views/_templates/authvalid.php';
+?>
+
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
@@ -5,10 +10,7 @@
     $( "#draggable" ).draggable();
     $( "#droppable" ).droppable({
       drop: function( event, ui ) {
-        $( this )
-          .addClass( "ui-state-highlight" )
-          .find( "p" )
-            .html( "Dropped!" );
+        $(this).addClass( "ui-state-highlight" ).find( "p" ).html( "Success!" );
       }
     });
   } );
@@ -24,11 +26,11 @@
 			<h1>sales/salesmain.php</h1>
 			
 <div id="draggable" class="ui-widget-content">
-  <p>Drag me to my target</p>
+  <p>Drag Source</p>
 </div>
  
 <div id="droppable" class="ui-widget-header">
-  <p>Drop here</p>
+  <p>Drop Area </p>
 </div>
 
 

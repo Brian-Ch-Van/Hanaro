@@ -1,4 +1,7 @@
-
+<?php 
+	$splitFileName = explode('\\', __FILE__); 
+	require 'application/views/_templates/authvalid.php';
+?>
 	<!-- for calender -->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
@@ -9,7 +12,7 @@
 
 		    // 조회된 사용자 정보 확인
 			<?php foreach ($profileInfo as $key => $value) { ?>
-			console.log('key: '+ '<?php echo $key?>' + ' value :  ' +'<?php echo $value?>');
+					console.log('key: '+ '<?php echo $key?>' + ' value :  ' +'<?php echo $value?>');
 			<?php }	?>
 			
 		    // 사용자 정보 set

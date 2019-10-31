@@ -30,8 +30,16 @@ class Home extends Controller
 		$sales_amt = $home_model->getSales();
 		
 		require 'application/views/_templates/header.php';
-		require 'application/views/home/homemain.php';
+		
+		if(in_array('admin', $_SESSION['role_list'])) {
+			require 'application/views/home/homechart.php';
+			
+		} else {
+			require 'application/views/home/homeinfo.php';
+		}
+		
 		require 'application/views/_templates/footer.php';
+
 	}
 	
 }

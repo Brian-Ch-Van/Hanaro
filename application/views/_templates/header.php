@@ -2,11 +2,9 @@
 	// session에 user_name 있으면 로그인 한 상태
 	if (isset($_SESSION['user_name']) && !empty($_SESSION['user_name'])) {
 		//echo $_SESSION['user_name'] . '님이 로그인 했습니다.';
-		
 	} else {
 		header('location: ' . URL );
 	}
-	
 ?>
 
 <!doctype html>
@@ -30,6 +28,8 @@
 
 		<!-- jQuery -->
 		<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>		
 		
 		<!-- Font Awesome (for icons) SDN을 따로 받았음 -->
 		<script src="https://kit.fontawesome.com/b531862797.js"></script>
@@ -43,18 +43,24 @@
 		<link rel="stylesheet" href="<?php echo CSS_URL;?>/billboard/billboard.css">
 		
 		<script type="text/javascript">
-
 			$(document).ready(function() {
-				
-// 		        $("#navbarCollapse").click( function() {
-// 		            $(this).toggleClass('active');
-// 		        });
 
+			    // bar menu controll by role
+				<?php foreach ($_SESSION['menu_list'] as $row) { ?>
+						console.log('mune_id: '+ '<?php echo $row['menu_id']?>' + ' / menu_name :' +'<?php echo $row['menu_name']?>');
+
+						$('#menuBar').find('li').each(function (){
+							var barMnNm = $(this).attr('id').split('_')[1];
+							if(barMnNm == '<?php echo $row['menu_name']; ?>') {
+									$(this).removeAttr('hidden');
+								}
+							});
+				<?php }	?>
+				
 				// sign out
 				$('#sign_out').on('click', function() {
 				    location.href = "<?php echo URL; ?>/login/signOut";
 				});
-
 				
 			});
 		</script>
@@ -76,30 +82,19 @@
 				<!-- Nav menu -->
 				<div class="collapse navbar-collapse" id="navbarCollapse">
 					<ul class="navbar-nav bd-navbar-nav" id="menuBar">
-						<li class="nav-item" id="li_home">
+						<li class="nav-item" id="li_Home" hidden>
 							<a class="nav-link" href="<?php echo URL; ?>/home">Home</a>
 						</li>
-						<li class="nav-item" id="li_sales">
+						<li class="nav-item" id="li_Sales" hidden>
 							<a class="nav-link" href="<?php echo URL; ?>/sales">Sales</a>
 						</li>
-						<!-- 
-						<li class="nav-item" >
-							<a class="nav-link" href="<?php echo URL; ?>/product">Product</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="<?php echo URL; ?>/branch">Branch</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="<?php echo URL; ?>/customer">Customer</a>
-						</li>
-						 -->
-						<li class="nav-item dropdown" id="li_admin">
+						<li class="nav-item dropdown" id="li_Admin" hidden>
 							<a class="nav-link dropdown-toggle" href="" id="admin_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 							<div class="dropdown-menu" aria-labelledby="admin_dropdown">
 								<a class="dropdown-item" href="<?php echo URL; ?>/admin">User List</a>
 							</div>
 						</li>
-						<li class="nav-item dropdown" id="li_system">
+						<li class="nav-item dropdown" id="li_System" hidden>
 							<a class="nav-link dropdown-toggle" href="" id="system_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">System</a>
 							<div class="dropdown-menu" aria-labelledby="system_dropdown">
 								<a class="dropdown-item" href="<?php echo URL; ?>/system/getRsrcList">Resource Manage</a>
@@ -136,7 +131,9 @@
 			</nav>
 		</header>
 		
-		<?php require 'signoutmodal.php'; ?>
+		<?php 
+			require 'signoutmodal.php';
+		?>
 
 	<script type="text/javascript">
 
@@ -146,15 +143,14 @@
 // 		alert('loc_pat = ' + loc_path);
 	
 		if(loc_path.includes('/home')){
-			$('#li_home').addClass('active');
+			$('#li_Home').addClass('active');
 		} else if(loc_path.includes('/sales')) {
-			$('#li_sales').addClass('active');
+			$('#li_Sales').addClass('active');
 		} else if(loc_path.includes('/admin')) {
-			$('#li_admin').addClass('active');
+			$('#li_Admin').addClass('active');
 		} else if(loc_path.includes('/system')) {
-			$('#li_system').addClass('active');
+			$('#li_System').addClass('active');
 		}	// .. menu add 
-
 
 		
 	</script>

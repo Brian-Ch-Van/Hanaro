@@ -2,21 +2,21 @@
 
 class SendMailCustom {
 	
-	/* smtp 의 호스트 설정 */
+	// smtp 의 호스트 설정
 	var $host="ssl://smtp.gmail.com";
-	/* smtp 계정 아이디 입력 */
+	// smtp 계정 아이디 입력
 	var $smtp_id="hanas.brian19@gmail.com";
-	/* smtp 계정 비밀번호 입력 */
+	// smtp 계정 비밀번호 입력
 	var $smtp_pw="";
 	
-	/* 디버그모드 - 활성 :1, 비활성 : 0; */
+	// 디버그모드 - 활성 :1, 비활성 : 0;
 	var $debug = 1;
-	/* 문자 인코딩 종류 설정*/
+	// 문자 인코딩 종류 설정
 	var $charset="UTF-8";
-	/* 메일의 기본 타입을 설정 */
+	// 메일의 기본 타입을 설정
 	var $ctype="text/plain";
 	
-	/* 아래 3개의 변수는 수정 금지 */
+	// 아래 3개의 변수는 수정 금지
 	var $fp;
 	var $lastmsg;
 	var $parts=array();
@@ -25,13 +25,12 @@ class SendMailCustom {
 		$this->	Sendmail();
 	}
 	
-	/* 기본설정대신 초기화 할 값이 있다면 클래스 초기화시 배열로 값을넘겨준다. */
+	// 기본 설정 대신 초기화 할 값이 있다면 클래스 초기화시 배열로 값을 넘겨준다
     function sendmailcustom($data=false) {
 
 		if($data!=false)
 		{
 			if(is_array($data)){
-			  /* 각각 배열의 정보는 기본설정 변수명과 같으니 그곳을 참고하길 바란다 */
 			  $this->host = !empty($data['host'])?$data['host']:$this->host;
 			  $this->smtp_id = !empty($data['smtp_id'])?$data['smtp_id']:$this->smtp_id;
 			  $this->smtp_pw = !empty($data['smtp_pw'])?$data['smtp_pw']:$this->smtp_pw;
@@ -42,7 +41,7 @@ class SendMailCustom {
 		}
     }
 
-     /*  smtp 통신을 한다. */
+     // smtp 통신을 한다.
     function dialogue($code, $cmd) {
         fputs($this->fp, $cmd."\r\n");
         $line = fgets($this->fp, 1024);
@@ -55,7 +54,7 @@ class SendMailCustom {
         if($matches[1] != $code) return false;
         return true;
     }
-     /*   smptp 서버에 접속을 한다. */
+     // smptp 서버에 접속을 한다.
     function connect($host='') {
         if($this->debug) {
             echo "SMTP(".$host.") Connecting...";
@@ -78,23 +77,23 @@ class SendMailCustom {
         $this->dialogue(250, "HELO phpmail");
         return true;
     }
-     /*  stmp 서버와의 접속을 끊는다. */
+     // stmp 서버와의 접속을 끊는다.
     function close() {
         $this->dialogue(221, "QUIT");
         fclose($this->fp);
         return true;
     }
-     /*  메시지를 보낸다. */
+     // send smtp
     function smtp_send($email, $from, $data,$cc_mail,$bcc_mail,$rel_to=false) {
 		
 		$id = $this->smtp_id;
         $pwd = $this->smtp_pw;
 			
-		/* 이메일 형식 검사 구간*/
+		// 이메일 형식 검사 구간
         if(!$mail_from = $this->get_email($from)) return false;
         if(!$rcpt_to = $this->get_email($email)) return false;   
 		
-		/* smtp  검사 구간 */
+		// smtp 검사 구간
 		if(!$this->dialogue(334, "AUTH LOGIN")) { return false; }
         if(!$this->dialogue(334, base64_encode($id)))  return false;
         if(!$this->dialogue(235, base64_encode($pwd)))  return false;
@@ -113,13 +112,13 @@ class SendMailCustom {
         $mime .= "From: ".$from."\r\n";
         $mime .= "To: ".$rel_to."\r\n";
       	
-		/* CC 메일 이 있을경우 */
+		// CC 
         if($cc_mail!=false){
 
 			 $mime .= "Cc: ".$cc_mail. "\r\n";
 			 
 		}
-        /* BCC 메일 이 있을경우 */
+        // BCC 
 		if($bcc_mail!=false) $mime .= "Bcc: ".$bcc_mail. "\r\n";
         
         fputs($this->fp, $mime);
@@ -127,7 +126,7 @@ class SendMailCustom {
         $this->dialogue(250, ".");
     }
     
-    /* Message ID 를 얻는다. */
+    // Message ID 
     function get_message_id() {
         $id = date("YmdHis",time());
         mt_srand((float) microtime() * 1000000);
@@ -136,7 +135,7 @@ class SendMailCustom {
         return $id;
     }
     
-    /* Boundary 값을 얻는다. */
+    // Boundary 값
     function get_boundary() {
         $uniqchr = uniqid(time());
         $one = strtoupper($uniqchr[0]);
@@ -145,7 +144,7 @@ class SendMailCustom {
         return "----=_NextPart_000_000${one}_${two}.${three}";
     }
 	
-    /* 첨부파일이 있을 경우 이 함수를 이용해 파일을 첨부한다. */
+    // 첨부파일 
     function attach($path, $name="", $ctype="application/octet-stream") {
         if(is_file($path)) {
             $fp = fopen($path, "r");
@@ -157,7 +156,7 @@ class SendMailCustom {
         } else return false;
     }
     
-     /*  Multipart 메시지를 생성시킨다. */
+     // Multipart 메시지를 생성
     function build_message($part) {
         $msg = "Content-Type: ".$part['ctype'];
         if($part['name']) $msg .= "; name=\"".$part['name']."\"";
@@ -167,7 +166,7 @@ class SendMailCustom {
         return $msg;
     }
 	
-    /*  SMTP에 보낼 DATA를 생성시킨다. */
+    // SMTP에 보낼 DATA를 생성
     function build_data($subject, $body) {
         $boundary = $this->get_boundary();
         $attcnt = sizeof($this->parts);
@@ -193,7 +192,7 @@ class SendMailCustom {
         return $mime;
     }
     
-    /* MX 값을 찾는다. */
+    // MX
     function get_mx_server($email) {
         
         if(!preg_match("/([\._0-9a-zA-Z-]+)@([0-9a-zA-Z-]+\.[a-zA-Z\.]+)/", $email, $matches)) return false;
@@ -202,13 +201,13 @@ class SendMailCustom {
         return $host;
     }
     
-     /*  이메일의 형식이 맞는지 체크한다. */
+     // 이메일의 형식이 맞는지 체크한다.
     function get_email($email) {
         if(!preg_match("/([\._0-9a-zA-Z-]+)@([0-9a-zA-Z-]+\.[a-zA-Z\.]+)/", $email, $matches)) return false;
         return "<".$matches[0].">";
     }
     
-    /* 메일을 전송한다. */
+    // send mail
     function send_mail($to, $from, $subject, $body,$cc_mail=false,$bcc_mail=false) {
 		
 		
