@@ -49,22 +49,13 @@ class CoreStandard
 			if (method_exists($this->controller, $this->action)) {
 				$ctrlVerify = true;
 				
-				switch ($counts) {
-					case 0:
-					case 1:
-					case 2:
-						$this->controller->{$this->action}();
-						break;
-					case 3:
-						$this->controller->{$this->action}($params[2]);
-						break;
-					case 4:
-						$this->controller->{$this->action}($params[2], $params[3]);
-						break;
-					case 5:
-						$this->controller->{$this->action}($params[2], $params[3], $params[4]);
-						break;
+				$paramArr = array();
+				for ($i = 3; $i <= $counts; $i++) {
+					array_push($paramArr, $params[$i-1]);
 				}
+				$paramStr = implode(',', $paramArr);
+				
+				$this->controller->{$this->action}($paramStr);
 			}
 		}
 		
