@@ -31,7 +31,7 @@ class Home extends Controller
 		
 		require 'application/views/_templates/header.php';
 		
-		if(in_array('admin', $_SESSION['role_list'])) {
+		if(!empty($_SESSION['role_list']) && in_array('admin', $_SESSION['role_list'])) {
 			require 'application/views/home/homechart.php';
 			
 		} else {
@@ -39,7 +39,6 @@ class Home extends Controller
 		}
 		
 		require 'application/views/_templates/footer.php';
-
 	}
 	
 }

@@ -139,7 +139,7 @@
 
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<h2 class="mt-4" style="font-weight: bold;">사용자 정보</h2>
+			<h2 class="mt-4" style="font-weight: bold;">User Information</h2>
 			
 			<!-- <form method="post" id="formProfile" style="background-color:#343a40; padding:15px 15px 15px 15px; color: white;"> -->
 			<form method="post" id="formProfile" style="background-color: #f0eded; padding:15px 15px 15px 15px;" >

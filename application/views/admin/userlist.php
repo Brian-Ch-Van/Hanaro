@@ -137,7 +137,8 @@
 			<div class="pagination justify-content-center mb-2">
 				<a href="javascript:goPage('<?php echo URL;?>/admin/userList?page=<?=$startPage-1?>');">&laquo;</a>
 				
-				<?php for ($i = $startPage; $i <= $endPage; $i++) {
+				<?php 
+					for ($i = $startPage; $i <= $endPage; $i++) {
 						if ($i == $page) {
 				?>
 				<a href="javascript:goPage('<?php echo URL;?>/admin/userList?page=<?=$i?>');" class="active"><?=$i?></a>

@@ -1,5 +1,14 @@
 <?php 
 
+/**
+ * 
+  * @desc		: 페이징 처리 클래스
+  * @creator	: BrianC
+  * @date		: 2019. 11. 4.
+  * @Version	: 
+  * @history	: 
+  *
+ */
 class PagingDeal {
 	
 	public function pagingList ($totalCnt, $list, $block ) 
@@ -9,21 +18,22 @@ class PagingDeal {
 			$page = $_GET['page'];
 		}
 		
-		$pageNum = ceil($totalCnt/$list);	// 총 페이지 수
-		$blockNum = ceil($pageNum/$block);	// 총 블록 수
-		$nowBlock = ceil($page/$block);		// 현재 블록
+		// define
+		$pageNum = ceil($totalCnt/$list);
+		$blockNum = ceil($pageNum/$block);	
+		$nowBlock = ceil($page/$block);		
 		
-		$startPage = ($nowBlock * $block) - ($block-1);	// 각 블록의 시작 페이지
+		$startPage = ($nowBlock * $block) - ($block-1);	
 		if($startPage <= 1) {
 			$startPage = 1;
 		}
 		
-		$endPage = $nowBlock * $block;		// 각 블록의 끝 페이지
+		$endPage = $nowBlock * $block;		
 		if($pageNum <= $endPage) {
 			$endPage = $pageNum;
 		}
 		
-		$startRow = ($page-1) * $list;		// 페이징에서 조회 할 시작 row
+		$startRow = ($page-1) * $list;		
 		
 		return $startRow;
 	}

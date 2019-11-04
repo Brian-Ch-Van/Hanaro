@@ -1,12 +1,11 @@
 <?php 
-	echo '<br><br><br><br><br>';
-	echo 'User role : ';
+	echo '<br><br><br><br><br> User role : ';
 	print_r($userRoleList);
-	echo '<br>';
-	echo 'Role auth screen list : ';
+	echo '<br> Role auth menu list : ';
+	print_r(array_column($userMenuList, 'menu_name'));
+	echo '<br> Role auth screen list : ';
 	print_r(array_column($userScreenList, 'screen_name'));
-	echo '<br>';
-	echo 'Current screen name : ' . $curScreenName . '<br>';
+	echo '<br> Current screen name : ' . $curScreenName . '<br>';
 	echo 'No authority!!';
 ?>
 	<script type="text/javascript">

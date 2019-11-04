@@ -17,12 +17,13 @@
 				var rId = td.eq(0).text();
 				var rName = td.eq(1).text();
 				var rType = td.eq(2).text();
-				var rDesc = td.eq(3).text();
-				var rUseYn = td.eq(4).text();
-				var rDate = td.eq(5).text();
-				var rPath = td.eq(6).text();
-				var rParentId = td.eq(7).text();
-				var rOrder = td.eq(8).text();
+				var rDispName = td.eq(3).text();
+				var rDesc = td.eq(4).text();
+				var rUseYn = td.eq(5).text();
+				var rDate = td.eq(6).text();
+				var rPath = td.eq(7).text();
+				var rParentId = td.eq(8).text();
+				var rOrder = td.eq(9).text();
 				
 				$('#inputRsrcId').val(rId);
 				$('#inputRsrcName').val(rName);
@@ -33,6 +34,7 @@
 				} else {
 					$('#inputRsrcType option:eq(0)').prop('selected', true);
 				}
+				$('#inputRsrcDispName').val(rDispName);
 				$('#inputRsrcDesc').val(rDesc);
 				$('#inputRsrcPath').val(rPath);
 				if(rUseYn == 'Y') {
@@ -54,6 +56,7 @@
 				$('#inputRsrcId').val('');
 				$('#inputRsrcName').val('');
 				$('#inputRsrcType option:eq(0)').prop('selected', true);
+				$('#inputRsrcDispName').val('');
 				$('#inputRsrcDesc').val('');
 				$('#inputRsrcPath').val('');
 				$('#inputParentRsrcId').val('');
@@ -73,7 +76,10 @@
 		    	} else if(isEmpty($('#inputRsrcType').val())) {
 		    	    $("#dialog").data('item', 'Type').data('bodyText', '을 선택해주세요.').data('id', 'inputRsrcType').dialog("open");
 			    	return;
-		    	}	
+		    	} else if(isEmpty($('#inputRsrcDispName').val())) {
+		    	    $("#dialog").data('item', 'Display Name').data('bodyText', '을 입력해주세요.').data('id', 'inputRsrcDispName').dialog("open");
+			    	return;
+		    	} 
 
 		    	$.ajax({
 			    	url			: '<?php echo URL;?>/system/saveRsrcInfo/', 
@@ -241,29 +247,34 @@
 							</select>
 						</div>
 						<div class="form-group col-md-4">
-							<label for="inputRsrcDesc">Desc.</label>
-							<input type="text" class="form-control" id="inputRsrcDesc" name="inputRsrcDesc" placeholder="설명" value="">
-						</div>
+							<label for="inputRsrcDispName">Display Name *</label>
+							<input type="text" class="form-control" id="inputRsrcDispName" name="inputRsrcDispName" placeholder="표시 이름" value="">
+						</div>						
+						
 					</div>
 					
 					<div class="form-row">
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-3">
+							<label for="inputRsrcDesc">Description</label>
+							<input type="text" class="form-control" id="inputRsrcDesc" name="inputRsrcDesc" placeholder="설명" value="">
+						</div>
+						<div class="form-group col-md-5">
 							<label for="inputRsrcPath">Path</label>
 							<input type="text" class="form-control" id="inputRsrcPath" name="inputRsrcPath" placeholder="경로" value="" >
 						</div>
 						<div class="form-group col-md-2">
-							<label for="inputUseYn">Use</label>
-							<select id="inputUseYn" name="inputUseYn" class="form-control">
-								<option value="" selected>Choose</option>
-								<option value="Y">Y</option>
-								<option value="N">N</option>
-							</select>
-						</div>						
-						<div class="form-group col-md-2">
 							<label for="inputParentRsrcId">Parent Id</label>
 							<input type="text" class="form-control" id="inputParentRsrcId" name="inputParentRsrcId" placeholder="상위 리소스" value="">
 						</div>
-						<div class="form-group col-md-2">
+						<div class="form-group col-md-1">
+							<label for="inputUseYn">Use</label>
+							<select id="inputUseYn" name="inputUseYn" class="form-control">
+								<option value="" selected>Y/N</option>
+								<option value="Y">Y</option>
+								<option value="N">N</option>
+							</select>
+						</div>							
+						<div class="form-group col-md-1">
 							<label for="inputSortOrder">Sort Order</label>
 							<input type="text" class="form-control" id="inputSortOrder" name="inputSortOrder" placeholder="순서" value="">
 						</div>
@@ -292,9 +303,10 @@
 							<th scope="col" onclick="sortTable(0, 'tableRsrcList')">ID</th>
 							<th scope="col" onclick="sortTable(1, 'tableRsrcList')">Name</th>
 							<th scope="col" onclick="sortTable(2, 'tableRsrcList')">Type</th>
-							<th scope="col" onclick="sortTable(3, 'tableRsrcList')">Desc.</th>
-							<th scope="col" onclick="sortTable(4, 'tableRsrcList')">Use</th>
-							<th scope="col" onclick="sortTable(5, 'tableRsrcList')">Register Date</th>
+							<th scope="col" onclick="sortTable(3, 'tableRsrcList')">Display Name</th>
+							<th scope="col" onclick="sortTable(4, 'tableRsrcList')">Desc.</th>
+							<th scope="col" onclick="sortTable(5, 'tableRsrcList')">Use</th>
+							<th scope="col" onclick="sortTable(6, 'tableRsrcList')">Register Date</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -303,6 +315,7 @@
 							<td scope="row" title=""><?= $row['rsrc_id']?></td>
 							<td title=""><?= htmlspecialchars($row['rsrc_name'], ENT_QUOTES, 'UTF-8'); ?></td>
 							<td title=""><?php if($row['rsrc_type'] == 'S'){ echo '화면'; } else if($row['rsrc_type'] == 'M') { echo '메뉴'; } ?></td>
+							<td title=""><?= htmlspecialchars($row['rsrc_disp_name'], ENT_QUOTES, 'UTF-8'); ?></td>
 							<td title=""><?= htmlspecialchars($row['rsrc_desc'], ENT_QUOTES, 'UTF-8'); ?></td>
 							<td title=""><?= htmlspecialchars($row['use_yn'], ENT_QUOTES, 'UTF-8'); ?></td>
 							<td title=""><?= date("Y-m-d", strtotime($row['rst_date']))?></td>

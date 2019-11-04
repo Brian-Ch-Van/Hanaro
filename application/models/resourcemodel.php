@@ -32,6 +32,7 @@ Class ResourceModel {
 					rsrc_id
 					, rsrc_name
 					, rsrc_type
+					, rsrc_disp_name
 					, rsrc_desc
 					, sort_order
 					, parent_rsrc_id
@@ -65,6 +66,7 @@ Class ResourceModel {
 							ori.rsrc_name 			= :rsrcName
 							, ori.rsrc_type 		= :rsrcType
 							, ori.rsrc_desc 		= :rsrcDesc
+							, ori.rsrc_disp_name	= :rsrcDispName
 							, ori.sort_order 		= :sortOrder
 							, ori.parent_rsrc_id 	= :parentRsrcId
 							, ori.rsrc_path 		= :rsrcPath
@@ -72,14 +74,15 @@ Class ResourceModel {
 							, ori.lst_upd_user 		= :lstUpdUser
 							, ori.lst_upd_date 		= getdate()
 				when not matched then
-					insert (rsrc_id, rsrc_name, rsrc_type, rsrc_desc, sort_order, parent_rsrc_id, rsrc_path, use_yn, rst_user, rst_date, lst_upd_user, lst_upd_date)
-					values (:rsrcId2, :rsrcName2, :rsrcType2, :rsrcDesc2, :sortOrder2, :parentRsrcId2, :rsrcPath2, :useYn2, :rstUser, getdate(), :lstUpdUser2, getdate());";
+					insert (rsrc_id, rsrc_name, rsrc_type, rsrc_disp_name, rsrc_desc, sort_order, parent_rsrc_id, rsrc_path, use_yn, rst_user, rst_date, lst_upd_user, lst_upd_date)
+					values (:rsrcId2, :rsrcName2, :rsrcType2, :rsrcDispName2, :rsrcDesc2, :sortOrder2, :parentRsrcId2, :rsrcPath2, :useYn2, :rstUser, getdate(), :lstUpdUser2, getdate());";
 		
 		// update
 		$query = $this->dbCon->prepare($sql);
 		$query->bindValue(':rsrcId', $rsrcInfo['inputRsrcId']);
 		$query->bindValue(':rsrcName', $rsrcInfo['inputRsrcName']);
 		$query->bindValue(':rsrcType', $rsrcInfo['inputRsrcType']);
+		$query->bindValue(':rsrcDispName', $rsrcInfo['inputRsrcDispName']);
 		$query->bindValue(':rsrcDesc', $rsrcInfo['inputRsrcDesc']);
 		$query->bindValue(':sortOrder', $rsrcInfo['inputSortOrder']);
 		$query->bindValue(':parentRsrcId', $rsrcInfo['inputParentRsrcId']);
@@ -90,6 +93,7 @@ Class ResourceModel {
 		$query->bindValue(':rsrcId2', $rsrcInfo['inputRsrcId']);
 		$query->bindValue(':rsrcName2', $rsrcInfo['inputRsrcName']);
 		$query->bindValue(':rsrcType2', $rsrcInfo['inputRsrcType']);
+		$query->bindValue(':rsrcDispName2', $rsrcInfo['inputRsrcDispName']);
 		$query->bindValue(':rsrcDesc2', $rsrcInfo['inputRsrcDesc']);
 		$query->bindValue(':sortOrder2', $rsrcInfo['inputSortOrder']);
 		$query->bindValue(':parentRsrcId2', $rsrcInfo['inputParentRsrcId']);

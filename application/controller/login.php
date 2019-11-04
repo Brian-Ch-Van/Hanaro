@@ -42,8 +42,7 @@ class Login extends Controller
 		try {
 			$loginValid = false;
 			
-			if (($_SERVER['REQUEST_METHOD'] == 'POST') and isset($_POST['login']))
-			{
+			if (($_SERVER['REQUEST_METHOD'] == 'POST') and isset($_POST['login'])) {
 				$email = $_POST['inputEmail'];
 				$userpassword = $_POST['inputPassword'];
 				

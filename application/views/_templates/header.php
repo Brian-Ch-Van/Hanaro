@@ -92,6 +92,7 @@
 							<a class="nav-link dropdown-toggle" href="" id="admin_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 							<div class="dropdown-menu" aria-labelledby="admin_dropdown">
 								<a class="dropdown-item" href="<?php echo URL; ?>/admin">User List</a>
+								<a class="dropdown-item" href="<?php echo URL; ?>/admin/openAddRole">Add Role</a>
 							</div>
 						</li>
 						<li class="nav-item dropdown" id="li_System" hidden>

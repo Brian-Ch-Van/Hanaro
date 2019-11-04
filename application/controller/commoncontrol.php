@@ -26,10 +26,16 @@ class CommonControl extends Controller
 	 */
 	public function getRoleRsrcList ($userId)
 	{
-		$common_model = $this->loadModel('CommonModel');
-		$roleRsrcList = $common_model->selRoleRsrcList($userId);
+		try {
+			$common_model = $this->loadModel('CommonModel');
+			$roleRsrcList = $common_model->selRoleRsrcList($userId);
+			
+			return $roleRsrcList;
+			
+		} catch (PDOException $e) {
+			die("Database error : " . $e->getMessage());
+		}
 		
-		return $roleRsrcList;
 	}
 	
 }

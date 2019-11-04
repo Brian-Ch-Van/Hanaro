@@ -2,14 +2,14 @@
 
 /**
  * 
-  * @desc		: application 분기, controller 기본 function 설정
+  * @desc		: logic 분기, controller 기본 function 설정
   * @creator	: BrianC
   * @date		: 2019. 9. 1.
   * @Version	: v1.0
   * @history	: 최초 생성
   *
  */
-class Application 
+class CoreStandard
 {
 	
 	private $controller = null;

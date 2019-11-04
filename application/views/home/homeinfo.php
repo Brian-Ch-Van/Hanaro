@@ -143,10 +143,5 @@
 		</div>
 	</main>
 
-<script>
-	
-
-
-</script>	
 
 

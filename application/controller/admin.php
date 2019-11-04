@@ -32,7 +32,6 @@ class Admin extends Controller
 		// 검색 조건에 맞는 전체 데이터 조회
 		$userList = $user_model->selUserList($schData, 0, '');
 		
-		// paging start =============================
 		$totalCnt = count($userList);	// 데이터 전체 건 수
 		
 		$page = 1;	// 현재 페이지
@@ -63,8 +62,6 @@ class Admin extends Controller
 		}
 		
 		$startRow = ($page-1) * $list;		// 페이징에서 조회 할 시작 row
-		
-		// paging end =============================
 		
 		// 페이징 적용한 리스트
 		$userList = $user_model->selUserList($schData, $startRow, $list);
@@ -146,5 +143,24 @@ class Admin extends Controller
 		require 'application/views/_templates/footer.php';
 	}
 	
+	/**
+	 * 
+	  * @Method Name	: openAddRole
+	  * @desc			: Role 등록 화면 open 
+	  * @creator		: BrianC
+	  * @date			: 2019. 11. 1.
+	 */
+	public function openAddRole ()
+	{
+		
+		require 'application/views/_templates/header.php';
+		require 'application/views/admin/addrole.php';
+		require 'application/views/_templates/footer.php';
+	}
 	
 }
+
+
+
+
+

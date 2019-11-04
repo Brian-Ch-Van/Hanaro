@@ -1,5 +1,6 @@
 <?php
 	$userRoleList = $_SESSION['role_list'];
+	$userMenuList = $_SESSION['menu_list'];
 	$userScreenList = $_SESSION['screen_list'];
 	
 // 	$splitFileName = explode('\\', __FILE__);
