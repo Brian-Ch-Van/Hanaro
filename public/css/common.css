@@ -60,7 +60,7 @@
 	cursor: pointer;
 }
 #tableDailySalesList tr.totalColumn {
-	text-align: center;
+	/*text-align: center;*/
 	font-weight: bold;
 }
 #tableDailySalesByDate th:nth-child(n+3) {
@@ -73,7 +73,7 @@
 	cursor: pointer;
 }
 #tableDailySalesByDate tr.totalColumn {
-	text-align: center;
+	/*text-align: center;*/
 	font-weight: bold;
 }
 #tableDailySalesByType th:nth-child(n+3) {
@@ -86,7 +86,7 @@
 	cursor: pointer;
 }
 #tableDailySalesByType tr.totalColumn {
-	text-align: center;
+	/*text-align: center;*/
 	font-weight: bold;
 }
 #tableDailySalesByTypeDetail th:nth-child(n+2) {
@@ -96,7 +96,7 @@
 	text-align: right;
 }
 #tableDailySalesByTypeDetail tr.totalColumn {
-	text-align: center;
+	/*text-align: center;*/
 	font-weight: bold;
 }
 
