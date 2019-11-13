@@ -85,14 +85,20 @@
 						<li class="nav-item" id="li_Home" hidden>
 							<a class="nav-link" href="<?php echo URL; ?>/home">Home</a>
 						</li>
-						<li class="nav-item" id="li_Sales" hidden>
-							<a class="nav-link" href="<?php echo URL; ?>/sales">Sales</a>
+						<li class="nav-item dropdown" id="li_Sales" hidden>
+							<a class="nav-link dropdown-toggle" href="" id="sales_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sales</a>
+							<div class="dropdown-menu" aria-labelledby="sales_dropdown">
+								<a class="dropdown-item" href="<?php echo URL; ?>/sales">Sales chart</a>
+								<a class="dropdown-item" href="<?php echo URL; ?>/sales/openDailySales">일별 판매 내역</a>
+							</div>
 						</li>
 						<li class="nav-item dropdown" id="li_Admin" hidden>
 							<a class="nav-link dropdown-toggle" href="" id="admin_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 							<div class="dropdown-menu" aria-labelledby="admin_dropdown">
 								<a class="dropdown-item" href="<?php echo URL; ?>/admin">User List</a>
 								<a class="dropdown-item" href="<?php echo URL; ?>/admin/openAddRole">Add Role</a>
+								<!-- test -->
+								<a class="dropdown-item" href="<?php echo URL; ?>/admin/pdfTest" target="_blank">PDF Test</a>
 							</div>
 						</li>
 						<li class="nav-item dropdown" id="li_System" hidden>

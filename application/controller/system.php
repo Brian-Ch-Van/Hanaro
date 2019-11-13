@@ -43,6 +43,8 @@ class System extends Controller
 	 */
 	public function saveRsrcInfo ()
 	{
+		$result = array();
+		
 		try {
 			$rsrcInfo = $_POST;	// POST로 넘겨온 form 전체
 			
@@ -59,8 +61,7 @@ class System extends Controller
 				}
 				
 				$rsrc_model->mergeRsrcInfo($rsrcInfo);
-				
-				$result = array();
+
 				$result['success'] = true;
 				$result['data'] = 'Resource infomation has been successfully saved.';
 				
@@ -88,6 +89,9 @@ class System extends Controller
 	 */
 	public function delRsrcInfo ($rsrcId)
 	{
+		$sales_model = $this->loadModel('SalesModel');
+		$dailySalesList = $sales_model->selDailySales();
+		
 		try {
 			if(!empty($rsrcId)) {
 				$rsrc_model = $this->loadModel("ResourceModel");

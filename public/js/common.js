@@ -138,4 +138,17 @@
         }   // end while
     }    
     
+    /**
+     * -------------------------------------------------
+     * number format
+     * -------------------------------------------------
+     * @param number
+     * @returns formatted number - 1234.56 -> 1,234.56
+     */
+    function formatNumber(num) {
+        return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    }
+    
+    
+    
     

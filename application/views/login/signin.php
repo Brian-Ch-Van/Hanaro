@@ -48,7 +48,7 @@
 
 			<div class="mb-4" ></div>
 			<button class="btn btn-lg btn-primary btn-block" type="submit" name="login">Sign in</button>
-			<p class="mt-3"><a href="login/openSignUp" class="text-success font-weight-bold">Sign up Now ></a></p>
+			<p class="mt-3">Don't have a profile? &nbsp;&nbsp; <a href="login/openSignUp" class="text-success font-weight-bold">Sign up Now ></a></p>
 			<p class="mt-5 mb-3 text-muted">&copy; 2019. Hana Solutions. All rights reserved.</p>
 		</form>
 	</body>

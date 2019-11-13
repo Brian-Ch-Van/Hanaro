@@ -45,7 +45,7 @@ class CoreStandard
 				if (!empty($params[1])) $this->action = $params[1];
 			}
 			
-			// controller 객체와  action method => 올바른 url 
+			// controller 객체와  action method => 해당 controll의 method 호출 
 			if (method_exists($this->controller, $this->action)) {
 				$ctrlVerify = true;
 				

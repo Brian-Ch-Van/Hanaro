@@ -158,6 +158,16 @@ class Admin extends Controller
 		require 'application/views/_templates/footer.php';
 	}
 	
+	public function exportExcel ()
+	{
+		require 'application/views/export/exportexcel.php';
+	}
+	
+	public function pdfTest ()
+	{
+		require 'application/views/export/pdfheaderfooter.php';
+	}
+	
 }
 
 

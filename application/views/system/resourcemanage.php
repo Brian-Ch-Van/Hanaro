@@ -207,13 +207,6 @@
 		};
 
 	</script>
-	<style>
-	.ui-dialog .ui-dialog-titlebar-close {
-		border: none;
-		background-color: transparent;
-		cursor: none;
-	}
-	</style>
 	
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
@@ -222,7 +215,7 @@
 			<!-- Resource Info -->
 			<div class="my-3 p-3 rounded shadow-sm" style="background-color: #dfebf7;">
 				<div class="media mb-3">
-					<img src="<?php echo IMG_URL; ?>/placeholder.png" style="width: 20px; border-radius: 30%" class="align-self-center mr-2" alt="" >
+					<img src="<?php echo IMG_URL; ?>/placeholder_lightblue.png" style="width: 20px; border-radius: 30%" class="align-self-center mr-2" alt="placeholder" >
 					<div class="media-body">
 						<p class="mb-0" style="font-weight: bold; font-size: 1.2rem;">Resource Info</p>
 					</div>
@@ -281,7 +274,7 @@
 					</div>
 					
 					<div class="d-flex justify-content-end">
-						<input type="button" class="btn btn-info btn-sm" id="btnSave" style="width: 100px;" value="Save"></input>
+						<input type="button" class="btn btn-info btn-sm" id="btnSave" style="width: 100px;" value="Save">
 						<input type="button" class="btn btn-outline-danger btn-sm ml-1" value="Delete" id="btnDelete">
 						<input type="button" class="btn btn-primary btn-sm ml-1" value="Reset" id="btnReset">
 					</div>
@@ -291,7 +284,7 @@
 			<!-- Resource List -->
 			<div class="my-3 p-3 bg-white rounded shadow-sm">
 				<div class="media mb-3">
-					<img src="<?php echo IMG_URL; ?>/placeholder.png" style="width: 20px; border-radius: 30%" class="align-self-center mr-2" alt="" >
+					<img src="<?php echo IMG_URL; ?>/placeholder_lightblue.png" style="width: 20px; border-radius: 30%" class="align-self-center mr-2" alt="" >
 					<div class="media-body">
 						<p class="mb-0" style="font-weight: bold; font-size: 1.2rem;">Resource List</p>
 					</div>

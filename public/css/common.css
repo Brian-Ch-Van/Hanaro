@@ -45,6 +45,64 @@
 .hasDatepicker{
 	cursor: pointer;
 }
+/* 府家胶 包府 */
 #tableRsrcList th {
 	cursor: pointer;
+}
+/* 老喊 魄概 郴开 */
+#tableDailySalesList th:nth-child(n+2) {
+	text-align: right;
+}
+#tableDailySalesList td:nth-child(n+2) {
+	text-align: right;
+}
+#tableDailySalesList tr:not(.titleRow):not(.totalColumn) {
+	cursor: pointer;
+}
+#tableDailySalesList tr.totalColumn {
+	text-align: center;
+	font-weight: bold;
+}
+#tableDailySalesByDate th:nth-child(n+3) {
+	text-align: right;
+}
+#tableDailySalesByDate td:nth-child(n+3) {
+	text-align: right;
+}
+#tableDailySalesByDate tr:not(.titleRow):not(.totalColumn) {
+	cursor: pointer;
+}
+#tableDailySalesByDate tr.totalColumn {
+	text-align: center;
+	font-weight: bold;
+}
+#tableDailySalesByType th:nth-child(n+3) {
+	text-align: right;
+}
+#tableDailySalesByType td:nth-child(n+3) {
+	text-align: right;
+}
+#tableDailySalesByType tr:not(.titleRow):not(.totalColumn) {
+	cursor: pointer;
+}
+#tableDailySalesByType tr.totalColumn {
+	text-align: center;
+	font-weight: bold;
+}
+#tableDailySalesByTypeDetail th:nth-child(n+2) {
+	text-align: right;
+}
+#tableDailySalesByTypeDetail td:nth-child(n+2) {
+	text-align: right;
+}
+#tableDailySalesByTypeDetail tr.totalColumn {
+	text-align: center;
+	font-weight: bold;
+}
+
+/* dialog */
+.ui-dialog .ui-dialog-titlebar-close {
+	border: none;
+	background-color: transparent;
+	cursor: none;
 }
