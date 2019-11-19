@@ -14,6 +14,7 @@ class CoreStandard
 	
 	private $controller = null;
 	private $action = null;
+	private $contrlRoot = './application/controller/';
 	
 	public function __construct() 
 	{
@@ -35,8 +36,8 @@ class CoreStandard
 			if(!empty($params[0])) $this->controller = $params[0];
 		}
 
-		if (file_exists('./application/controller/' . $this->controller . '.php')) {
-			require './application/controller/' . $this->controller . '.php';    // controller 파일 호출
+		if (file_exists($this->contrlRoot . $this->controller . '.php')) {
+			require $this->contrlRoot . $this->controller . '.php';    // controller 파일 호출
 			
 			$this->controller = new $this->controller();	// 위에서 실행한 파일명의 class 객체 생성. controller는 이제 class 객체
 			$this->action = "index";						// 기본 실행 method 명에 index set
@@ -45,7 +46,7 @@ class CoreStandard
 				if (!empty($params[1])) $this->action = $params[1];
 			}
 			
-			// controller 객체와  action method => 해당 controll의 method 호출 
+			// controller 객체와  action method => 해당 controller의 method 호출 
 			if (method_exists($this->controller, $this->action)) {
 				$ctrlVerify = true;
 				

@@ -5,13 +5,13 @@
  * @author		: BrianC
  * @create		: 2019. 8. 14.
  * @desc		: 암,복호화 클래스
- * 				  AES 대칭키 사용, 키 관리 고려 - 사용자 로그인 암호, 로그인 암호는 복고화돼서 테이블에 등록되어 있어야 함
+ * 				  AES 대칭키 사용, 키 관리 고려 - 사용자 로그인 암호, 로그인 암호는 복호화돼서 테이블에 등록되어 있어야 함
  * 				  RSA 개인키/대중키 생성, 복호화 때 개인키 필요 - DB Connection 암호
  */
 
 class Encryption {
 
-	// 암호화 - AES
+	// Encrypt - AES
 	// open_ssl 사용, extension 추가
 	public function encryptAes($plainText)
 	{
@@ -25,6 +25,7 @@ class Encryption {
 		//$iv = chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0);
 		$iv = str_repeat(chr(0), 16);
 		
+		// binary
 		$encryp_2 = openssl_encrypt($plainText, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
 		$decryp_2 = openssl_decrypt($encryp_2, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
 		
@@ -34,7 +35,7 @@ class Encryption {
 		return $encrypted;
 	}
 	
-	// 복호화 - AES
+	// Decrypt - AES
 	public function decryptAes($ecryptedText)
 	{
 		$key = "HanaSolutions";	//암/복호화 할 key 값, 관리를 어떻게 할지 고려
@@ -47,19 +48,19 @@ class Encryption {
 		//$iv = chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0);
 		$iv = str_repeat(chr(0), 16);
 		
-		// 복호화
+		// decryption
 		$decrypted = openssl_decrypt(base64_decode($ecryptedText), 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
 		
 		return $decrypted;
 	}
 	
-	// 복호화 - RSA
+	// Decrypt - RSA
 	public function decryptRsa ($encryptedBase64)
 	{
-		// 개인키
+		// private key
 		$privKey = RSA_PRIVATE_KEY;
 		
-		// 복호화
+		// decryption
 		openssl_private_decrypt(base64_decode($encryptedBase64), $decrypted, $privKey);
 		
 		//echo "decrypted : " . $decrypted . "<br/>";

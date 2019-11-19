@@ -1,9 +1,16 @@
-
+<?php 
+	$splitFileName = explode('\\', __FILE__); 
+	require 'application/views/_templates/authvalid.php';
+?>
 	<script type="text/javascript">
 		$(document).ready(function () {
-
+		    
 		    $('form').attr('autocomplete','off');
 
+		    // default 오늘 날짜 set - yyyy-mm-dd
+			$('#inputFromDate').val(getToday());
+			$('#inputToDate').val(getToday());
+		    
 			$('#btnSearch').on('click', function (e){
 			    e.preventDefault();
 
@@ -35,13 +42,14 @@
 			    	dataType	: 'json',
 			    	success		: function (result) {
 			    	    if(result.success == true) {
+			    	        $('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-success" value="Excel" id="btnExcel"><input type="button" class="btn btn-sm btn-outline-danger ml-1" value="PDF" id="btnPrintPdf">');
 							$('#divTable').html(result.data);
 
 							// sum column
-							var totals=[0,0,0,0,0,0];
-							var $dataRows=$("#tableDailySalesList tr[name='trDailySalesList']");
+							var totals = [0,0,0,0,0,0];
+							var dataRows = $("#tableDailySalesList tr[name='trDailySalesList']");
 
-							$dataRows.each(function() {
+							dataRows.each(function() {
 								$(this).find('.rowDataTd').each(function(i){        
 									totals[i] += parseFloat($(this).text().replace(',', ''));
 								});
@@ -61,7 +69,6 @@
 			    	    }
 			    	},
 			    	error : function (jqXHR, textStatus, errorThrown) {	
-					    //alert("Error Occur : \n code = "+ jqXHR.status + "\n status = " + jqXHR.statusText + "\n message = \n" + jqXHR.responseText);
 						$('.modal-title').text('ERROR');
 						$('#modalHeader').addClass('bg-danger');
 						$('#modalMsg').html(jqXHR.responseText);
@@ -84,7 +91,7 @@
 
 			// list by date
 			function getSalesByDate (event) {
-			 	// event.data 없으면 call form up button
+			 	// event.data 없으면 call from up button
 				if(isEmpty(event.data)) {	
 					schDateDay = $(this).find('td:nth-child(1)').text();
 					schDate = schDateDay.split(',')[0];
@@ -98,15 +105,15 @@
 					success		: function (result) {
 			    	    if(result.success == true) {
 			    	        $('#divList p').text('매출 현황 : ' + schDateDay);
-							$('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-info" value="Daily" id="btnDaily">');
+							$('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-info" value="Up" id="btnDaily">');
 			    	        
 							$('#divTable').html(result.data);
 
 							// sum column
 							var totals=[0,0,0,0,0,0];
-							var $dataRows=$("#tableDailySalesByDate tr[name='trDailySalesByDate']");
+							var dataRows=$("#tableDailySalesByDate tr[name='trDailySalesByDate']");
 
-							$dataRows.each(function() {
+							dataRows.each(function() {
 								$(this).find('.rowDataTd').each(function(i){        
 									totals[i] += parseFloat($(this).text().replace(',', ''));
 								});
@@ -153,15 +160,15 @@
 					success		: function (result) {
 			    	    if(result.success == true) {
 			    	        $('#divList p').text(schDate + ' : ' + schCode + ' ' + schType);
-							$('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-info" value="By date" id="btnByDate">');
+							$('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-info" value="Up" id="btnByDate">');
 			    	        
 							$('#divTable').html(result.data);
 
 							// sum column
 							var totals=[0,0,0,0,0,0];
-							var $dataRows=$("tr[name='trDailySalesByType']");
+							var dataRows=$("tr[name='trDailySalesByType']");
 
-							$dataRows.each(function() {
+							dataRows.each(function() {
 								$(this).find('.rowDataTd').each(function(i){        
 									totals[i] += parseFloat($(this).text().replace(',', ''));
 								});
@@ -207,15 +214,15 @@
 					success		: function (result) {
 			    	    if(result.success == true) {
 			    	        $('#divList p').text(schDate + ' : ' + schPtype + ' ' + schPname);
-							$('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-info" value="By type" id="btnByType">');
+							$('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-info" value="Up" id="btnByType">');
 			    	        
 							$('#divTable').html(result.data);
 
 							// sum column
 							var totals=[0,0,0,0,0,0];
-							var $dataRows=$("tr[name='trDailySalesByTypeDetail']");
+							var dataRows=$("tr[name='trDailySalesByTypeDetail']");
 
-							$dataRows.each(function() {
+							dataRows.each(function() {
 								$(this).find('.rowDataTd').each(function(i){        
 									totals[i] += parseFloat($(this).text().replace(',', ''));
 								});
@@ -241,9 +248,19 @@
 						
 						$('#cnfModal').modal('show');
 					}
-
 				});	// end ajax
 			});
+
+			// export to pdf - 현재 버튼 없음. print pdf로 대체
+			$(document).on('click', '#btnPdf', function (){
+			    $('#formSearch').attr("action", "<?php echo URL;?>/sales/exportPdfDailySales/");
+			    $('#formSearch').attr("method", "post");
+			    $('#formSearch').attr("target", "Daily_Sales_Pdf");
+			    
+			    window.open("", "Daily_Sales_Pdf");
+			    $('#formSearch').submit();
+			    
+			});	// end export to pdf			
 
 			// up button 
 			$(document).on('click', '#btnDaily', function () {
@@ -255,17 +272,32 @@
 			// calendar
             $("#inputFromDate").datepicker({yearRange: "-1:+0"});
             $("#inputToDate").datepicker({yearRange: "-1:+0"});
-			
+
+            // print pdf
+            $(document).on('click', '#btnPrintPdf', function (){
+				window.print();
+            });
+            
+            // excel download
+            $(document).on('click', '#btnExcel', function (){
+			    $('#formSearch').attr("action", "<?php echo URL;?>/sales/exportExlDailySales/");
+			    $('#formSearch').attr("method", "post");
+			    $('#formSearch').submit();
+            });
+
 		})
 
 	</script>
-
+	
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<h2 class="mt-4" style="font-weight: bold;">일별 판매 내역</h2>
-			
+			<h2 class="mt-4 no-print" style="font-weight: bold;">일별 판매 내역</h2>
+			<div class="hidden-obj" ><!-- screen hidden -->
+				<img src="<?php echo IMG_URL; ?>/report_header_hmart.png" style="width: 200px;" alt="hmart-header-logo">
+				<h2 style="text-align: center; margin-bottom: 40px; font-weight: bold">Daily Sales Report</h2>
+			</div>
 			<!-- Search -->
-			<div class="my-3 p-3 rounded shadow-sm" style="background-color: #dfebf7;">
+			<div class="my-3 p-3 rounded shadow-sm no-print" style="background-color: #dfebf7;">
 				<div class="media mb-3">
 					<img src="<?php echo IMG_URL; ?>/placeholder_lightblue.png" style="width: 20px; border-radius: 30%" class="align-self-center mr-2" alt="placeholder" >
 					<div class="media-body">
@@ -296,7 +328,7 @@
 		
 			<!-- List -->
 			<div class="my-3 p-3 bg-white rounded shadow-sm" id="divList">
-				<div class="media mb-3">
+				<div class="media mb-3 no-print">
 					<img src="<?php echo IMG_URL; ?>/placeholder_lightblue.png" style="width: 20px; border-radius: 30%" class="align-self-center mr-2" alt="" >
 					<div class="media-body">
 						<p class="mb-0" style="font-weight: bold; font-size: 1.2rem;">일자별 매출 현황</p>
@@ -304,8 +336,8 @@
 					<div id="divBtnUp"></div>
 				</div>
 				
-				<div id="divTable">
-					<table class="table table-hover table-sm table-responsive-md" id="tableDailySalesList">
+				<div id="divTable" class="Section1">
+					<table class="table table-hover table-sm table-responsive-md" id="tableList" >
 						<thead class="thead-light">
 							<tr>
 								<th scope="col">Date</th>

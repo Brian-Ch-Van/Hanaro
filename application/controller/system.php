@@ -46,7 +46,7 @@ class System extends Controller
 		$result = array();
 		
 		try {
-			$rsrcInfo = $_POST;	// POST로 넘겨온 form 전체
+			$rsrcInfo = $_POST;
 			
 			if(!empty($rsrcInfo)) {
 				$rsrc_model = $this->loadModel("ResourceModel");
@@ -89,9 +89,6 @@ class System extends Controller
 	 */
 	public function delRsrcInfo ($rsrcId)
 	{
-		$sales_model = $this->loadModel('SalesModel');
-		$dailySalesList = $sales_model->selDailySales();
-		
 		try {
 			if(!empty($rsrcId)) {
 				$rsrc_model = $this->loadModel("ResourceModel");

@@ -1,5 +1,8 @@
 <script type="text/javascript">
 
+/**
+ * calender default set
+ */
 	$.datepicker.setDefaults({
 	    dateFormat: 'yy-mm-dd' 		// input format - yyyyMMdd
 	    ,showOtherMonths: true 
@@ -20,7 +23,9 @@
 		//,yearRange: "-50:+1"		// 년도 range
 	});
 
-	// confirm dialog
+/**
+ * dialog to confirm, verify
+ */
     $( "#dialog" ).dialog({
         autoOpen : false,
         title : 'Warning',

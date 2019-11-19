@@ -149,6 +149,19 @@
         return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     }
     
+    /**
+     * -------------------------------------------------
+     * get today format
+     * -------------------------------------------------
+     * @param 
+     * @returns today - yyyy-mm-dd, 2019-01-01
+     */
+    function getToday () {
+        var date  = new Date();
+        var today = date.getFullYear() + "-" + ("0"+(date.getMonth()+1)).slice(-2) + "-" + ("0"+date.getDate()).slice(-2);
+        
+        return today;
+    }
     
     
     

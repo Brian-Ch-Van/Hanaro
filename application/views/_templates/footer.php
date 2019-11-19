@@ -1,5 +1,5 @@
 		<!-- footer -->
-		<footer class="footer mt-auto py-3">
+		<footer class="footer mt-auto py-3 no-print">
 			<div class="container">
 				<!-- <span class="text-muted"><h3>Hana Solutions</h3></span> -->
 				

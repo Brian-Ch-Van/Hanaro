@@ -106,3 +106,33 @@
 	background-color: transparent;
 	cursor: none;
 }
+/* media print */
+@media print {    
+    .no-print, .no-print * {
+        display: none !important;
+    }
+    @page {
+    	/* size: landscape; */
+    	/* margin: 0;  header, footer hide*/
+    }
+    /*
+    @page Section1 {
+	    size: 8.27in 11.69in; 
+	    margin: 10px 10px 10px 10px ; 
+	    mso-header-margin: 100px; 
+	    mso-footer-margin: 100px; 
+	    mso-paper-source: 0;
+	}
+	div.Section1 {
+	    page: Section1;
+	} 
+	*/
+    .totalColumn td {
+    	color: blue !important;
+    }
+}
+@media screen {
+	.hidden-obj {
+		display: none;
+	}
+}

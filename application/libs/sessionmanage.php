@@ -25,7 +25,7 @@ class SessionManage
 	 */
 	private function mngSession () 
 	{
-		// session 초기화
+		// init session
 		session_start();
 		
 		$expiryTime = 3600;	// seconds
@@ -35,6 +35,7 @@ class SessionManage
 		}
 		$_SESSION['sess_last_time'] = time();
 		
+		// check session expire time
 		//echo 'session_echo : '. session_cache_expire();
 	}
 }

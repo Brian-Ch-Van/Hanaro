@@ -2,6 +2,18 @@
 	$splitFileName = explode('\\', __FILE__); 
 	require 'application/views/_templates/authvalid.php';
 ?>
+<style>
+	@media print {    
+	    .no-print, .no-print * {
+	        display: none !important;
+	    }
+	}
+	@media screen {
+		.hidden_obj {
+			display: none;
+		}
+	}
+</style>
 
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

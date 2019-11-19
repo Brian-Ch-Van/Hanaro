@@ -6,7 +6,7 @@
   * @creator	: BrianC
   * @date		: 2019. 9. 9.
   * @Version	: 
-  * @history	: 
+  * @history	: 최초 생성
   *
  */
 class Admin extends Controller 
@@ -99,7 +99,7 @@ class Admin extends Controller
 	public function modifyUserInfo ()
 	{
 		try {
-			$formProfileData = $_POST;	// POST로 넘겨온 form 전체
+			$formProfileData = $_POST;
 			
 			if (!empty($formProfileData)) {
 				
@@ -135,14 +135,6 @@ class Admin extends Controller
 		}
 	}
 	
-	// Sales -> 메뉴 이동 필요???
-	public function sales ()
-	{
-		require 'application/views/_templates/header.php';
-		require 'application/views/admin/sales.php';
-		require 'application/views/_templates/footer.php';
-	}
-	
 	/**
 	 * 
 	  * @Method Name	: openAddRole
@@ -158,15 +150,6 @@ class Admin extends Controller
 		require 'application/views/_templates/footer.php';
 	}
 	
-	public function exportExcel ()
-	{
-		require 'application/views/export/exportexcel.php';
-	}
-	
-	public function pdfTest ()
-	{
-		require 'application/views/export/pdfheaderfooter.php';
-	}
 	
 }
 

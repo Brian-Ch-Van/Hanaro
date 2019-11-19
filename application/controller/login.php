@@ -81,7 +81,7 @@ class Login extends Controller
 					$_SESSION['user_id'] = $userInfo['user_id'];
 					$_SESSION['user_pw'] = $userpassword;
 					
-					// 권한 테스트 ==========
+					// auth test ==========
 					/*
 					$const = new ConstClass();
 					if($row['user_id'] == '190001') {			// 수지
@@ -91,7 +91,7 @@ class Login extends Controller
 					}
 					// 화면 권한 부여
 					$_SESSION['rsrc_list'] = $const->getRsrcListByRoleId($_SESSION['role_id']);
-					// 권한 테스트 ==========
+					// auth test ==========
 					*/
 					
 					// Role
@@ -125,13 +125,11 @@ class Login extends Controller
 					require_once 'application/views/login/signin.php';
 					echo "<script>checkInfo('$infoMsg');</script>";
 				}
-				
 			}
 			
 		} catch (Exception $e) {
 			throw new exception ('Sign in 중 사용자 validation 오류가 발생했습니다. Error Message : ' + $e->getMessage());
 		}
-		
 	}
 	
 	/**
@@ -145,7 +143,6 @@ class Login extends Controller
 	{
 		require 'application/views/login/signout.php';
 	}
-	
 
 	/**
 	 * 
@@ -220,7 +217,7 @@ class Login extends Controller
 			// $formData = file_get_contents("php://input");	// parsing 전 POST data
 			// $data = json_decode($formData, true);			// JSON object 를 Array로 decode 해주고
 			
-			$formData = $_POST;	// POST로 넘겨온 form 전체
+			$formData = $_POST;
 			
 			if (!empty($formData)) {
 				// 필수항목 값 체크 해주고

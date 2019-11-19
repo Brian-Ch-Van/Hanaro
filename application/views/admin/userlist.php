@@ -27,11 +27,6 @@
 				//$('#inputListCnt').val('15').prop('selected', true);
 				$('#inputListCnt option:eq(0)').prop('selected', true);
 			});
-
-			// test
-			$('#btnExport').on('click', function (){
-				location.href="<?php echo URL; ?>/admin/exportExcel/"
-			});
 			
 		});
 
@@ -88,9 +83,6 @@
 				</div>
 			</form>
 			
-			<!-- test -->
-			<input type="button" id="btnExport" value="Export to Excel">
-				
 			<table class="table table-hover table-dark table-sm table-responsive-md" id="tableUserList">
 				<colgroup>
 					<col width="6%" />

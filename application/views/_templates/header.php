@@ -1,5 +1,4 @@
 <?php
-	// session에 user_name 있으면 로그인 한 상태
 	if (isset($_SESSION['user_name']) && !empty($_SESSION['user_name'])) {
 		//echo $_SESSION['user_name'] . '님이 로그인 했습니다.';
 	} else {
@@ -46,8 +45,9 @@
 			$(document).ready(function() {
 
 			    // bar menu controll by role
+			    console.log('accessable menu');
 				<?php foreach ($_SESSION['menu_list'] as $row) { ?>
-						console.log('mune_id: '+ '<?php echo $row['menu_id']?>' + ' / menu_name :' +'<?php echo $row['menu_name']?>');
+						console.log('menu_id: '+ '<?php echo $row['menu_id']?>' + ' / menu_name :' +'<?php echo $row['menu_name']?>');
 
 						$('#menuBar').find('li').each(function (){
 							var barMnNm = $(this).attr('id').split('_')[1];
@@ -56,6 +56,10 @@
 								}
 							});
 				<?php }	?>
+
+				$("body").contextmenu(function () {
+					return false;
+				});
 				
 				// sign out
 				$('#sign_out').on('click', function() {
@@ -67,7 +71,7 @@
 
 	</head>
 	
-	<body class="d-flex flex-column h-100 bg-light">
+	<body class="d-flex flex-column h-100 bg-light" oncontextmenu='return false' onselectstart='return false' ondragstart='return false'>
 		<header>
 			<!-- Fixed navbar -->
 			<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark" >
@@ -88,8 +92,8 @@
 						<li class="nav-item dropdown" id="li_Sales" hidden>
 							<a class="nav-link dropdown-toggle" href="" id="sales_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sales</a>
 							<div class="dropdown-menu" aria-labelledby="sales_dropdown">
-								<a class="dropdown-item" href="<?php echo URL; ?>/sales">Sales chart</a>
-								<a class="dropdown-item" href="<?php echo URL; ?>/sales/openDailySales">일별 판매 내역</a>
+								<a class="dropdown-item" href="<?php echo URL; ?>/sales">Sales Main</a>
+								<a class="dropdown-item" href="<?php echo URL; ?>/sales/openDailySales">Daily Sales</a>
 							</div>
 						</li>
 						<li class="nav-item dropdown" id="li_Admin" hidden>
@@ -97,8 +101,6 @@
 							<div class="dropdown-menu" aria-labelledby="admin_dropdown">
 								<a class="dropdown-item" href="<?php echo URL; ?>/admin">User List</a>
 								<a class="dropdown-item" href="<?php echo URL; ?>/admin/openAddRole">Add Role</a>
-								<!-- test -->
-								<a class="dropdown-item" href="<?php echo URL; ?>/admin/pdfTest" target="_blank">PDF Test</a>
 							</div>
 						</li>
 						<li class="nav-item dropdown" id="li_System" hidden>
@@ -108,7 +110,6 @@
 							</div>
 						</li>						
 					</ul>
-									
 					<!-- search box 
 					<form class="form-inline mt-2 mt-md-0">
 						<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
