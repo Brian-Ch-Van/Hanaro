@@ -94,6 +94,7 @@
 							<div class="dropdown-menu" aria-labelledby="sales_dropdown">
 								<a class="dropdown-item" href="<?php echo URL; ?>/sales">Sales Main</a>
 								<a class="dropdown-item" href="<?php echo URL; ?>/sales/openDailySales">Daily Sales</a>
+								<a class="dropdown-item" href="<?php echo URL; ?>/sales/openHourlySales">Hourly Visitors/Sales Chart</a>
 							</div>
 						</li>
 						<li class="nav-item dropdown" id="li_Admin" hidden>

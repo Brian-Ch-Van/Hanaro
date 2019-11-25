@@ -1,5 +1,5 @@
 /**
- * 
+ *              common function 
  * @author      : BrianC
  * @create      : 2019. 9. 12.
  * @desc        : common js
@@ -163,5 +163,32 @@
         return today;
     }
     
+    /**
+     * -------------------------------------------------
+     * get today format
+     * -------------------------------------------------
+     * @param 
+     * @returns today - yyyymmdd, 20190101
+     */
+    function getTodayNoHyph () {
+        var date  = new Date();
+        var today = date.getFullYear() + ("0"+(date.getMonth()+1)).slice(-2) + ("0"+date.getDate()).slice(-2);
+        
+        return today;
+    }    
+    
+    /**
+     * -------------------------------------------------
+     * verify input
+     * -------------------------------------------------
+     * @param input value, input id, dialog item, dialog item text
+     * @returns popup diolog
+     */    
+    function vfInputDialog (val, id, item, itemText) {
+        if(isEmpty(val)) {
+            $("#dialog").data('item', item).data('bodyText', itemText).data('id', id).dialog("open");
+            return;
+        }
+    }
     
     

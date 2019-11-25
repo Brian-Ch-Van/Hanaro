@@ -112,19 +112,21 @@
         display: none !important;
     }
     @page {
-    	/* size: landscape; */
-    	/* margin: 0;  header, footer hide*/
-    }
+    	/*
+	    size: 5in 5in; 
+	    margin: 10px 10px 10px 10px ;
+		*/ 
+	}
     /*
-    @page Section1 {
+    @page section1 {
 	    size: 8.27in 11.69in; 
 	    margin: 10px 10px 10px 10px ; 
 	    mso-header-margin: 100px; 
 	    mso-footer-margin: 100px; 
 	    mso-paper-source: 0;
 	}
-	div.Section1 {
-	    page: Section1;
+	div.section1 {
+	    page: section1;
 	} 
 	*/
     .totalColumn td {
@@ -135,4 +137,20 @@
 	.hidden-obj {
 		display: none;
 	}
+}
+/* Hourly Sales */
+#tableHourlySalesList th {
+	text-align: right;
+}
+#tableHourlySalesList th:first-child {
+	width: 10%;
+}
+#tableHourlySalesList th:nth-child(3) {
+	width: 30%;
+}
+#tableHourlySalesList tr {
+	text-align: right;
+}
+#tableHourlySalesList .totlaColumn {
+	text-align: right;
 }

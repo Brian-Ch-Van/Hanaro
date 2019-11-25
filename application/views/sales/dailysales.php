@@ -42,7 +42,7 @@
 			    	dataType	: 'json',
 			    	success		: function (result) {
 			    	    if(result.success == true) {
-			    	        $('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-success" value="Excel" id="btnExcel"><input type="button" class="btn btn-sm btn-outline-danger ml-1" value="PDF" id="btnPrintPdf">');
+			    	        $('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-danger" value="PDF" id="btnPrintPdf"><input type="button" class="btn btn-sm btn-outline-success  ml-1" value="Excel" id="btnExcel">');
 							$('#divTable').html(result.data);
 
 							// sum column
@@ -104,8 +104,8 @@
 					dataType	: 'json',
 					success		: function (result) {
 			    	    if(result.success == true) {
-			    	        $('#divList p').text('매출 현황 : ' + schDateDay);
-							$('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-info" value="Up" id="btnDaily">');
+			    	        $('#divList p').text(schDateDay);
+							$('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-danger" value="PDF" id="btnPrintPdf"><input type="button" class="btn btn-sm btn-info ml-1" value="Up" id="btnDaily">');
 			    	        
 							$('#divTable').html(result.data);
 
@@ -160,7 +160,7 @@
 					success		: function (result) {
 			    	    if(result.success == true) {
 			    	        $('#divList p').text(schDate + ' : ' + schCode + ' ' + schType);
-							$('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-info" value="Up" id="btnByDate">');
+							$('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-danger" value="PDF" id="btnPrintPdf"><input type="button" class="btn btn-sm btn-info ml-1" value="Up" id="btnByDate">');
 			    	        
 							$('#divTable').html(result.data);
 
@@ -214,7 +214,7 @@
 					success		: function (result) {
 			    	    if(result.success == true) {
 			    	        $('#divList p').text(schDate + ' : ' + schPtype + ' ' + schPname);
-							$('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-info" value="Up" id="btnByType">');
+							$('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-danger" value="PDF" id="btnPrintPdf"><input type="button" class="btn btn-sm btn-info ml-1" value="Up" id="btnByType">');
 			    	        
 							$('#divTable').html(result.data);
 
@@ -253,7 +253,7 @@
 
 			// export to pdf - 현재 버튼 없음. print pdf로 대체
 			$(document).on('click', '#btnPdf', function (){
-			    $('#formSearch').attr("action", "<?php echo URL;?>/sales/exportPdfDailySales/");
+			    $('#formSearch').attr("action", "<?php echo URL;?>/exportfile/exportPdfDailySales/");
 			    $('#formSearch').attr("method", "post");
 			    $('#formSearch').attr("target", "Daily_Sales_Pdf");
 			    
@@ -275,12 +275,21 @@
 
             // print pdf
             $(document).on('click', '#btnPrintPdf', function (){
+				var oriTitle = $(document).attr('title');
+				$(document).prop('title', 'Daily Sales_' + getTodayNoHyph());
+				
+				// sub title
+				if($('#divList p').text() != "일자별 매출 현황") {
+					$('.hidden-obj h3').text("(" + $('#divList p').text() + ")");
+				}
+				
 				window.print();
+				$(document).attr('title', oriTitle);
             });
             
             // excel download
             $(document).on('click', '#btnExcel', function (){
-			    $('#formSearch').attr("action", "<?php echo URL;?>/sales/exportExlDailySales/");
+			    $('#formSearch').attr("action", "<?php echo URL;?>/exportfile/exportExlDailySales/");
 			    $('#formSearch').attr("method", "post");
 			    $('#formSearch').submit();
             });
@@ -294,7 +303,8 @@
 			<h2 class="mt-4 no-print" style="font-weight: bold;">일별 판매 내역</h2>
 			<div class="hidden-obj" ><!-- screen hidden -->
 				<img src="<?php echo IMG_URL; ?>/report_header_hmart.png" style="width: 200px;" alt="hmart-header-logo">
-				<h2 style="text-align: center; margin-bottom: 40px; font-weight: bold">Daily Sales Report</h2>
+				<h2 style="text-align: center; margin: 20px 0px; font-weight: bold">Daily Sales Report</h2>
+				<h3 style="text-align: center;"></h3>
 			</div>
 			<!-- Search -->
 			<div class="my-3 p-3 rounded shadow-sm no-print" style="background-color: #dfebf7;">
@@ -336,7 +346,7 @@
 					<div id="divBtnUp"></div>
 				</div>
 				
-				<div id="divTable" class="Section1">
+				<div id="divTable" class="section1">
 					<table class="table table-hover table-sm table-responsive-md" id="tableList" >
 						<thead class="thead-light">
 							<tr>

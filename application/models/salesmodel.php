@@ -27,7 +27,7 @@ Class SalesModel {
 	  * @date			: 2019. 11. 7.
 	  * @return 
 	 */
-	public function selDailySales ($srchDate) 
+	public function selDailySales ($srchData) 
 	{
 		$sql = "with ds as (
 					SELECT 
@@ -54,8 +54,8 @@ Class SalesModel {
 		
 		$query = $this->dbCon->prepare($sql);
 		
-		$query->bindValue(':fromDate', $srchDate['inputFromDate']);
-		$query->bindValue(':toDate', $srchDate['inputToDate']);
+		$query->bindValue(':fromDate', $srchData['inputFromDate']);
+		$query->bindValue(':toDate', $srchData['inputToDate']);
 		$query->execute();
 		
 		return $query->fetchAll();
@@ -195,6 +195,83 @@ Class SalesModel {
 		
 		$query->bindValue(':date', $date);
 		$query->bindValue(':ptype', $ptype);
+		$query->execute();
+		
+		return $query->fetchAll();
+	}
+	
+	/**
+	 * 
+	  * @Method Name	: selPtCodeList
+	  * @desc			: 대상 그룹 - ptCode list - Hanaro 쿼리 사용
+	  * @creator		: BrianC
+	  * @date			: 2019. 11. 19.
+	  * @return 		
+	 */
+	public function selPtCodeList ()
+	{
+		$sql = "SELECT 
+					ptCode, 
+					ptName 
+				FROM vw_mfPtype 
+				Group by ptCode, ptName 
+				Order by ptCode
+				";
+		
+		$query = $this->dbCon->prepare($sql);
+		$query->execute();
+		
+		return $query->fetchAll();
+	}
+	
+	/**
+	 * 
+	  * @Method Name	: selHourlySales
+	  * @desc			: 시간별 방문객/매출액 - with 절 Hanaro 쿼리 사용
+	  * @creator		: BrianC
+	  * @date			: 2019. 11. 20.
+	  * @return 
+	 */
+	public function selHourlySales ($srchData) 
+	{
+		$sql = "with hs as (
+					SELECT
+						Sum(CASE WHEN tType = '22' AND tFree = 1 THEN 0 ELSE (tAmt + tgst + tpst + thst) END) as colPaid
+						, 0 as colChange
+						, vw_tfCollection.colTime
+						, vw_tfTran.tdate as colDate  
+					FROM vw_tfTran LEFT OUTER JOIN vw_tfCollection ON tInvNo = colInvNo AND tDate = colDate LEFT JOIN vw_mfPtype ON tPtype = pType  
+					WHERE (colDate BETWEEN :fromDate And :toDate)";
+						
+		if(!empty($srchData['selCode']) && $srchData['selCode'] != '00') {
+			$sql .= " and ptCode = :ptCode ";
+		}
+		if(isset($srchData['chkMemberOnly']) && !empty($srchData['chkMemberOnly'])) {
+			$sql .= " and len(colCust) > 11 ";
+		}
+		$sql .= "AND tType NOT IN ('31','33','34','35')
+					GROUP BY colInvNo, vw_tfCollection.colTime, vw_tfTran.tDate 
+				)
+				select
+					datepart(hour, colTime) 			hs_hour
+					, count(colPaid)					hs_visitor
+					, round(sum(colPaid), 2)			hs_paid
+					, sum(colChange) 					hs_change
+					, (select count(*) from hs) 		hs_totalVisitor
+					, (select sum(colPaid) from hs) 	hs_totalAmt
+					--, colDate hs_date
+				from hs
+				group by datepart(hour, colTime)
+				order by hs_hour
+				";
+		
+		$query = $this->dbCon->prepare($sql);
+		
+		$query->bindValue(':fromDate', $srchData['inputFromDate']);
+		$query->bindValue(':toDate', $srchData['inputToDate']);
+		if(!empty($srchData['selCode']) && $srchData['selCode'] != '00') {
+			$query->bindValue(':ptCode', $srchData['selCode']);
+		}
 		$query->execute();
 		
 		return $query->fetchAll();

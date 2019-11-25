@@ -18,6 +18,8 @@ class CoreStandard
 	
 	public function __construct() 
 	{
+		// chrome cookie 정책, 쿠키 공유 제한하면 불편할 수도 - 추가 고려 사항
+		setcookie('cookie-name', '1', 0, '/; samesite=strict');
 		
 		$ctrlVerify = false;
 		$url = "";

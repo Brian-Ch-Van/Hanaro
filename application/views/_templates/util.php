@@ -26,7 +26,7 @@
 /**
  * dialog to confirm, verify
  */
-    $( "#dialog" ).dialog({
+    $("#dialog").dialog({
         autoOpen : false,
         title : 'Warning',
         width : "500",  
