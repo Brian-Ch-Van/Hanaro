@@ -45,7 +45,7 @@
 		    	dataType	: 'json',
 		    	success		: function (result) {
 		    	    if(result.success == true) {
-		    	        $('#divBtnExport').html('<input type="button" class="btn btn-sm btn-outline-success" value="Excel" id="btnExcel"><input type="button" class="btn btn-sm btn-outline-danger ml-1" value="PDF" id="btnPrintPdf">');
+		    	        $('#divBtnExport').html('<input type="button" class="btn btn-sm btn-outline-danger" value="PDF" id="btnPrintPdf"><input type="button" class="btn btn-sm btn-outline-success ml-1" value="Excel" id="btnExcel">');
 		    	        $('#divChart').show();
 		    	        $('#chartTransBtn').show();
 

@@ -23,7 +23,6 @@
 		<script type="text/javascript">
 			$(document).ready(function () {
 
-				// 직원 여부 선택
 				$('#inputEmpYn').on('click', function (){
 					if($('#divEmpNo').css('display') == 'none') {
 						$('#divEmpNo').fadeIn();		// show()
@@ -34,8 +33,6 @@
 					}
 				});
 
-				// form 내의 input 태그에서 엔터 시 button submit 방지
-				// botton을 div로 바꿔도 되지만..
 				$('input').keydown( function() {
 					if (event.keyCode === 13) {
 						event.preventDefault();

@@ -282,10 +282,10 @@
 			    
 			});	// end export to pdf			
 
-			// up button 
 			$(document).on('click', '#btnDaily', function () {
 				if(!isEmpty (dsData)) {
-	    	        $('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-danger" value="PDF" id="btnPrintPdf"><input type="button" class="btn btn-sm btn-outline-success  ml-1" value="Excel" id="btnExcel">');
+				    $('#divList p').text('일자별 매출 현황');
+	    	        $('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-danger" value="PDF" id="btnPrintPdf"><input type="button" class="btn btn-sm btn-outline-success ml-1" value="Excel" id="btnExcel">');
 					$('#divTable').html(dsData);
 
 					var totals = [0,0,0,0,0,0];
@@ -319,6 +319,8 @@
 				// sub title
 				if($('#divList p').text() != "일자별 매출 현황") {
 					$('.hidden-obj h3').text("(" + $('#divList p').text() + ")");
+				} else {
+				    $('.hidden-obj h3').text("");
 				}
 				
 				window.print();
