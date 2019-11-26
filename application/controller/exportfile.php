@@ -195,25 +195,8 @@ class ExportFile extends Controller
 		
 		// table start ==============================================
 		$formSearch = $_POST;
-		
-		$selBrch = $formSearch['selBrch'];
-		if("cq" == $selBrch) {
-			$brchDb = "CQ_DB1HAN";
-		} else if("dn" == $selBrch) {
-			$brchDb = "DN_DB1HAN";
-		} else if("ll" == $selBrch) {
-			$brchDb = "LL_DB1HAN";
-		} else if ("rm" == $selBrch) {
-			$brchDb = "RM_HIST";
-		} else if ("pc" == $selBrch) {
-			$brchDb = "PC_HIST";
-		} else if ("db" == $selBrch) {
-			$brchDb = "DB_HIST";
-		} else if("ubc" == $selBrch) {
-			$brchDb = "UBC_HIST";
-		}
-		
-		$sales_model = $this->loadModelByDbName('SalesModel', $brchDb);
+
+		$sales_model = $this->loadModel('SalesModel');
 		
 		$dailySalesList = $sales_model->selDailySales($formSearch);
 		

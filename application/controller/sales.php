@@ -64,25 +64,7 @@ class Sales extends Controller
 			
 			if(!empty($formSearch)) {
 				
-// 				$sales_model = $this->loadModel('SalesModel');
-				$selBrch = $formSearch['selBrch'];
-				if("cq" == $selBrch) {
-					$brchDb = "CQ_DB1HAN";
-				} else if("dn" == $selBrch) {
-					$brchDb = "DN_DB1HAN";
-				} else if("ll" == $selBrch) {
-					$brchDb = "LL_DB1HAN";
-				} else if ("rm" == $selBrch) {
-					$brchDb = "RM_HIST";
-				} else if ("pc" == $selBrch) {
-					$brchDb = "PC_HIST";
-				} else if ("db" == $selBrch) {
-					$brchDb = "DB_HIST";
-				} else if("ubc" == $selBrch) {
-					$brchDb = "UBC_HIST";
-				}
-				
-				$sales_model = $this->loadModelByDbName('SalesModel', $brchDb);
+				$sales_model = $this->loadModel('SalesModel');
 				
 				$dailySalesList = $sales_model->selDailySales($formSearch);
 				
@@ -165,24 +147,7 @@ class Sales extends Controller
 				} else {
 					$byDate = $_POST['byDate'];
 					
-					$selBrch = $_POST['brchData'];
-					if("cq" == $selBrch) {
-						$brchDb = "CQ_DB1HAN";
-					} else if("dn" == $selBrch) {
-						$brchDb = "DN_DB1HAN";
-					} else if("ll" == $selBrch) {
-						$brchDb = "LL_DB1HAN";
-					} else if ("rm" == $selBrch) {
-						$brchDb = "RM_HIST";
-					} else if ("pc" == $selBrch) {
-						$brchDb = "PC_HIST";
-					} else if ("db" == $selBrch) {
-						$brchDb = "DB_HIST";
-					} else if("ubc" == $selBrch) {
-						$brchDb = "UBC_HIST";
-					}
-					
-					$sales_model = $this->loadModelByDbName('SalesModel', $brchDb);
+					$sales_model = $this->loadModel('SalesModel');
 					
 					$dailySalesByDate = $sales_model->selDailySalesByDate($byDate);
 					
@@ -270,26 +235,8 @@ class Sales extends Controller
 				} else {
 					$byDate = $_POST['byDate'];
 					$byType = $_POST['byType'];
-					$selBrch = $_POST['brchData'];
 					
-					if("cq" == $selBrch) {
-						$brchDb = "CQ_DB1HAN";
-					} else if("dn" == $selBrch) {
-						$brchDb = "DN_DB1HAN";
-					} else if("ll" == $selBrch) {
-						$brchDb = "LL_DB1HAN";
-					} else if ("rm" == $selBrch) {
-						$brchDb = "RM_HIST";
-					} else if ("pc" == $selBrch) {
-						$brchDb = "PC_HIST";
-					} else if ("db" == $selBrch) {
-						$brchDb = "DB_HIST";
-					} else if("ubc" == $selBrch) {
-						$brchDb = "UBC_HIST";
-					}
-					
-					$sales_model = $this->loadModelByDbName('SalesModel', $brchDb);
-					
+					$sales_model = $this->loadModel('SalesModel');
 					$dailySalesByType = $sales_model->selDailySalesByType($byDate, $byType);
 					
 					$htmlTableHead = "<table class='table table-hover table-sm table-responsive-md' id='tableDailySalesByType'>
@@ -376,25 +323,8 @@ class Sales extends Controller
 				} else {
 					$byDate = $_POST['byDate'];
 					$byPtype = $_POST['byPtype'];
-					$selBrch = $_POST['brchData'];
-
-					if("cq" == $selBrch) {
-						$brchDb = "CQ_DB1HAN";
-					} else if("dn" == $selBrch) {
-						$brchDb = "DN_DB1HAN";
-					} else if("ll" == $selBrch) {
-						$brchDb = "LL_DB1HAN";
-					} else if ("rm" == $selBrch) {
-						$brchDb = "RM_HIST";
-					} else if ("pc" == $selBrch) {
-						$brchDb = "PC_HIST";
-					} else if ("db" == $selBrch) {
-						$brchDb = "DB_HIST";
-					} else if("ubc" == $selBrch) {
-						$brchDb = "UBC_HIST";
-					} 
 					
-					$sales_model = $this->loadModelByDbName('SalesModel', $brchDb);
+					$sales_model = $this->loadModel('SalesModel');
 					$dailySalesByTypeDetail = $sales_model->selDailySalesByTypeDetail($byDate, $byPtype);
 					
 					$htmlTableHead = "<table class='table table-hover table-sm table-responsive-md' id='tableDailySalesByTypeDetail'>

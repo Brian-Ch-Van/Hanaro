@@ -8,7 +8,6 @@
 		    $('form').attr('autocomplete','off');
 		    $('#loader').hide();
 
-		    // default 오늘 날짜 set - yyyy-mm-dd
 			$('#inputFromDate').val(getToday());
 			$('#inputToDate').val(getToday());
 
@@ -20,7 +19,6 @@
 			    $('#btnDaily').hide();
 			    
 		    	var formData = $('#formSearch').serialize(true);
-		    	// form 입력 data 확인
 		    	console.log("Search input data : " + formData);
 
 		    	if(isEmpty($('#inputFromDate').val())) {
@@ -37,6 +35,7 @@
 			    	return;
 		    	}
 
+		    	var loading;
 		    	$.ajax({
 			    	url			: '<?php echo URL;?>/sales/getDailySales/', 
 			    	type		: 'post',
@@ -44,22 +43,23 @@
 			    	dataType	: 'json',
 					beforeSend: function() {
 					    $('#loader').show();
+					    $('#divTable').hide();
+					    
 						var cnt = 1;
-						var timer = setInterval(function (){
+						loading = setInterval(function (){
 							cnt++;
 							$('#progressbar').css('width', cnt+'%');
 							
 							if(cnt == 99) {
-								clearInterval(timer);
+								clearInterval(loading);
 							}
 						}, 150);			
-								    
-						$('#divTable').hide();
 					},
 					complete: function(){
+					    $('#loader').hide();
 					    $('#divTable').show();
-						$('#loader').hide();
-						$('#progressbar').css('width', '1%');
+					    $('#progressbar').css('width', '1%');
+						clearInterval(loading);
 					},
 			    	success		: function (result) {
 			    	    if(result.success == true) {
@@ -105,7 +105,6 @@
 			var schType = "";	
 			var schPtype = "";	
 			var schPname = "";
-			var schBrch = "cq";
 
 			$("#divTable").on("dblclick", "tr[name='trDailySalesList']", getSalesByDate);
 			$("#divTable").on("dblclick", "tr[name='trDailySalesByDate']", getSalesByType);
@@ -118,14 +117,11 @@
 					schDate = schDateDay.split(',')[0];
 				} 
 
-				schBrch = $('#selBrch').val();
-				
 				$.ajax({
 					url			: '<?php echo URL; ?>/sales/getDailySalesByDate/',
 					type		: 'post',
 					data		: { 
-									byDate		: schDate,
-									brchData	: schBrch
+									byDate		: schDate
 								},
 					dataType	: 'json',
 					success		: function (result) {
@@ -179,8 +175,7 @@
 					type		: 'post',
 					data		: { 
 									byDate		: schDate,
-									byType		: schCode,
-									brchData	: schBrch
+									byType		: schCode
 								},
 					dataType	: 'json',
 					success		: function (result) {
@@ -234,8 +229,7 @@
 					type		: 'post',
 					data		: { 
 									byDate		: schDate,
-									byPtype		: schPtype,
-									brchData	: schBrch
+									byPtype		: schPtype
 									},
 					dataType	: 'json',
 					success		: function (result) {
@@ -309,8 +303,8 @@
 				} else {
 				    $('#btnSearch').trigger('click');
 				}
-			    
 			});
+			
 			$(document).on('click', '#btnByDate', {from : "btnByDate"}, getSalesByDate);	// up to list by date
 			$(document).on('click', '#btnByType', {from : "btnByType"}, getSalesByType);	// up to list by type
 			
@@ -365,17 +359,6 @@
 						<input type="text" class="form-control mx-sm-2" id="inputFromDate" name="inputFromDate" placeholder="From"> ~ 
 						<input type="text" class="form-control mx-sm-2" id="inputToDate" name="inputToDate" placeholder="To">
 					</div>
-					
-					<label class="my-1 ml-2 mr-2" for="selCode">대상 매장 : </label>
-					<select class="custom-select my-1 mr-sm-2" id="selBrch" name="selBrch">
-						<option value="cq" selected >Coquitlam</option>
-						<option value="dn" >Downtown</option>
-						<option value="ll" >Langley</option>
-						<option value="rm" >Richmond</option>
-						<option value="pc" >Port Coquitlam</option>
-						<option value="db">Dunbar</option>
-						<option value="ubc" >UBC</option>
-					</select>					
 
 					<input type="button" class="btn btn-primary my-1 ml-4" value="Search" id="btnSearch">
 				</form>
