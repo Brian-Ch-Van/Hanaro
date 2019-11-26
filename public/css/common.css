@@ -45,11 +45,9 @@
 .hasDatepicker{
 	cursor: pointer;
 }
-/* 府家胶 包府 */
 #tableRsrcList th {
 	cursor: pointer;
 }
-/* 老喊 魄概 郴开 */
 #tableDailySalesList th:nth-child(n+2) {
 	text-align: right;
 }
@@ -138,7 +136,6 @@
 		display: none;
 	}
 }
-/* Hourly Sales */
 #tableHourlySalesList th {
 	text-align: right;
 }

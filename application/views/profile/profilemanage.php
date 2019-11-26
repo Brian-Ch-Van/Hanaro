@@ -1,7 +1,5 @@
 
-	<!-- for calender -->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<script type="text/javascript">
@@ -12,7 +10,7 @@
 			console.log('key: '+ '<?php echo $key?>' + ' value :  ' +'<?php echo $value?>');
 			<?php }	?>
 			
-		    // 사용자 정보 set
+		    // profile info set
 		    $('#inputUserId').val('<?php echo $profileInfo['userId'];?>');	// hidden
 		    $('#inputKname').val('<?php echo $profileInfo['kName'];?>');
 		    $('#inputEmail').val('<?php echo $profileInfo['email'];?>');
@@ -52,55 +50,30 @@
 		    	}
 			});
 		 	
-            $.datepicker.setDefaults({
-                dateFormat: 'yymmdd' 		// input format - yyyyMMdd
-                ,showOtherMonths: true 		
-                ,showMonthAfterYear:true 	
-                ,changeYear: true 			
-                ,changeMonth: true 			               
-                //,showOn: "both" 			// 달력 아이콘 표시, button:아이콘 표시하고,눌러야만 달력 표시, both:아이콘 표시하고, 누르거나 input을 클릭하면 달력 표시  
-                //,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" 
-                //,buttonImageOnly: true
-                //,buttonText: "날짜선택"
-                ,yearSuffix: "년" 		
-                ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] 
-                ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] 
-                ,dayNamesMin: ['일','월','화','수','목','금','토'] 
-                ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] 
-                //,minDate: "-20Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-                //,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
-            	//,yearRange: "-50:+1"		// 년도 range
-            });	
-            
             $("#inputResignYmd").datepicker({yearRange: "-10:+1"});
             $("#inputBirth").datepicker({yearRange: "-90:+1"});
 		    
-			// 전화번호 format
 			$('#inputPhoneNo').on('keyup', phoneNoFormat);
 			$('#inputCellNo').on('keyup', phoneNoFormat);	
 
-			// postal uppercase, trim
 			$('#inputPostal').on('keyup', function () {
 				$(this).attr('maxlength', 6);
 				var postal = $(this).val();
 				$(this).val(replaceUpper(postal));
 			});
 
-		    // 저장
-		    //var actYn = $('input[name="inputActYn"]:checked').val();
+		    // save
 		    $('#btnSignUp').on('click', function (e) {
 			    e.preventDefault();
 			    e.stopPropagation();
 
 		    	var formData = $('#formProfile').serialize(true);
-		    	// form 입력 data 확인
 		    	console.log("Form input data : " + formData);
 
 		    	if(isEmpty($('#inputKname').val())) {
 			    	var offset = $('#inputKname').offset();
 			    	$('html').animate({scrollTop : offset.top-100}, 300);
 			    	$('#inputKname').focus();
-// 			    	$('html').scrollTop(0);
 
 			    	$('#knameChkRequired').show();
 			    	return;
@@ -120,7 +93,6 @@
 							
 							$('#cnfModal').modal('show');
 							
-							// 저장 후 refresh
 							$("#confirmModal").on("click", function() {
 							    location.reload();
 							    $('html').scrollTop(0);
@@ -136,7 +108,6 @@
 			    	    }
 			    	},
 					error : function (jqXHR, textStatus, errorThrown) {	
-					    //alert("Error Occur : \n code = "+ jqXHR.status + "\n status = " + jqXHR.statusText + "\n message = \n" + jqXHR.responseText);
 						$('.modal-title').text('ERROR');
 						$('#modalHeader').addClass('bg-danger');
 						$('#modalMsg').html(jqXHR.responseText);
@@ -149,8 +120,6 @@
 			$("#btnCancel").on('click', function() {
 				history.go(-1);
 			});
-
-// 			$('[data-toggle="tooltip"]').tooltip();
 
 		});
 	</script>
@@ -309,5 +278,5 @@
 		</div>
 	</main>
 
-	<!-- confirm modal -->
+	<?php require 'application/views/_templates/util.php';?>
 	<?php require 'application/views/_templates/confirmmodal.php'; ?>

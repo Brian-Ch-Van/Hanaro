@@ -1,5 +1,4 @@
 <?php 
-	// session에 user_name 있으면 로그인 한 상태
 	if (isset($_SESSION['user_name']) && !empty($_SESSION['user_name'])) {
 		header('location: ' . URL . '/home' );
 	}

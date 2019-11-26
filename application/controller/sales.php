@@ -64,7 +64,26 @@ class Sales extends Controller
 			
 			if(!empty($formSearch)) {
 				
-				$sales_model = $this->loadModel('SalesModel');
+// 				$sales_model = $this->loadModel('SalesModel');
+				$selBrch = $formSearch['selBrch'];
+				if("cq" == $selBrch) {
+					$brchDb = "CQ_DB1HAN";
+				} else if("dn" == $selBrch) {
+					$brchDb = "DN_DB1HAN";
+				} else if("ll" == $selBrch) {
+					$brchDb = "LL_DB1HAN";
+				} else if ("rm" == $selBrch) {
+					$brchDb = "RM_HIST";
+				} else if ("pc" == $selBrch) {
+					$brchDb = "PC_HIST";
+				} else if ("db" == $selBrch) {
+					$brchDb = "DB_HIST";
+				} else if("ubc" == $selBrch) {
+					$brchDb = "UBC_HIST";
+				}
+				
+				$sales_model = $this->loadModelByDbName('SalesModel', $brchDb);
+				
 				$dailySalesList = $sales_model->selDailySales($formSearch);
 				
 				$htmlTableHead = "<table class='table table-hover table-sm table-responsive-md' id='tableDailySalesList'>
@@ -131,7 +150,7 @@ class Sales extends Controller
 	/**
 	 * 
 	  * @Method Name	: getDailySalesByDate
-	  * @desc			: 일별 판매 내역 조회 - By Date
+	  * @desc			: 일별 판매 내역 조회 - Date
 	  * @creator		: BrianC
 	  * @date			: 2019. 11. 12.
 	 */
@@ -146,7 +165,25 @@ class Sales extends Controller
 				} else {
 					$byDate = $_POST['byDate'];
 					
-					$sales_model = $this->loadModel('SalesModel');
+					$selBrch = $_POST['brchData'];
+					if("cq" == $selBrch) {
+						$brchDb = "CQ_DB1HAN";
+					} else if("dn" == $selBrch) {
+						$brchDb = "DN_DB1HAN";
+					} else if("ll" == $selBrch) {
+						$brchDb = "LL_DB1HAN";
+					} else if ("rm" == $selBrch) {
+						$brchDb = "RM_HIST";
+					} else if ("pc" == $selBrch) {
+						$brchDb = "PC_HIST";
+					} else if ("db" == $selBrch) {
+						$brchDb = "DB_HIST";
+					} else if("ubc" == $selBrch) {
+						$brchDb = "UBC_HIST";
+					}
+					
+					$sales_model = $this->loadModelByDbName('SalesModel', $brchDb);
+					
 					$dailySalesByDate = $sales_model->selDailySalesByDate($byDate);
 					
 					$htmlTableHead = "<table class='table table-hover table-sm table-responsive-md' id='tableDailySalesByDate'>
@@ -216,7 +253,7 @@ class Sales extends Controller
 	/**
 	 * 
 	  * @Method Name	: getDailySalesByType
-	  * @desc			: 일별 판매 내역 조회 - By Type
+	  * @desc			: 일별 판매 내역 조회 - Type
 	  * @creator		: BrianC
 	  * @date			: 2019. 11. 12.
 	 */
@@ -233,8 +270,25 @@ class Sales extends Controller
 				} else {
 					$byDate = $_POST['byDate'];
 					$byType = $_POST['byType'];
+					$selBrch = $_POST['brchData'];
 					
-					$sales_model = $this->loadModel('SalesModel');
+					if("cq" == $selBrch) {
+						$brchDb = "CQ_DB1HAN";
+					} else if("dn" == $selBrch) {
+						$brchDb = "DN_DB1HAN";
+					} else if("ll" == $selBrch) {
+						$brchDb = "LL_DB1HAN";
+					} else if ("rm" == $selBrch) {
+						$brchDb = "RM_HIST";
+					} else if ("pc" == $selBrch) {
+						$brchDb = "PC_HIST";
+					} else if ("db" == $selBrch) {
+						$brchDb = "DB_HIST";
+					} else if("ubc" == $selBrch) {
+						$brchDb = "UBC_HIST";
+					}
+					
+					$sales_model = $this->loadModelByDbName('SalesModel', $brchDb);
 					
 					$dailySalesByType = $sales_model->selDailySalesByType($byDate, $byType);
 					
@@ -304,7 +358,7 @@ class Sales extends Controller
 	/**
 	 * 
 	  * @Method Name	: getDailySalesByTypeDetail
-	  * @desc			: 일별 판매 내역 조회 - Details by Type
+	  * @desc			: 일별 판매 내역 조회 - Details of Type
 	  * @creator		: BrianC
 	  * @date			: 2019. 11. 13.
 	  * @throws exception
@@ -322,9 +376,25 @@ class Sales extends Controller
 				} else {
 					$byDate = $_POST['byDate'];
 					$byPtype = $_POST['byPtype'];
+					$selBrch = $_POST['brchData'];
+
+					if("cq" == $selBrch) {
+						$brchDb = "CQ_DB1HAN";
+					} else if("dn" == $selBrch) {
+						$brchDb = "DN_DB1HAN";
+					} else if("ll" == $selBrch) {
+						$brchDb = "LL_DB1HAN";
+					} else if ("rm" == $selBrch) {
+						$brchDb = "RM_HIST";
+					} else if ("pc" == $selBrch) {
+						$brchDb = "PC_HIST";
+					} else if ("db" == $selBrch) {
+						$brchDb = "DB_HIST";
+					} else if("ubc" == $selBrch) {
+						$brchDb = "UBC_HIST";
+					} 
 					
-					$sales_model = $this->loadModel('SalesModel');
-					
+					$sales_model = $this->loadModelByDbName('SalesModel', $brchDb);
 					$dailySalesByTypeDetail = $sales_model->selDailySalesByTypeDetail($byDate, $byPtype);
 					
 					$htmlTableHead = "<table class='table table-hover table-sm table-responsive-md' id='tableDailySalesByTypeDetail'>
@@ -378,7 +448,6 @@ class Sales extends Controller
 					
 					$result['success'] = true;
 					$result['data'] = $htmlData;
-					
 				}
 			}
 			
@@ -401,6 +470,7 @@ class Sales extends Controller
 	public function openHourlySales ()
 	{
 		$sales_model = $this->loadModel('SalesModel');
+		// 대상 그룹 리스트
 		$ptCodeList = $sales_model->selPtCodeList();
 		
 		require 'application/views/_templates/header.php';
@@ -491,10 +561,5 @@ class Sales extends Controller
 		}
 	}
 	
-	
-	
-	
 }
-
-
 

@@ -38,7 +38,7 @@
             var bodyText = $(this).data('bodyText');
             $(this).html(item + bodyText);
           },
-        buttons : {            // dialog 하단 버튼들
+        buttons : { 
             "confirm" : function() {
                 $(this).dialog("close");
                 $('#' + $(this).data('id')).focus();

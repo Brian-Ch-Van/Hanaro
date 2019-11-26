@@ -14,6 +14,171 @@ class ExportFile extends Controller
 	
 	/**
 	 *
+	 * @Method Name		: exportPdfDailySales
+	 * @desc			: export to PDF
+	 * @creator			: BrianC
+	 * @date			: 2019. 11. 15.
+	 */
+	public function exportPdfDailySales ()
+	{
+		// main TCPDF library
+		require_once 'application/libs/tcpdf_min/config/tcpdf_config.php';
+		
+		require_once 'application/libs/tcpdf_min/tcpdf.php';
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+		
+		$pdf->setFontSubsetting(false) ;
+		
+		// document information
+		$pdf->SetCreator('Hana Solutions');
+		$pdf->SetAuthor('');
+		$pdf->SetTitle('Daily Sales Report');	// window name
+		$pdf->SetSubject('');
+		$pdf->SetKeywords('');
+		
+		// header
+		// $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 001', PDF_HEADER_STRING, array(0,64,255), array(0,64,128));
+		// footer
+		$pdf->setFooterData(array(0,64,0), array(0,64,128));	// font color, line color
+		
+		// header and footer fonts
+		//$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));	// font, size
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));	// font, size
+		
+		// remove header
+		$pdf->setPrintHeader(false);
+		
+		// default monospaced font
+		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+		
+		// margins
+		$pdf->SetMargins(10, 15, 10);	//left, top, right
+		//$pdf->SetHeaderMargin(10);
+		$pdf->SetFooterMargin(10);
+		
+		// auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		
+		// image scale factor
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+		
+		// language-dependent strings (optional)
+		if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+			require_once(dirname(__FILE__).'/lang/eng.php');
+			$pdf->setLanguageArray($l);
+		}
+		
+		// default font subsetting mode
+		$pdf->setFontSubsetting(true);
+		
+		// font : 용량 고려 - helvetica or times
+		$pdf->SetFont('helvetica', '', 14, '', true);
+		// $pdf->SetFont('nanumgothic', '', 14, '', true); // 한글 - 폰트 받아서 파일 변환 필요, 현재 나눔고딕/코딩만 적용
+		
+		// add a page
+		$pdf->AddPage();
+		
+		// text shadow effect
+		//$pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
+		
+		// html start ==============================================
+		$formSearch = $_POST;
+		
+		$sales_model = $this->loadModel('SalesModel');
+		$dailySalesList = $sales_model->selDailySales($formSearch);
+		
+		$htmlData = '
+					<style>
+					h1 {
+						text-align: center;
+					}
+					.table {
+						margin: 3;
+						padding: 3;
+						border-spacing: 0 5px;
+					}
+					.titleRow {
+						font-size: 15px;
+						background-color: #bdd7f1;
+						line-height: 2;
+						margin: 10;
+					}
+					.trBody {
+						font-size: 15px;
+					}
+					.rowTh {
+						text-align: right;
+					}
+					.rowDataTd {
+						text-align: right;
+					}
+					td#firstTotalTd {
+						text-align: center;
+					}
+					.rowTotalTd {
+						text-align: right;
+					}
+					.totalColumn {
+						background-color: #17a2b8;
+						color: white;
+					}
+					</style>
+					';
+		$htmlData .= '<h1>Daily Sales Report</h1>';
+		
+		$htmlData .= '	<table class="table" id="tableDailySalesList">
+						<thead>
+							<tr class="titleRow">
+								<th id="firstTh" width="20%">Date</th>
+								<th class="rowTh" width="15%">Sale Q\'ty</th>
+								<th class="rowTh" width="15%">Price</th>
+								<th class="rowTh" width="10%">HST</th>
+								<th class="rowTh" width="15%">GST</th>
+								<th class="rowTh" width="10%">PST</th>
+								<th class="rowTh" width="15%">Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+						';
+		if (!empty($dailySalesList)) {
+			foreach ($dailySalesList as $row) {
+				$htmlData .= '	<tr class="trBody" name="trDailySalesList">
+									<td id="firstDataTd" width="20%">'. date("Y-m-d, D", strtotime($row["ds_date"])) . '</td>
+									<td class="rowDataTd" width="15%">' . number_format($row["ds_qty"], 2, '.', ',') . '</td>
+									<td class="rowDataTd" width="15%">'. number_format($row["ds_amt"], 2, '.', ',') . '</td>
+									<td class="rowDataTd" width="10%">' . number_format($row["ds_hst"], 2, '.', ',') . '</td>
+									<td class="rowDataTd" width="15%">' . number_format($row["ds_gst"], 2, '.', ',') . '</td>
+									<td class="rowDataTd" width="10%">' . number_format($row["ds_pst"], 2, '.', ',') . '</td>
+									<td class="rowDataTd" width="15%">' . number_format($row["ds_totalAmt"], 2, '.', ',') . '</td>
+								</tr>';
+			}
+			$htmlData .= '	<tr class="totalColumn">
+								<td id="firstTotalTd" width="20%">Total</td>
+								<td class="rowTotalTd" width="15%"></td>
+								<td class="rowTotalTd" width="15%"></td>
+								<td class="rowTotalTd" width="10%"></td>
+								<td class="rowTotalTd" width="15%"></td>
+								<td class="rowTotalTd" width="10%"></td>
+								<td class="rowTotalTd" width="15%"></td>
+							</tr>';
+			
+		} else {
+			$htmlData .= '<tr><td colspan="7" style="text-align: center; font-size: 18px;">No results</td></tr>';
+		}
+		$htmlData .= '</tbody></table>';
+		
+		// html end ==============================================
+		
+		// output the HTML content
+		// 		$pdf->writeHTML($htmlData, true, false, true, false, '');
+		
+		$pdf->writeHTMLCell(0, 0, '', '', $htmlData, 0, 1, 0, true, '', true);
+		
+		$pdf->Output('Daily Sales Report.pdf', 'I');	// error 메세지 구분
+	}
+	
+	/**
+	 *
 	 * @Method Name		: exportExlDailySales
 	 * @desc			: Daily Sales export to excel
 	 * @creator			: BrianC
@@ -31,7 +196,25 @@ class ExportFile extends Controller
 		// table start ==============================================
 		$formSearch = $_POST;
 		
-		$sales_model = $this->loadModel('SalesModel');
+		$selBrch = $formSearch['selBrch'];
+		if("cq" == $selBrch) {
+			$brchDb = "CQ_DB1HAN";
+		} else if("dn" == $selBrch) {
+			$brchDb = "DN_DB1HAN";
+		} else if("ll" == $selBrch) {
+			$brchDb = "LL_DB1HAN";
+		} else if ("rm" == $selBrch) {
+			$brchDb = "RM_HIST";
+		} else if ("pc" == $selBrch) {
+			$brchDb = "PC_HIST";
+		} else if ("db" == $selBrch) {
+			$brchDb = "DB_HIST";
+		} else if("ubc" == $selBrch) {
+			$brchDb = "UBC_HIST";
+		}
+		
+		$sales_model = $this->loadModelByDbName('SalesModel', $brchDb);
+		
 		$dailySalesList = $sales_model->selDailySales($formSearch);
 		
 		$exlFile = '
@@ -324,174 +507,5 @@ EOF;
 		
 	}
 	
-	/**
-	 *
-	 * @Method Name		: exportPdfDailySales
-	 * @desc			: export to PDF
-	 * @creator			: BrianC
-	 * @date			: 2019. 11. 15.
-	 */
-	public function exportPdfDailySales ()
-	{
-		// main TCPDF library
-		require_once 'application/libs/tcpdf_min/config/tcpdf_config.php';
-		
-		// create new PDF document
-		require_once 'application/libs/tcpdf_min/tcpdf.php';
-		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-		
-		$pdf->setFontSubsetting(false) ;
-		
-		// document information
-		$pdf->SetCreator('Hana Solutions');
-		$pdf->SetAuthor('');
-		$pdf->SetTitle('Daily Sales Report');	// window name
-		$pdf->SetSubject('');
-		$pdf->SetKeywords('');
-		
-		// header
-		// $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 001', PDF_HEADER_STRING, array(0,64,255), array(0,64,128));
-		// footer
-		$pdf->setFooterData(array(0,64,0), array(0,64,128));	// font color, line color
-		
-		// header and footer fonts
-		//$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));	// font, size
-		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));	// font, size
-		
-		// remove header
-		$pdf->setPrintHeader(false);
-		
-		// default monospaced font
-		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-		
-		// margins
-		$pdf->SetMargins(10, 15, 10);	//left, top, right
-		//$pdf->SetHeaderMargin(10);
-		$pdf->SetFooterMargin(10);
-		
-		// auto page breaks
-		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-		
-		// image scale factor
-		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-		
-		// language-dependent strings (optional)
-		if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
-			require_once(dirname(__FILE__).'/lang/eng.php');
-			$pdf->setLanguageArray($l);
-		}
-		
-		// default font subsetting mode
-		$pdf->setFontSubsetting(true);
-		
-		// font : 용량 고려 - helvetica or times
-		$pdf->SetFont('helvetica', '', 14, '', true);
-		// $pdf->SetFont('nanumgothic', '', 14, '', true); // 한글 - 폰트 받아서 파일 변환 필요, 현재 나눔고딕/코딩만 적용
-		
-		// add a page
-		$pdf->AddPage();
-		
-		// text shadow effect
-		//$pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
-		
-		// html start ==============================================
-		$formSearch = $_POST;
-		
-		$sales_model = $this->loadModel('SalesModel');
-		$dailySalesList = $sales_model->selDailySales($formSearch);
-		
-		$htmlData = '
-					<style>
-					h1 {
-						text-align: center;
-					}
-					.table {
-						margin: 3;
-						padding: 3;
-						border-spacing: 0 5px;
-					}
-					.titleRow {
-						font-size: 15px;
-						background-color: #bdd7f1;
-						line-height: 2;
-						margin: 10;
-					}
-					.trBody {
-						font-size: 15px;
-					}
-					.rowTh {
-						text-align: right;
-					}
-					.rowDataTd {
-						text-align: right;
-					}
-					td#firstTotalTd {
-						text-align: center;
-					}
-					.rowTotalTd {
-						text-align: right;
-					}
-					.totalColumn {
-						background-color: #17a2b8;
-						color: white;
-					}
-					</style>
-					';
-		$htmlData .= '<h1>Daily Sales Report</h1>';
-		
-		$htmlData .= '	<table class="table" id="tableDailySalesList">
-						<thead>
-							<tr class="titleRow">
-								<th id="firstTh" width="20%">Date</th>
-								<th class="rowTh" width="15%">Sale Q\'ty</th>
-								<th class="rowTh" width="15%">Price</th>
-								<th class="rowTh" width="10%">HST</th>
-								<th class="rowTh" width="15%">GST</th>
-								<th class="rowTh" width="10%">PST</th>
-								<th class="rowTh" width="15%">Amount</th>
-							</tr>
-						</thead>
-						<tbody>
-						';
-		if (!empty($dailySalesList)) {
-			foreach ($dailySalesList as $row) {
-				$htmlData .= '	<tr class="trBody" name="trDailySalesList">
-									<td id="firstDataTd" width="20%">'. date("Y-m-d, D", strtotime($row["ds_date"])) . '</td>
-									<td class="rowDataTd" width="15%">' . number_format($row["ds_qty"], 2, '.', ',') . '</td>
-									<td class="rowDataTd" width="15%">'. number_format($row["ds_amt"], 2, '.', ',') . '</td>
-									<td class="rowDataTd" width="10%">' . number_format($row["ds_hst"], 2, '.', ',') . '</td>
-									<td class="rowDataTd" width="15%">' . number_format($row["ds_gst"], 2, '.', ',') . '</td>
-									<td class="rowDataTd" width="10%">' . number_format($row["ds_pst"], 2, '.', ',') . '</td>
-									<td class="rowDataTd" width="15%">' . number_format($row["ds_totalAmt"], 2, '.', ',') . '</td>
-								</tr>';
-			}
-			$htmlData .= '	<tr class="totalColumn">
-								<td id="firstTotalTd" width="20%">Total</td>
-								<td class="rowTotalTd" width="15%"></td>
-								<td class="rowTotalTd" width="15%"></td>
-								<td class="rowTotalTd" width="10%"></td>
-								<td class="rowTotalTd" width="15%"></td>
-								<td class="rowTotalTd" width="10%"></td>
-								<td class="rowTotalTd" width="15%"></td>
-							</tr>';
-			
-		} else {
-			$htmlData .= '<tr><td colspan="7" style="text-align: center; font-size: 18px;">No results</td></tr>';
-		}
-		$htmlData .= '</tbody></table>';
-		
-		// html end ==============================================
-		
-		// output the HTML content
-		// 		$pdf->writeHTML($htmlData, true, false, true, false, '');
-		
-		$pdf->writeHTMLCell(0, 0, '', '', $htmlData, 0, 1, 0, true, '', true);
-		
-		$pdf->Output('Daily Sales Report.pdf', 'I');	// error 메세지 구분
-	}
-	
-	
 }
-
-
 

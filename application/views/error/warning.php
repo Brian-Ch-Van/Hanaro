@@ -1,6 +1,5 @@
 
 	<link href="<?php echo CSS_URL; ?>/bootstrap.min.css" rel="stylesheet" >
-	
 	<!-- favicon -->
     <link rel="shortcut icon" href="<?php echo ICON_URL; ?>/h_favicon.png" />
 
@@ -37,11 +36,6 @@
 				
 				<div class="modal-header text-white" id="modalHeader">
 					<h5 class="modal-title" id="modalCenterTitle"></h5>
-					<!-- 
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					-->
 				</div>
 				
 				<div class="modal-body bg-light text-body" id="modalMsg">

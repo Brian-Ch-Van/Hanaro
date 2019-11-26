@@ -12,12 +12,11 @@
 				};
 			});
 
-			// 테이블 필드 별 tooltip 처리
 			$('td').tooltip({
 			    delay: { "show": 500, "hide": 100 }
 			});
 
-			// 검색 조건 Reset
+			// Reset
 			$('#btnReset').on('click', function () {
 				$('#inputSch').val('');
 				$('#inputName').val('');
@@ -128,7 +127,7 @@
 						<td><a class="btn-sm btn-success" href="<?php echo URL;?>/admin/getUserInfo/<?= $row['user_id']?>">Edit</a></td>
 					</tr>
 					<?php }} else {?>
-					<tr><td colspan="11" style="text-align: center;">조회 내용이 없습니다.</td></tr>
+					<tr><td colspan="11" style="text-align: center;">No results</td></tr>
 					<?php }?>
 				</tbody>
 			</table>
@@ -136,7 +135,6 @@
 			<!-- paging -->
 			<div class="pagination justify-content-center mb-2">
 				<a href="javascript:goPage('<?php echo URL;?>/admin/userList?page=<?=$startPage-1?>');">&laquo;</a>
-				
 				<?php 
 					for ($i = $startPage; $i <= $endPage; $i++) {
 						if ($i == $page) {
@@ -147,7 +145,6 @@
 				<?php 	}
 					}
 				?>
-				
 				<a href="javascript:goPage('<?php echo URL;?>/admin/userList?page=<?=$endPage+1?>');">&raquo;</a>
 			</div>
 			<!-- paging -->
@@ -166,7 +163,7 @@
 		tr = table.getElementsByTagName("tr");
 		
 		for (i = 0; i < tr.length; i++) {
-			td = tr[i].getElementsByTagName("td")[1];	// 한글 이름
+			td = tr[i].getElementsByTagName("td")[1];
 
 			if (td) {
 				txtValue = td.textContent || td.innerText;

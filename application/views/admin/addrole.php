@@ -1,5 +1,4 @@
 <?php 
-
 	$splitFileName = explode('\\', __FILE__);
 	require 'application/views/_templates/authvalid.php';
 	

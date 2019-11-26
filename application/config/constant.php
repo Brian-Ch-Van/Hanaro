@@ -2,7 +2,7 @@
 
 /**
  * 
-  * @desc		: Constant Class, 2 ways to call
+  * @desc		: Constant Class
   * @creator	: BrianC
   * @date		: 2019. 8. 19.
   * @Version	: 
@@ -22,7 +22,6 @@ class ConstClass
 		} else if ($roleId == 'van_cq_staff') {
 			return self::van_cq_staff;
 		}
-
 	}
 	
 	const RSA_PRIVATE_KEY = '-----BEGIN PRIVATE KEY-----

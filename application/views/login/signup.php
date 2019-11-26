@@ -15,7 +15,6 @@
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>		
 
-		<!-- jQuery loading 후 올라가야 modal에서 error 안 남 -->
 		<script src="<?php echo JS_URL; ?>/bootstrap.bundle.min.js"></script>
 		
 		<!-- favicon -->
@@ -43,9 +42,8 @@
 					};
 				});
 
-				var isValidEmp = false;		// 유효 직원 여부
+				var isValidEmp = false;
 				
-				// 직원 확인
 				$('#btnEmpCnf').on('click', function (e) {
 				    e.preventDefault();	
 
@@ -96,22 +94,17 @@
 							        $('#inputBirth').val(result.empInfo['birth']);
 
 							    } else {
-// 								    alert(result.errMsg);
 									$('#modalCenterTitle').text('ERROR');
 									$('#modalHeader').addClass('bg-danger');
 									$('#modalMsg').text(result.errMsg);
 									
-// 									$('#cnfModal').modal({
-// 										backdrop: 'static', // modal 창 외부 클릭 방지
-// 										keyboard: false		// esc로 창 닫힘 방지
-// 									});
 									$('#cnfModal').modal('show');
 
 									return;
 								}
 							}
 							/* 에러 공통 처리 
-							error : function (jqXHR, textStatus, errorThrown) {	// 옵션은 3가지이지만 jqXHR에서 에러 내용 확인 가능
+							error : function (jqXHR, textStatus, errorThrown) {	
 							    alert("Error Occur : \n code = "+ jqXHR.status + "\n status = " + jqXHR.statusText + "\n message = \n" + jqXHR.responseText);
 							    
 							}
@@ -143,7 +136,7 @@
 			    	}
 				});				
 				
-				// 비밀번호 check
+				// pw check
 				$('#inputPw').on('keyup', function() {
 				    pw = $(this).val();
 
@@ -163,7 +156,7 @@
 					$('#inputCnfPw').trigger('keyup');
 				});
 
-				// 비밀번호 확인
+				// pw confirm
 				$('#inputCnfPw').on('keyup', function() {
 					cnfPw  = $(this).val();
 					
@@ -178,7 +171,7 @@
 					}
 				});
 
-				// 전화번호 format
+				// phone no. format
 				$('#inputPhoneNo').on('keyup', phoneNoFormat);
 				$('#inputCellNo').on('keyup', phoneNoFormat);	
 
@@ -189,26 +182,6 @@
 					$(this).val(replaceUpper(postal));
 				});
 
-	            $.datepicker.setDefaults({
-	                dateFormat: 'yymmdd' 		// input format - yyyyMMdd
-	                ,showOtherMonths: true 
-	                ,showMonthAfterYear:true	
-	                ,changeYear: true
-	                ,changeMonth: true
-	                //,showOn: "both" 			  
-	                //,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif"
-	                //,buttonImageOnly: true
-	                //,buttonText: "날짜선택"
-	                ,yearSuffix: "년"
-	                ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] 
-	                ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] 
-	                ,dayNamesMin: ['일','월','화','수','목','금','토'] 
-	                ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] 
-	                //,minDate: "-20Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-	                //,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
-	            	//,yearRange: "-50:+1"		// 년도 range
-	            });	
-	            
 	            $("#inputBirth").datepicker({yearRange: "-90:+1"});
 	            						
 				/* --------------------------
@@ -225,7 +198,7 @@
 				    * ------------------------------------------
 				    */
 					// 직원번호
-					var empYn = $('#inputEmpYn').prop('checked');	// 직원 선택 여부
+					var empYn = $('#inputEmpYn').prop('checked');
 					if(empYn && !isValidEmp) {
 						$('#modalCenterTitle').text('ERROR');
 						$('#modalHeader').addClass('bg-danger');
@@ -276,35 +249,31 @@
 				    * ------------------------------------------
 				    */			    	
 
-			    	var formData = $('#formSignUp').serialize();	//form 전체 태그 string serialize, input 태그 attribute에 name 속성
-			    	// form 입력 data 확인
+			    	var formData = $('#formSignUp').serialize();
 			    	console.log("Form input data => " + formData);
 
 // 			    	var jsonStr = JSON.stringify(formData);		// JSON object -> string
 // 			    	var jsonObj = JSON.parse(jsonStr);			// string -> JSON object로 parsing
-// 			    	console.log(jsonStr);
-// 			    	console.log(jsonObj);
 			    	
 			    	$.ajax({
 				    	url			: '<?php echo URL;?>/login/signUpUserInfo/', 
 				    	type		: 'post',
 				    	data		: formData, 
 				    	dataType	: 'json',
-				    	async		: false,
+				    	async		: false,	// async
 				    	success		: function (result) {
 				    	    if(result.success == true) {
 								$('#modalCenterTitle').text('CONFIRM');
 								$('#modalHeader').removeClass('bg-danger');
-								$('#modalMsg').html(result.data);	// html 태그 적용하기 위해 text 대신 html
+								$('#modalMsg').html(result.data);
 								
 								$('#cnfModal').modal('show');
 								
-								// 저장 후 sign in 화면으로 이동
 								$("#confirmModal").on("click", function() {
 								    location.href = "<?php echo URL; ?>/";
 								});
 
-								// confirm 메일 발송
+								// confirm email
 								$.ajax({
 									url			: '<?php echo URL;?>/login/sendCnfEmail/',
 									type		: 'post',
@@ -524,8 +493,5 @@
 	</body>
 </html>
 
-<!-- confirm modal -->
+<?php require 'application/views/_templates/util.php';?>
 <?php require 'application/views/_templates/confirmmodal.php'; ?>
-
-
-

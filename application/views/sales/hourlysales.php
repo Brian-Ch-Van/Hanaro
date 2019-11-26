@@ -11,7 +11,6 @@
 		$('#inputFromDate').val(getToday());
 		$('#inputToDate').val(getToday());
 
-		// calendar
         $("#inputFromDate").datepicker({yearRange: "-1:+0"});
         $("#inputToDate").datepicker({yearRange: "-1:+0"});
 
@@ -23,7 +22,6 @@
 		    e.preventDefault();
 			
 	    	var formData = $('#formSearch').serialize(true);
-	    	// form 입력 data 확인
 	    	console.log("Search input data : " + formData);
 
 	    	if(isEmpty($('#inputFromDate').val())) {
@@ -77,7 +75,7 @@
 		    }) // end ajax
 		});	// end btn search	   
 
-        // print pdf
+        // pdf
         $(document).on('click', '#btnPrintPdf', function (){
             var oriTitle = $(document).attr('title');
 			$(document).prop('title', 'Hourly Sales_' + getTodayNoHyph());
@@ -85,7 +83,7 @@
 			$(document).attr('title', oriTitle);
         });
         
-        // excel download
+        // excel
         $(document).on('click', '#btnExcel', function (){
 		    $('#formSearch').attr("action", "<?php echo URL;?>/exportfile/exportExlHourlySales/");
 		    $('#formSearch').attr("method", "post");
@@ -117,7 +115,7 @@
 						<input type="text" class="form-control mx-sm-2" id="inputFromDate" name="inputFromDate" placeholder="From"> ~ 
 						<input type="text" class="form-control mx-sm-2" id="inputToDate" name="inputToDate" placeholder="To">
 					</div>
-							
+					
 					<label class="my-1 ml-2 mr-2" for="selCode">대상 그룹 : </label>
 					<select class="custom-select my-1 mr-sm-2" id="selCode" name="selCode">
 						<option value="00" selected >00 전체</option>
@@ -182,7 +180,6 @@
 	
 <script type="text/javascript">
 
-	// chart에 표시할 data set
 	function chartData (list) {
 		console.log(list);
 
@@ -283,7 +280,7 @@
         return cssRules;
     }
 
-	// Chart type 변경
+	// Chart type change
 	function chType(type){
 		if("mix" == type) {
 			chart.transform("spline", "Sales");

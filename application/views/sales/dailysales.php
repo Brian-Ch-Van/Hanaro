@@ -6,11 +6,13 @@
 		$(document).ready(function () {
 		    
 		    $('form').attr('autocomplete','off');
+		    $('#loader').hide();
 
 		    // default 오늘 날짜 set - yyyy-mm-dd
 			$('#inputFromDate').val(getToday());
 			$('#inputToDate').val(getToday());
-		    
+
+		    var dsData = "";
 			$('#btnSearch').on('click', function (e){
 			    e.preventDefault();
 
@@ -40,12 +42,31 @@
 			    	type		: 'post',
 			    	data		: formData, 
 			    	dataType	: 'json',
+					beforeSend: function() {
+					    $('#loader').show();
+						var cnt = 1;
+						var timer = setInterval(function (){
+							cnt++;
+							$('#progressbar').css('width', cnt+'%');
+							
+							if(cnt == 99) {
+								clearInterval(timer);
+							}
+						}, 150);			
+								    
+						$('#divTable').hide();
+					},
+					complete: function(){
+					    $('#divTable').show();
+						$('#loader').hide();
+						$('#progressbar').css('width', '1%');
+					},
 			    	success		: function (result) {
 			    	    if(result.success == true) {
 			    	        $('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-danger" value="PDF" id="btnPrintPdf"><input type="button" class="btn btn-sm btn-outline-success  ml-1" value="Excel" id="btnExcel">');
 							$('#divTable').html(result.data);
+							dsData = result.data;
 
-							// sum column
 							var totals = [0,0,0,0,0,0];
 							var dataRows = $("#tableDailySalesList tr[name='trDailySalesList']");
 
@@ -84,8 +105,8 @@
 			var schType = "";	
 			var schPtype = "";	
 			var schPname = "";
+			var schBrch = "cq";
 
-			// dblclick list for detail
 			$("#divTable").on("dblclick", "tr[name='trDailySalesList']", getSalesByDate);
 			$("#divTable").on("dblclick", "tr[name='trDailySalesByDate']", getSalesByType);
 
@@ -96,11 +117,16 @@
 					schDateDay = $(this).find('td:nth-child(1)').text();
 					schDate = schDateDay.split(',')[0];
 				} 
+
+				schBrch = $('#selBrch').val();
 				
 				$.ajax({
 					url			: '<?php echo URL; ?>/sales/getDailySalesByDate/',
 					type		: 'post',
-					data		: { byDate : schDate},
+					data		: { 
+									byDate		: schDate,
+									brchData	: schBrch
+								},
 					dataType	: 'json',
 					success		: function (result) {
 			    	    if(result.success == true) {
@@ -109,7 +135,6 @@
 			    	        
 							$('#divTable').html(result.data);
 
-							// sum column
 							var totals=[0,0,0,0,0,0];
 							var dataRows=$("#tableDailySalesByDate tr[name='trDailySalesByDate']");
 
@@ -144,7 +169,7 @@
 
 			// list by type
 			function getSalesByType (event) {
-				if(isEmpty(event.data)) {	// event.data 없으면 up button에서 call
+				if(isEmpty(event.data)) {
 				    schCode = $(this).find('td:nth-child(1)').text();
 				    schType = $(this).find('td:nth-child(2)').text();
 				}
@@ -153,9 +178,10 @@
 					url			: '<?php echo URL; ?>/sales/getDailySalesByType/',
 					type		: 'post',
 					data		: { 
-									byDate : schDate,
-									byType : schCode
-									},
+									byDate		: schDate,
+									byType		: schCode,
+									brchData	: schBrch
+								},
 					dataType	: 'json',
 					success		: function (result) {
 			    	    if(result.success == true) {
@@ -207,8 +233,9 @@
 					url			: '<?php echo URL; ?>/sales/getDailySalesByTypeDetail/',
 					type		: 'post',
 					data		: { 
-									byDate : schDate,
-									byPtype : schPtype
+									byDate		: schDate,
+									byPtype		: schPtype,
+									brchData	: schBrch
 									},
 					dataType	: 'json',
 					success		: function (result) {
@@ -218,7 +245,6 @@
 			    	        
 							$('#divTable').html(result.data);
 
-							// sum column
 							var totals=[0,0,0,0,0,0];
 							var dataRows=$("tr[name='trDailySalesByTypeDetail']");
 
@@ -264,16 +290,34 @@
 
 			// up button 
 			$(document).on('click', '#btnDaily', function () {
-			    $('#btnSearch').trigger('click');											// up to daily list
+				if(!isEmpty (dsData)) {
+	    	        $('#divBtnUp').html('<input type="button" class="btn btn-sm btn-outline-danger" value="PDF" id="btnPrintPdf"><input type="button" class="btn btn-sm btn-outline-success  ml-1" value="Excel" id="btnExcel">');
+					$('#divTable').html(dsData);
+
+					var totals = [0,0,0,0,0,0];
+					var dataRows = $("#tableDailySalesList tr[name='trDailySalesList']");
+
+					dataRows.each(function() {
+						$(this).find('.rowDataTd').each(function(i){        
+							totals[i] += parseFloat($(this).text().replace(',', ''));
+						});
+					});
+
+					$("#tableDailySalesList td.rowTotalTd").each(function(i) {  
+						$(this).html(formatNumber(totals[i]));	// number format - 1,234.56
+					});
+				} else {
+				    $('#btnSearch').trigger('click');
+				}
+			    
 			});
 			$(document).on('click', '#btnByDate', {from : "btnByDate"}, getSalesByDate);	// up to list by date
 			$(document).on('click', '#btnByType', {from : "btnByType"}, getSalesByType);	// up to list by type
 			
-			// calendar
             $("#inputFromDate").datepicker({yearRange: "-1:+0"});
             $("#inputToDate").datepicker({yearRange: "-1:+0"});
 
-            // print pdf
+            // pdf
             $(document).on('click', '#btnPrintPdf', function (){
 				var oriTitle = $(document).attr('title');
 				$(document).prop('title', 'Daily Sales_' + getTodayNoHyph());
@@ -287,7 +331,7 @@
 				$(document).attr('title', oriTitle);
             });
             
-            // excel download
+            // excel
             $(document).on('click', '#btnExcel', function (){
 			    $('#formSearch').attr("action", "<?php echo URL;?>/exportfile/exportExlDailySales/");
 			    $('#formSearch').attr("method", "post");
@@ -315,24 +359,25 @@
 					</div>
 				</div>
 				
-				<form method="post" id="formSearch">
-					<div class="form-row align-items-center">
-						<label class="ml-4 mr-2" for="inputFromDate">대상 기간 : </label>
-						<div class="col-auto">
-							<label class="sr-only" for="inputFromDate">From</label>
-							<input type="text" class="form-control mb-2" id="inputFromDate" name="inputFromDate" placeholder="From">
-						</div>
-						<div class="ml-3 mr-3">
-							~ 
-						</div>
-						<div class="col-auto">
-							<label class="sr-only" for="inputToDate">To</label>
-							<input type="text" class="form-control mb-2" id="inputToDate" name="inputToDate" placeholder="To">
-						</div>
-						<div class="col-auto">
-							<input type="button" class="btn btn-primary mb-2 ml-3" value="Search" id="btnSearch">
-						</div>
+				<form class="form-inline" method="post" id="formSearch">
+					<div class="form-group">
+						<label class="my-1 ml-3" for="inputFromDate">대상 기간 : </label>
+						<input type="text" class="form-control mx-sm-2" id="inputFromDate" name="inputFromDate" placeholder="From"> ~ 
+						<input type="text" class="form-control mx-sm-2" id="inputToDate" name="inputToDate" placeholder="To">
 					</div>
+					
+					<label class="my-1 ml-2 mr-2" for="selCode">대상 매장 : </label>
+					<select class="custom-select my-1 mr-sm-2" id="selBrch" name="selBrch">
+						<option value="cq" selected >Coquitlam</option>
+						<option value="dn" >Downtown</option>
+						<option value="ll" >Langley</option>
+						<option value="rm" >Richmond</option>
+						<option value="pc" >Port Coquitlam</option>
+						<option value="db">Dunbar</option>
+						<option value="ubc" >UBC</option>
+					</select>					
+
+					<input type="button" class="btn btn-primary my-1 ml-4" value="Search" id="btnSearch">
 				</form>
 			</div>
 		
@@ -344,6 +389,10 @@
 						<p class="mb-0" style="font-weight: bold; font-size: 1.2rem;">일자별 매출 현황</p>
 					</div>
 					<div id="divBtnUp"></div>
+				</div>
+				
+				<div class="progress" id="loader">
+					<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 1%" id="progressbar"></div>
 				</div>
 				
 				<div id="divTable" class="section1">
@@ -364,6 +413,7 @@
 						</tbody>
 					</table>
 				</div>
+
 			</div>
 
 		</div>

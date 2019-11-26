@@ -16,8 +16,8 @@ Class SalesModel {
 		$this->dbCon = $db;
 		
 		$this->loginUserId = $_SESSION['user_id'];
+		
 	}
-	
 
 	/**
 	 * 
@@ -277,5 +277,4 @@ Class SalesModel {
 		return $query->fetchAll();
 	}
 
-	
 }

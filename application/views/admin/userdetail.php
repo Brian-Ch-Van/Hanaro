@@ -2,7 +2,6 @@
 	$splitFileName = explode('\\', __FILE__); 
 	require 'application/views/_templates/authvalid.php';
 ?>
-	<!-- for calender -->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -10,12 +9,11 @@
 	<script type="text/javascript">
 		$(document).ready(function () {
 
-		    // 조회된 사용자 정보 확인
 			<?php foreach ($profileInfo as $key => $value) { ?>
 					console.log('key: '+ '<?php echo $key?>' + ' value :  ' +'<?php echo $value?>');
 			<?php }	?>
 			
-		    // 사용자 정보 set
+		    // profile info set
 		    if ( '<?php echo $profileInfo['actYn'];?>' == 'Y') {
 		        $('#inputActYes').prop('checked', true);
 	        } else {
@@ -39,27 +37,6 @@
 		    $('#inputProvince').val('<?php echo $profileInfo['addProvince'];?>').prop('selected', true);
 		    $('#inputPostal').val('<?php echo $profileInfo['postal'];?>');
 
-		    // 달력 default set
-            $.datepicker.setDefaults({
-                dateFormat: 'yymmdd' 		// input format - yyyyMMdd
-                ,showOtherMonths: true 		
-                ,showMonthAfterYear:true 	
-                ,changeYear: true 			
-                ,changeMonth: true 			               
-                //,showOn: "both" 			  
-                //,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif"
-                //,buttonImageOnly: true 	
-                //,buttonText: "날짜선택" 		             
-                ,yearSuffix: "년" 		
-                ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] 
-                ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] 
-                ,dayNamesMin: ['일','월','화','수','목','금','토'] 
-                ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] 
-                //,minDate: "-20Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-                //,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
-            	//,yearRange: "-50:+1"		// 년도 range
-            });	
-            
             $("#inputResignYmd").datepicker({yearRange: "-10:+1"});
             $("#inputBirth").datepicker({yearRange: "-90:+1"});
 		    
@@ -84,8 +61,7 @@
 				};
 			});			
 
-		    // 저장
-		    //var actYn = $('input[name="inputActYn"]:checked').val();
+		    // save
 		    $('#btnSignUp').on('click', function (e) {
 			    e.preventDefault();
 			    e.stopPropagation();
@@ -101,14 +77,12 @@
 			    	dataType	: 'json',
 			    	success		: function (result) {
 			    	    if(result.success == true) {
-			    	        //$('#modalCenterTitle').text('CONFIRM');	// id로 set하는게 안 됨...
 							$('.modal-title').text('CONFIRM');			// class명으로 찾아서 set
 							$('#modalHeader').removeClass('bg-danger');
 							$('#modalMsg').text(result.data);
 							
 							$('#cnfModal').modal('show');
 							
-							// 저장 후 사용자 목록 화면으로 이동
 							$("#confirmModal").on("click", function() {
 							    location.href = "<?php echo URL; ?>/admin/";
 							});
@@ -275,5 +249,5 @@
 		</div>
 	</main>
 
-	<!-- confirm modal -->
+	<?php require 'application/views/_templates/util.php';?>
 	<?php require 'application/views/_templates/confirmmodal.php'; ?>

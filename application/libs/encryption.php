@@ -15,9 +15,8 @@ class Encryption {
 	// open_ssl 사용, extension 추가
 	public function encryptAes($plainText)
 	{
-		$key = "HanaSolutions";	//암/복호화 할 key 값, 관리를 어떻게 할지 고려(table로 관리할지 고려)
+		$key = "HanaSolutions";	
 		
-		// 256 bit 키를 만들기 위해서 key를 해시해서 첫 32바이트를 사용
 		$key = substr(hash('sha256', $key, true), 0, 32);
 		//echo "비밀번호 바이너리:" . $key . "<br/>";
 		
@@ -29,7 +28,7 @@ class Encryption {
 		$encryp_2 = openssl_encrypt($plainText, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
 		$decryp_2 = openssl_decrypt($encryp_2, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
 		
-		// 암호화
+		// encryption
 		$encrypted = base64_encode(openssl_encrypt($plainText, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv));
 		
 		return $encrypted;
@@ -38,9 +37,8 @@ class Encryption {
 	// Decrypt - AES
 	public function decryptAes($ecryptedText)
 	{
-		$key = "HanaSolutions";	//암/복호화 할 key 값, 관리를 어떻게 할지 고려
+		$key = "HanaSolutions";	
 		
-		// 256 bit 키를 만들기 위해서 key를 해시해서 첫 32바이트를 사용
 		$key = substr(hash('sha256', $key, true), 0, 32);
 		//echo "비밀번호 바이너리:" . $key . "<br/>";
 		
@@ -57,7 +55,7 @@ class Encryption {
 	// Decrypt - RSA
 	public function decryptRsa ($encryptedBase64)
 	{
-		// private key
+		// private key - differenct for each db pw
 		$privKey = RSA_PRIVATE_KEY;
 		
 		// decryption

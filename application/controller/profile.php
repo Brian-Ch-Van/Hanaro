@@ -38,7 +38,6 @@ class Profile extends Controller
 	 */
 	public function getProfInfo ($userId)
 	{
-		// 세션 키 값에 user_id 있고, userId가 있을 경우
 		if(array_key_exists('user_id', $_SESSION) && !empty($_SESSION['user_id']) && isset($userId)) {
 			if($userId != $_SESSION['user_id']) {
 				require 'application/views/error/warning.php';
@@ -79,7 +78,6 @@ class Profile extends Controller
 					// profile model call
 					$profile_model = $this->loadModel('ProfileModel');
 					
-					// 로그인 사용자
 					$loginUserId = $_SESSION['user_id'];
 					$formProfileData['lstUpdUser'] = $loginUserId;
 					

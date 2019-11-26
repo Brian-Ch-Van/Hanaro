@@ -30,10 +30,9 @@
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>		
 		
-		<!-- Font Awesome (for icons) SDN을 따로 받았음 -->
+		<!-- Font Awesome -->
 		<script src="https://kit.fontawesome.com/b531862797.js"></script>
 		
-		<!-- jQuery loading 후 올라가야 modal에서 error 안 남 -->
 		<script src="<?php echo JS_URL; ?>/bootstrap.bundle.min.js"></script>
 		
 		<!-- Chart -->
@@ -44,7 +43,6 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 
-			    // bar menu controll by role
 			    console.log('accessable menu');
 				<?php foreach ($_SESSION['menu_list'] as $row) { ?>
 						console.log('menu_id: '+ '<?php echo $row['menu_id']?>' + ' / menu_name :' +'<?php echo $row['menu_name']?>');
@@ -111,12 +109,6 @@
 							</div>
 						</li>						
 					</ul>
-					<!-- search box 
-					<form class="form-inline mt-2 mt-md-0">
-						<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-						<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-					</form>
-					-->
 				</div>
 				<!-- Nav menu end -->
 				
@@ -139,10 +131,6 @@
 				 -->
 			</nav>
 		</header>
-		
-		<?php 
-			require 'signoutmodal.php';
-		?>
 
 	<script type="text/javascript">
 
@@ -160,6 +148,7 @@
 		} else if(loc_path.includes('/system')) {
 			$('#li_System').addClass('active');
 		}	// .. menu add 
-
 		
 	</script>
+			
+	<?php require 'signoutmodal.php'; ?>

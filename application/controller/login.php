@@ -73,7 +73,6 @@ class Login extends Controller
 					$infoMsg = '등록된 사용자가 아닙니다.';
 				}
 				
-				// 로그인 성공 시
 				if ($loginValid) {
 					session_regenerate_id();		// Update the current session id with a newly generated one
 					// session 값 set
@@ -233,24 +232,22 @@ class Login extends Controller
 					throw new exception ('입력하신 비밀번호가 다릅니다. 확인해주세요.');
 				} else {
 
-					// 암호화 class 객체 생성
 					$encryptObj = new Encryption();
 					$encryptedPw = $encryptObj->encryptAes($formData['inputPw']);
 					$formData['inputPw'] = $encryptedPw;
 					
-					// model call
 					$login_model = $this->loadModel('LoginModel');
 					
-					// 이메일 중복 체크
+					// email dup verify
 					$emailCnt = $login_model->selUserByEmail($formData['inputEmail']);
 					if($emailCnt != 0) {
 						throw new exception ('The email is already used.');
 					}
 					
-					$user = $login_model->getUserId();		// user_id 채번
+					$user = $login_model->getUserId();
 					$formData['inputUserId'] = $user['user_id'];
 					
-					// 저장
+					// save
 					$login_model->insertUserInfo($formData);
 					
 					$result['success'] = true;
@@ -283,7 +280,7 @@ class Login extends Controller
 		require 'application/libs/phpMailer/SMTP.php';
 		require 'application/libs/phpMailer/Exception.php';
 		
-		// 메일 객체 생성
+		// email lib
 		$mail = new PHPMailer();
 		
 		try {
@@ -300,11 +297,10 @@ class Login extends Controller
 			// from: address, name
 			$mail->setFrom("noreply.hanasolution@gmail.com", "Hana Solutions");
 			
-			// data 받아 와서
-			$formData = $_POST;	// POST로 넘겨온 form 전체
+			$formData = $_POST;
 			//$emailTo = $_POST['emailData'];
 			
-			// to: address, name(option), 다건 가능
+			// to: address, name(option)
 			$mail->addAddress($formData['inputEmail']);
 			//$mail->addAddress("hanas.brian19@gmail.com");
 			
@@ -315,8 +311,8 @@ class Login extends Controller
 			//$mail->addAttachment("./picture.png");
 			
 			// body
-			$mail->isHTML(true);					// html 사용
-			$mail->Subject = "SIGN UP NOTICE";		// 제목
+			$mail->isHTML(true);					// html
+			$mail->Subject = "SIGN UP NOTICE";		// title
 			
 			// 본문 내용
 			$mail->Body	= '	<!DOCTYPE html >

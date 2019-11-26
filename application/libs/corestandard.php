@@ -18,9 +18,6 @@ class CoreStandard
 	
 	public function __construct() 
 	{
-		// chrome cookie 정책, 쿠키 공유 제한하면 불편할 수도 - 추가 고려 사항
-		setcookie('cookie-name', '1', 0, '/; samesite=strict');
-		
 		$ctrlVerify = false;
 		$url = "";
 		
@@ -41,8 +38,8 @@ class CoreStandard
 		if (file_exists($this->contrlRoot . $this->controller . '.php')) {
 			require $this->contrlRoot . $this->controller . '.php';    // controller 파일 호출
 			
-			$this->controller = new $this->controller();	// 위에서 실행한 파일명의 class 객체 생성. controller는 이제 class 객체
-			$this->action = "index";						// 기본 실행 method 명에 index set
+			$this->controller = new $this->controller();	// controller 이름의 class obj 생성
+			$this->action = "index";						// default method name - index
 			
 			if (isset($params[1])) {
 				if (!empty($params[1])) $this->action = $params[1];

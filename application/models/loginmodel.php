@@ -13,7 +13,6 @@ class LoginModel {
     
     function __construct($db) {
         
-    	// 파라미터로 받아온 DB Connection 객체를 model class 자신의 property로 set
         $this->dbCon = $db;
     }
     
@@ -98,55 +97,55 @@ class LoginModel {
     public function insertUserInfo ($data)
     {
     	$sql = "INSERT INTO TB_USMNF 
-						           (USER_ID 
-						           ,KNAME 
-						           ,EN_FNAME 
-						           ,EN_LNAME 
-						           ,EP_NO
- 						           ,EMAIL
- 						           ,COMPANY
- 						           ,POSITION
-						           ,GENDER 
-						           ,BTH_YMD 
-						           ,USER_PW 
-						           ,PHONE_NO 
-						           ,CELL_NO 
-						           ,ADD_STREET 
-						           ,ADD_CITY 
-						           ,ADD_PROVINCE 
-						           ,POSTAL 
-						           ,ACT_YN
-								   ,DEL_YN
-						           --,REMARK 
-						           ,RST_USER 
-						           ,RST_DATE 
-						           ,LST_UPD_USER 
-						           ,LST_UPD_DATE )
-						     VALUES
-						           (:userId
-						           ,:kName
-						           ,:fName
-						           ,:lName
-						           ,:epNo
-						           ,:email
-						           ,:company
-						           ,:position
-						           ,:gender
-						           ,:birth
-						           ,:userPw
-						           ,:phoneNo
-						           ,:cellNo
-						           ,:addStreet
-						           ,:addCity
-						           ,:addProvince
-						           ,:postal
-						           ,'N'			-- ACT_YN
-								   ,'N'			-- DEL_YN
-						           --,:remark		
-						           ,:rstUser	
-						           , getdate()
-						           ,:lstUpdUser	
-						           , getdate())";
+					           (USER_ID 
+					           ,KNAME 
+					           ,EN_FNAME 
+					           ,EN_LNAME 
+					           ,EP_NO
+ 					           ,EMAIL
+ 					           ,COMPANY
+ 					           ,POSITION
+					           ,GENDER 
+					           ,BTH_YMD 
+					           ,USER_PW 
+					           ,PHONE_NO 
+					           ,CELL_NO 
+					           ,ADD_STREET 
+					           ,ADD_CITY 
+					           ,ADD_PROVINCE 
+					           ,POSTAL 
+					           ,ACT_YN
+							   ,DEL_YN
+					           --,REMARK 
+					           ,RST_USER 
+					           ,RST_DATE 
+					           ,LST_UPD_USER 
+					           ,LST_UPD_DATE )
+					     VALUES
+					           (:userId
+					           ,:kName
+					           ,:fName
+					           ,:lName
+					           ,:epNo
+					           ,:email
+					           ,:company
+					           ,:position
+					           ,:gender
+					           ,:birth
+					           ,:userPw
+					           ,:phoneNo
+					           ,:cellNo
+					           ,:addStreet
+					           ,:addCity
+					           ,:addProvince
+					           ,:postal
+					           ,'N'			-- ACT_YN
+							   ,'N'			-- DEL_YN
+					           --,:remark		
+					           ,:rstUser	
+					           , getdate()
+					           ,:lstUpdUser	
+					           , getdate())";
     	
     	$query = $this->dbCon->prepare($sql);
     	$query->execute(array(':userId'=>$data['inputUserId'], ':kName'=>$data['inputKname'], ':fName'=>$data['inputFname'], ':lName'=>$data['inputLname'], ':epNo'=>$data['inputEmpNo'], 
@@ -187,4 +186,3 @@ class LoginModel {
     
 }
 
-?>

@@ -63,7 +63,6 @@ Class UserModel {
 		
 		$query = $this->dbCon->prepare($sql);
 		
-		// search 한 경우
 		if(count($schData) > 0) {
 			$query->execute(array(':name'=>"%{$schData['inputName']}%", ':fname'=>"%{$schData['inputFname']}%", ':lname'=>"%{$schData['inputLname']}%", ':company'=>"%{$schData['inputCompany']}%"));
 		} else {
@@ -123,7 +122,6 @@ Class UserModel {
 		
 		$query = $this->dbCon->prepare($sql);
 		
-		// search 한 경우
 		if(count($schData) > 0) {
 			$query->execute(array(':name'=>"%{$schData['inputName']}%", ':fname'=>"%{$schData['inputFname']}%", ':lname'=>"%{$schData['inputLname']}%", ':company'=>"%{$schData['inputCompany']}%"));
 		} else {
