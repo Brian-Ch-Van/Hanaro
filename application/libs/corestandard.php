@@ -29,7 +29,7 @@ class CoreStandard
 		$params = explode('/', $url);	
 		$counts = count($params);
 		
-		$this->controller = "login";		// Root Url 다음의 기본 값을 login으로 설정. localhost/Hanaro = localhost/Hanaro/login
+		$this->controller = "login";
 		
 		if (isset($params[0])) {
 			if(!empty($params[0])) $this->controller = $params[0];
