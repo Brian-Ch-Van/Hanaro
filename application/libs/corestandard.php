@@ -36,10 +36,10 @@ class CoreStandard
 		}
 
 		if (file_exists($this->contrlRoot . $this->controller . '.php')) {
-			require $this->contrlRoot . $this->controller . '.php';    // controller 파일 호출
+			require $this->contrlRoot . $this->controller . '.php';    
 			
 			$this->controller = new $this->controller();	// controller 이름의 class obj 생성
-			$this->action = "index";						// default method name - index
+			$this->action = "index";
 			
 			if (isset($params[1])) {
 				if (!empty($params[1])) $this->action = $params[1];
