@@ -106,6 +106,7 @@
 							<a class="nav-link dropdown-toggle" href="" id="system_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">System</a>
 							<div class="dropdown-menu" aria-labelledby="system_dropdown">
 								<a class="dropdown-item" href="<?php echo URL; ?>/system/getRsrcList">Resource Manage</a>
+								<a class="dropdown-item" href="<?php echo URL; ?>/system/openEncryptDemo">Encrypt Demo</a>
 							</div>
 						</li>						
 					</ul>

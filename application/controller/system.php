@@ -112,5 +112,36 @@ class System extends Controller
 		}
 	}
 	
+	public function openEncryptDemo ()
+	{
+		require 'application/views/system/ecryptdemo.php';
+	}
+	
+	public function getEncrypted ()
+	{
+		$plainText = $_POST['inputPlainText'];
+		$ecryptedText = $_POST['inputEncrypted'];
+		
+		$key = 'HanaSolutions';	
+		
+		$key = substr(hash('sha256', $key, true), 0, 32);
+		
+		$iv = str_repeat(chr(0), 16);
+		
+		$encryp_2 = openssl_encrypt($plainText, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
+		$decryp_2 = openssl_decrypt($encryp_2, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
+		
+		$encrypted = base64_encode(openssl_encrypt($plainText, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv));
+		
+		$decrypted = openssl_decrypt(base64_decode($ecryptedText), 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
+		
+		echo "<br>Key binary : " . $key . "<br/><br/>";
+		
+		echo 'plainText : ' . $plainText . "<br/>";
+		echo 'Encrypted : ' . $encrypted . "<br/><br/>";
+		
+		echo 'ecryptedText : ' . $ecryptedText . "<br/>";
+		echo 'Decrypted : ' . $decrypted . "<br/>";
+	}
 	
 }

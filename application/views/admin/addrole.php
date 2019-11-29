@@ -104,7 +104,6 @@
 		}); // end save
 
 		$('#btnAddRsrc').on('click', function () {
-			//window.open('<?php echo URL; ?>/system/getRsrcList/', 'rsrc_list', 'width=800, height=600');
 			
 			$.ajax({
 				url			: '<?php echo URL; ?>/admin/openRsrcList/',
@@ -120,25 +119,29 @@
 						$('#rsrcListModal').modal('show');
 
 						$('#addItems').on('click', function () {
-						    $( '#tableRoleUserList > tbody').empty();
-						    
 							$('input:checkbox[name="checkRsrc"]').each( function (i){
 
 							    if($(this).prop('checked') == true) {
-									var rowData = $(this).val().split('/');
+									var rowData = $(this).val().split('|');
 									if("S" == rowData[2]) {
 									    rowData[2] = "화면";
 									} else if ("M" == rowData[2]) {
 									    rowData[2] = "화면";
 									}
-									
-									$('.tbodyRsrc').after('<tr class="rsrcTr"><td class="hiddenTd" style="display:none;" value="'+rowData[0]+'">hidden</td><td>'+rowData[1]+'</td><td>'+rowData[2]+'</td><td>'+rowData[3]+'</td></tr>');
+
+									var rsrcIdArr = [];
+									$('tr[name="trRsrc"]').each(function (){
+									    rsrcIdArr.push($(this).find('td:first-child').text());
+									});
+
+									if($.inArray(rowData[0], rsrcIdArr) == -1) {
+									    $('.tbodyRsrc').after('<tr class="rsrcTr" name="trRsrc"><td style="display:none;">'+rowData[0]+'</td><td>'+rowData[1]+'</td><td>'+rowData[2]+'</td><td>'+rowData[3]+'</td><td><a class="btn-sm btn-success" style="cursor: pointer;" onclick="delRsrc(this);">Del</a></td></tr>');
+									}
 						        }
 							});
 							
 							$('input:checkbox[name="checkRsrc"]').prop('checked', false);
 						})
-					
 
 		    	    } else {
 						$('.modal-title').text('ERROR');
@@ -158,9 +161,13 @@
 				} 
 			})
 		});
-
 		
 	});
+
+	function delRsrc(obj) {
+		var tr = $(obj).parent().parent();
+		tr.remove();
+	}
 
 </script>
 
@@ -255,19 +262,22 @@
 					<div class="form-group col-md-12">
 						<label for="tableRoleRsrcList">Resource</label><input type="button" class="btn btn-outline-info btn-sm ml-2" id="btnAddRsrc" value="Add">
 						<table class="table table-hover table-sm table-dark table-responsive-md" id="tableRoleRsrcList">
+							<colgroup>
+								<col width="30%" />
+								<col width="20%" />
+								<col width="30%" />
+								<col width="20%" />
+							</colgroup>
 							<thead class="thead-light">
 								<tr>
 									<th scope="col">Name</th>
 									<th scope="col">Type</th>
 									<th scope="col">Desc.</th>
+									<th scope="col">Delete</th>
 								</tr>
 							</thead>
 							<tbody class="tbodyRsrc">
-<!-- 								<tr> -->
-<!-- 									<td scope="row" title=""></td> -->
-<!-- 									<td scope="row" title=""></td> -->
-<!-- 									<td scope="row" title=""></td> -->
-<!-- 								</tr> -->
+								
 							</tbody>
 						</table>
 					</div>
@@ -280,6 +290,7 @@
 									<th scope="col">Emp No.</th>
 									<th scope="col">Email</th>
 									<th scope="col">Company</th>
+									<th scope="col">Delete</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -294,7 +305,7 @@
 					</div>
 					
 					<div class="form-group col-md">
-						<input type="button" class="btn btn-primary btn-sm" id="btnSave" value="Save">
+						<input type="button" class="btn btn-primary mt-2" id="btnSave" value="Save">
 					</div>
 				</form>
 			</div>

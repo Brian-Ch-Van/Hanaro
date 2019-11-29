@@ -207,7 +207,6 @@ class Admin extends Controller
 								</tr>
 							</thead>
 							<tbody>';
-			
 			foreach ($rsrcList as $row) {
 				$listHtml .= '<tr id="trRsrcList">
 								<td scope="row" class="rsrcData">'. $row['rsrc_disp_name'] . '</td>';
@@ -217,11 +216,10 @@ class Admin extends Controller
 					$listHtml .= '<td scope="row" class="rsrcData">메뉴</td>';
 				}
 				$listHtml .= '	<td scope="row" class="rsrcData">'. $row['rsrc_desc'] . '</td>
-								<td scope="row"><input type="checkbox" name="checkRsrc" value="' . $row['rsrc_id'] . '/' . $row['rsrc_disp_name']. '/' . $row['rsrc_type']. '/' . $row['rsrc_desc'] . '"></td>
+								<td scope="row"><input type="checkbox" name="checkRsrc" style="width:20px; height:20px; vertical-align: middle;" value="' . $row['rsrc_id'] . '|' . $row['rsrc_disp_name']. '|' . $row['rsrc_type']. '|' . $row['rsrc_desc'] . '"></td>
 							</tr>
 							';
 			}
-			
 			$listHtml .= '</tbody>
 						</table>
 						';
