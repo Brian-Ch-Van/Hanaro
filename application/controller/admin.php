@@ -169,8 +169,13 @@ class Admin extends Controller
 			if (!empty($formData)) {
 
 				$comm_model = $this->loadModel('CommonModel');
-				
+				// insert role info
 				$comm_model->insertRoleInfo($formData);
+				// insert role resource
+				$rsrcList = explode(',', $formData['rsrcArr']);
+				foreach($rsrcList as $row) {
+					$comm_model->insertRoleRsrc($formData['inputRoleId'], $row);
+				}
 				
 				$result['success'] = true;
 				$result['data'] = "Role information has been saved.";
@@ -188,6 +193,13 @@ class Admin extends Controller
 		}
 	}
 	
+	/**
+	 * 
+	  * @Method Name	: openRsrcList
+	  * @desc			: Resource list popup open
+	  * @creator		: BrianC
+	  * @date			: 2019. 11. 29.
+	 */
 	public function openRsrcList ()
 	{
 		$result = array();
@@ -208,16 +220,16 @@ class Admin extends Controller
 							</thead>
 							<tbody>';
 			foreach ($rsrcList as $row) {
-				$listHtml .= '<tr id="trRsrcList">
-								<td scope="row" class="rsrcData">'. $row['rsrc_disp_name'] . '</td>';
+				$listHtml .= '	<tr id="trRsrcList">
+									<td scope="row" class="rsrcData">'. $row['rsrc_disp_name'] . '</td>';
 				if("S" == $row['rsrc_type']) {
-					$listHtml .= '<td scope="row" class="rsrcData">화면</td>';
+					$listHtml .= '	<td scope="row" class="rsrcData">화면</td>';
 				} else if ("M" == $row['rsrc_type']) {
-					$listHtml .= '<td scope="row" class="rsrcData">메뉴</td>';
+					$listHtml .= '	<td scope="row" class="rsrcData">메뉴</td>';
 				}
-				$listHtml .= '	<td scope="row" class="rsrcData">'. $row['rsrc_desc'] . '</td>
-								<td scope="row"><input type="checkbox" name="checkRsrc" style="width:20px; height:20px; vertical-align: middle;" value="' . $row['rsrc_id'] . '|' . $row['rsrc_disp_name']. '|' . $row['rsrc_type']. '|' . $row['rsrc_desc'] . '"></td>
-							</tr>
+				$listHtml .= '		<td scope="row" class="rsrcData">'. $row['rsrc_desc'] . '</td>
+									<td scope="row"><input type="checkbox" name="checkRsrc" style="width:20px; height:20px; vertical-align: middle;" value="' . $row['rsrc_id'] . '|' . $row['rsrc_disp_name']. '|' . $row['rsrc_type']. '|' . $row['rsrc_desc'] . '"></td>
+								</tr>
 							';
 			}
 			$listHtml .= '</tbody>

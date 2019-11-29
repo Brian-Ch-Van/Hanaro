@@ -151,4 +151,42 @@ class CommonModel
 		}
 	}
 	
+	/**
+	 * 
+	  * @Method Name	: insertRoleRsrc
+	  * @desc			: Role Id의 Resource 등록
+	  * @creator		: BrianC
+	  * @date			: 2019. 11. 29.
+	  * @param 			: $roleInfo
+	 */
+	public function insertRoleRsrc ($roleId, $rsrcId)
+	{
+		try {
+			$sql = "insert into TB_RLRSF
+						( ROLE_ID
+						, RSRC_ID
+						, RST_USER
+						, RST_DATE
+						, LST_UPD_USER
+						, LST_UPD_DATE)
+					values
+						( :roleId
+						, :rsrcId
+						, :rstUser
+						, getdate()
+						, :lstUpdUser
+						, getdate() )";
+			
+			$query = $this->dbCon->prepare($sql);
+			
+			$query->bindValue(':roleId', $roleId);
+			$query->bindValue(':rsrcId', $rsrcId);
+			$query->bindValue(':rstUser', $this->loginUserId);
+			$query->bindValue(':lstUpdUser', $this->loginUserId);
+			$query->execute();
+		} catch (PDOException $e) {
+			die("Role의 Resource 등록 중 오류 발생 (method - insertRoleInfo) :  " . $e->getMessage());
+		}
+	}
+	
 }

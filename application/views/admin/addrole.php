@@ -64,7 +64,7 @@
 		    });
 	    	
 	    	var formData = $('#formRoleInfo').serialize(true);
-	    	formData = formData + "&inputAuthArr=" + authArr;
+	    	formData = formData + "&inputAuthArr=" + authArr + "&rsrcArr=" + uniRsrcIdArr;
 	    	console.log("Role input data : " + formData);
 
 			$.ajax({
@@ -102,7 +102,8 @@
 				} 
 			})
 		}); // end save
-
+		
+		var uniRsrcIdArr = [];
 		$('#btnAddRsrc').on('click', function () {
 			
 			$.ajax({
@@ -119,8 +120,9 @@
 						$('#rsrcListModal').modal('show');
 
 						$('#addItems').on('click', function () {
+						    var rsrcIdArr = [];
+						    
 							$('input:checkbox[name="checkRsrc"]').each( function (i){
-
 							    if($(this).prop('checked') == true) {
 									var rowData = $(this).val().split('|');
 									if("S" == rowData[2]) {
@@ -128,20 +130,20 @@
 									} else if ("M" == rowData[2]) {
 									    rowData[2] = "화면";
 									}
-
-									var rsrcIdArr = [];
+									
 									$('tr[name="trRsrc"]').each(function (){
 									    rsrcIdArr.push($(this).find('td:first-child').text());
 									});
 
-									if($.inArray(rowData[0], rsrcIdArr) == -1) {
-									    $('.tbodyRsrc').after('<tr class="rsrcTr" name="trRsrc"><td style="display:none;">'+rowData[0]+'</td><td>'+rowData[1]+'</td><td>'+rowData[2]+'</td><td>'+rowData[3]+'</td><td><a class="btn-sm btn-success" style="cursor: pointer;" onclick="delRsrc(this);">Del</a></td></tr>');
+									if($.inArray(rowData[0], uniRsrcIdArr) == -1) {
+									    uniRsrcIdArr.push(rowData[0]);
+									    $('.tbodyRsrc').append('<tr class="rsrcTr" name="trRsrc"><td style="display:none;">'+rowData[0]+'</td><td>'+rowData[1]+'</td><td>'+rowData[2]+'</td><td>'+rowData[3]+'</td><td><a class="btn-sm btn-success" style="cursor: pointer;" onclick="delRsrc(this);">Del</a></td></tr>');
 									}
-						        }
+							    }
 							});
 							
 							$('input:checkbox[name="checkRsrc"]').prop('checked', false);
-						})
+						}) // end addItems
 
 		    	    } else {
 						$('.modal-title').text('ERROR');
