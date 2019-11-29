@@ -171,9 +171,9 @@ class Login extends Controller
 		try {
 			if (isset($_POST['empNoData'])) {
 				if (empty($_POST['empNoData'])) {
-					throw new exception('직원 번호를 입력해주세요');
+					$result['errMsg'] = '직원 번호를 입력해주세요';
 				} else if (strpos($_POST['empNoData'], " ") !== false) {
-					throw new exception('입력하신 내용에 공백이 포함되어 있습니다.');
+					$result['errMsg'] = '입력하신 내용에 공백이 포함되어 있습니다.';
 				} else {
 					$empNo = $_POST['empNoData'];
 					
@@ -181,7 +181,8 @@ class Login extends Controller
 					$empInfo = $login_model->selEmpInfo($empNo);
 					
 					if ($empInfo == false) {
-						throw new exception ('직원 정보를 찾을 수 없습니다.');
+						$result['success'] = false;
+						$result['errMsg'] = '직원 정보를 찾을 수 없습니다.';
 						
 					} else {
 						$result['success'] = true;

@@ -14,6 +14,7 @@ class CommonModel
 	
 	function __construct($db) {
 		$this->dbCon = $db;
+		$this->loginUserId = $_SESSION['user_id'];
 	}
 	
 	/**
@@ -63,6 +64,91 @@ class CommonModel
 		} catch (PDOException $e) {
 			die("Role Resource list 조회 중 오류 발생 : " . $e->getMessage());
 		}
-		
 	}
+	
+	/**
+	 * 
+	  * @Method Name	: selCdmnList
+	  * @desc			: 통합 코드 정보 조회
+	  * @creator		: BrianC
+	  * @date			: 2019. 11. 27.
+	  * @param  $cdId
+	  * @return 
+	 */
+	public function selCdmnList ($cdId)
+	{
+		try {
+			$sql = "select 
+						cd_id
+						, cd_key
+						, cd_value
+						, cd_desc
+						, cd_order
+						, use_yn
+						, rst_user
+						, rst_date
+						, lst_upd_user
+						, lst_upd_date
+					from TB_CDMNF 
+					where cd_id = :cdId
+					order by cd_order
+					";
+			
+			$query = $this->dbCon->prepare($sql);
+			$query->bindParam(':cdId', $cdId);
+			
+			$query->execute();
+			
+			return $query->fetchAll();
+			
+		} catch (PDOException $e) {
+			die("통합코드 list 조회 중 오류 발생 : " . $e->getMessage());
+		}
+	}
+	
+	/**
+	 * 
+	  * @Method Name	: insertRole
+	  * @desc			: Role info 등록
+	  * @creator		: BrianC
+	  * @date			: 2019. 11. 28.
+	 */
+	public function insertRoleInfo ($roleInfo)
+	{
+		try {
+			$sql = "insert into TB_RLMNF
+						( ROLE_ID
+						, ROLE_NAME
+						, AUTH_ALIAS
+						, ROLE_DESC
+						, DEL_YN
+						, RST_USER
+						, RST_DATE
+						, LST_UPD_USER
+						, LST_UPD_DATE )
+					values
+						( :roleId
+						, :roleName
+						, :authAlias
+						, :roleDesc
+						, 'Y'
+						, :rstUser
+						, getdate()
+						, :lstUpdUser
+						, getdate() )";
+			
+			$query = $this->dbCon->prepare($sql);
+			
+			$query->bindValue(':roleId', $roleInfo['inputRoleId']);
+			$query->bindValue(':roleName', $roleInfo['inputRoleName']);
+			$query->bindValue(':authAlias', $roleInfo['inputAuthArr']);
+			$query->bindValue(':roleDesc', $roleInfo['inputRoleDesc']);
+			$query->bindValue(':rstUser', $this->loginUserId);
+			$query->bindValue(':lstUpdUser', $this->loginUserId);
+			$query->execute();
+		} catch (PDOException $e) {
+			die("Role 등록 중 오류 발생 (method - insertRoleInfo) :  " . $e->getMessage());
+		}
+	}
+	
 }

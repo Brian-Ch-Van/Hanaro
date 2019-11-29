@@ -35,7 +35,29 @@ class CommonControl extends Controller
 		} catch (PDOException $e) {
 			die("Database error : " . $e->getMessage());
 		}
-		
 	}
+
+	/**
+	 * 
+	  * @Method Name	: getCdmnList
+	  * @desc			: get cd list
+	  * @creator		: BrianC
+	  * @date			: 2019. 11. 27.
+	  * @param  $cdId
+	  * @return 
+	 */
+	public function getCdmnList ($cdId)
+	{
+		try {
+			$common_model = $this->loadModel('CommonModel');
+			$cdmnList = $common_model->selCdmnList($cdId);
+			
+			return $cdmnList;
+			
+		} catch (PDOException $e) {
+			die("Database error : " . $e->getMessage());
+		}
+	}
+	
 	
 }

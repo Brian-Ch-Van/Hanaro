@@ -18,7 +18,7 @@ class HomeModel {
     public function getSales() {
     	$sql = "select
 					br_cd
-					, (select name from TB_BRMN a where a.cd = b.br_cd) br_name
+					, br_name
 					, sales_ym
 					, sales_amt
 				from tb_brsl b";
